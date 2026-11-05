@@ -88,6 +88,18 @@ const getPageFromPath = (pathname = window.location.pathname) => {
   return { type: 'home', value: '' };
 };
 
+const getRouteUrl = (path) => {
+  const isHashMode = Boolean(window.location.hash);
+  if (isHashMode) {
+    return `#${path.startsWith('/') ? path : `/${path}`}`;
+  }
+  const segments = window.location.pathname.split('/').filter(Boolean);
+  const routeKeywords = ['category', 'group', 'product', 'brand'];
+  const keywordIdx = segments.findIndex((s) => routeKeywords.includes(s));
+  const prefix = keywordIdx > 0 ? '/' + segments.slice(0, keywordIdx).join('/') : '';
+  return prefix + (path.startsWith('/') ? path : `/${path}`);
+};
+
 // 7-Step Workflow Process Data
 const PROCESS_STEPS = [
   {
@@ -454,14 +466,16 @@ export default function App() {
                   }`}
                 >
                   {CATEGORIES.map((category) => (
-                    <button
+                    <a
                       key={category.name}
-                      type="button"
-                      onClick={() => navigateTo(`/category/${slugify(category.name)}`)}
-                      className="w-full rounded-lg px-3 py-2.5 text-left text-xs leading-snug hover:bg-sky-50 dark:hover:bg-slate-800"
+                      href={getRouteUrl(`/category/${slugify(category.name)}`)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setIndustriesMenuOpen(false)}
+                      className="w-full block rounded-lg px-3 py-2.5 text-left text-xs leading-snug hover:bg-sky-50 dark:hover:bg-slate-800"
                     >
                       {category.name}
-                    </button>
+                    </a>
                   ))}
                 </div>
               )}
@@ -548,16 +562,16 @@ export default function App() {
                 </summary>
                 <div className="grid gap-1 pl-3">
                   {CATEGORIES.map((category) => (
-                    <button
+                    <a
                       key={category.name}
-                      onClick={() => {
-                        setMobileMenuOpen(false);
-                        navigateTo(`/category/${slugify(category.name)}`);
-                      }}
-                      className="rounded-lg px-3 py-2 text-left text-xs hover:bg-sky-50 dark:hover:bg-slate-800"
+                      href={getRouteUrl(`/category/${slugify(category.name)}`)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block rounded-lg px-3 py-2 text-left text-xs hover:bg-sky-50 dark:hover:bg-slate-800"
                     >
                       {category.name}
-                    </button>
+                    </a>
                   ))}
                 </div>
               </details>
@@ -946,9 +960,11 @@ export default function App() {
               const isSelected = selectedCategory === cat.name;
 
               return (
-                <button
+                <a
                   key={cat.name}
-                  onClick={() => navigateTo(`/category/${slugify(cat.name)}`)}
+                  href={getRouteUrl(`/category/${slugify(cat.name)}`)}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-xs whitespace-nowrap transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm active:translate-y-0 ${
                     isSelected
                       ? 'bg-[#0284c7] text-white shadow-md'
@@ -964,7 +980,7 @@ export default function App() {
                       {cartCountInCat} in cart
                     </span>
                   )}
-                </button>
+                </a>
               );
             })}
           </div>
@@ -1036,10 +1052,12 @@ export default function App() {
               ).length;
 
               return (
-                <button
+                <a
                   key={category.name}
-                  onClick={() => navigateTo(`/category/${slugify(category.name)}`)}
-                  className={`group rounded-2xl border p-6 text-left transition-all hover:-translate-y-1 hover:border-sky-300 hover:shadow-xl dark:hover:border-sky-700 ${
+                  href={getRouteUrl(`/category/${slugify(category.name)}`)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`group rounded-2xl border p-6 text-left transition-all hover:-translate-y-1 hover:border-sky-300 hover:shadow-xl dark:hover:border-sky-700 block ${
                     darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-sky-100'
                   }`}
                 >
@@ -1060,7 +1078,7 @@ export default function App() {
                   <span className="mt-5 inline-flex items-center gap-2 text-xs font-bold text-[#0284c7] dark:text-[#4fc3f7]">
                     Browse products <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </span>
-                </button>
+                </a>
               );
             })}
           </div>
@@ -1072,10 +1090,12 @@ export default function App() {
               const imageProduct = categoryProducts.find(product => product.image);
 
               return (
-                <button
+                <a
                   key={productCategory.name}
-                  onClick={() => navigateTo(`/group/${slugify(productCategory.name)}`)}
-                  className={`group overflow-hidden rounded-2xl border text-left transition-all hover:-translate-y-1 hover:border-sky-300 hover:shadow-xl dark:hover:border-sky-700 ${
+                  href={getRouteUrl(`/group/${slugify(productCategory.name)}`)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`group overflow-hidden rounded-2xl border text-left transition-all hover:-translate-y-1 hover:border-sky-300 hover:shadow-xl dark:hover:border-sky-700 block ${
                     darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-sky-100'
                   }`}
                 >
@@ -1117,7 +1137,7 @@ export default function App() {
                       View sub-products <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </span>
                   </div>
-                </button>
+                </a>
               );
             })}
           </div>
@@ -1147,7 +1167,12 @@ export default function App() {
                   )}
 
                   {/* Top Image Container with Zoom Effect */}
-                  <div className="relative h-56 w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
+                  <a
+                    href={getRouteUrl(`/product/${product.id}`)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block relative h-56 w-full overflow-hidden bg-slate-100 dark:bg-slate-800 cursor-pointer"
+                  >
                     {product.image ? (
                       <>
                         <img
@@ -1187,16 +1212,18 @@ export default function App() {
                         Representative category image
                       </span>
                     )}
-                  </div>
+                  </a>
 
                   {/* Body Content */}
                   <div className="p-5 flex-1 flex flex-col">
-                    <button
-                      onClick={() => navigateTo(`/product/${product.id}`)}
-                      className="text-left font-bold text-base text-slate-950 dark:text-white line-clamp-1 group-hover:text-[#0284c7] dark:group-hover:text-[#4fc3f7] transition-colors"
+                    <a
+                      href={getRouteUrl(`/product/${product.id}`)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block text-left font-bold text-base text-slate-950 dark:text-white line-clamp-1 group-hover:text-[#0284c7] dark:group-hover:text-[#4fc3f7] transition-colors"
                     >
                       {product.name}
-                    </button>
+                    </a>
 
                     {/* Brand and product-family metadata */}
                     <div className="mt-2 flex flex-wrap items-center gap-1.5 text-xs">
@@ -1241,8 +1268,10 @@ export default function App() {
                   {/* Card Actions: Spec, Enquire, Add/Remove Cart with Hover Lift */}
                   <div className="p-4 pt-0 flex flex-col gap-2">
                     <div className="grid grid-cols-2 gap-2">
-                      <button
-                        onClick={() => navigateTo(`/product/${product.id}`)}
+                      <a
+                        href={getRouteUrl(`/product/${product.id}`)}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className={`py-2 px-3 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all duration-200 hover:scale-[1.02] active:scale-95 ${
                           darkMode
                             ? 'bg-slate-800 hover:bg-slate-700 text-slate-200'
@@ -1250,9 +1279,11 @@ export default function App() {
                         }`}
                       >
                         <FileText className="w-3.5 h-3.5 text-[#0284c7] dark:text-[#4fc3f7]" /> Types & Sizes
-                      </button>
-                      <button
-                        onClick={() => navigateTo(`/product/${product.id}`)}
+                      </a>
+                      <a
+                        href={getRouteUrl(`/product/${product.id}`)}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className={`py-2 px-3 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all duration-200 hover:scale-[1.02] active:scale-95 ${
                           darkMode
                             ? 'bg-sky-950/60 hover:bg-sky-900/60 text-[#4fc3f7] border border-sky-800'
@@ -1260,11 +1291,13 @@ export default function App() {
                         }`}
                       >
                         <Send className="w-3.5 h-3.5" /> Enquire
-                      </button>
+                      </a>
                     </div>
 
-                    <button
-                      onClick={() => navigateTo(`/product/${product.id}`)}
+                    <a
+                      href={getRouteUrl(`/product/${product.id}`)}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className={`w-full py-2.5 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all duration-200 hover:shadow-md hover:brightness-105 active:scale-95 ${
                         inCart
                           ? 'bg-rose-50 hover:bg-rose-100 text-rose-700 dark:bg-rose-950/40 dark:hover:bg-rose-900/60 dark:text-rose-400 border border-rose-200 dark:border-rose-900'
@@ -1280,7 +1313,7 @@ export default function App() {
                           <Plus className="w-4 h-4" /> Select a size
                         </>
                       )}
-                    </button>
+                    </a>
                   </div>
                 </div>
               );
@@ -2225,12 +2258,14 @@ export default function App() {
               <ul className="space-y-2">
                 {CATEGORIES.map(cat => (
                   <li key={cat.name}>
-                    <button
-                      onClick={() => navigateTo(`/category/${slugify(cat.name)}`)}
+                    <a
+                      href={getRouteUrl(`/category/${slugify(cat.name)}`)}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="hover:text-[#4fc3f7] transition"
                     >
                       {cat.name}
-                    </button>
+                    </a>
                   </li>
                 ))}
               </ul>
