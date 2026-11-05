@@ -74,11 +74,17 @@ const getHighResolutionProductImage = (image) => {
 };
 
 const getPageFromPath = (pathname = window.location.pathname) => {
-  const [type, value] = pathname.split('/').filter(Boolean);
-  if (type === 'category' && value) return { type, value };
-  if (type === 'group' && value) return { type, value };
-  if (type === 'product' && value) return { type, value };
-  if (type === 'brand' && value) return { type, value: decodeURIComponent(value) };
+  const hash = window.location.hash.replace(/^#\/?/, '');
+  const path = hash || pathname;
+  const segments = path.split('/').filter(Boolean);
+  const routeKeywords = ['category', 'group', 'product', 'brand'];
+  const keywordIdx = segments.findIndex((s) => routeKeywords.includes(s));
+
+  if (keywordIdx !== -1 && segments[keywordIdx + 1]) {
+    const type = segments[keywordIdx];
+    const rawVal = segments[keywordIdx + 1];
+    return { type, value: type === 'brand' ? decodeURIComponent(rawVal) : rawVal };
+  }
   return { type: 'home', value: '' };
 };
 
@@ -192,7 +198,19 @@ export default function App() {
   });
 
   const navigateTo = (path) => {
-    if (window.location.pathname !== path) window.history.pushState({}, '', path);
+    const isHashMode = Boolean(window.location.hash);
+    if (isHashMode) {
+      window.location.hash = path.startsWith('/') ? path : `/${path}`;
+    } else {
+      const segments = window.location.pathname.split('/').filter(Boolean);
+      const routeKeywords = ['category', 'group', 'product', 'brand'];
+      const keywordIdx = segments.findIndex((s) => routeKeywords.includes(s));
+      const prefix = keywordIdx > 0 ? '/' + segments.slice(0, keywordIdx).join('/') : '';
+      const targetUrl = prefix + (path.startsWith('/') ? path : `/${path}`);
+      if (window.location.pathname !== targetUrl) {
+        window.history.pushState({}, '', targetUrl);
+      }
+    }
     const nextPage = getPageFromPath(path);
     setPage(nextPage);
     setSelectedCategory(nextPage.type === 'category'
@@ -205,15 +223,19 @@ export default function App() {
   };
 
   useEffect(() => {
-    const handlePopState = () => {
+    const handleNavigation = () => {
       const nextPage = getPageFromPath();
       setPage(nextPage);
       setSelectedCategory(nextPage.type === 'category'
         ? CATEGORIES.find((category) => slugify(category.name) === nextPage.value)?.name || 'All'
         : 'All');
     };
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
+    window.addEventListener('popstate', handleNavigation);
+    window.addEventListener('hashchange', handleNavigation);
+    return () => {
+      window.removeEventListener('popstate', handleNavigation);
+      window.removeEventListener('hashchange', handleNavigation);
+    };
   }, []);
 
   const activeCategory = page.type === 'category'
