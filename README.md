@@ -1,19 +1,28 @@
-# Maruti Chemicals — B2B Chemical Distribution & Global Export Portal
+# Maruti Chemicals
 
-A high-converting B2B chemical distribution and export portal for **Maruti Chemicals**, serving pharmaceuticals, agriculture, coatings, water treatment, and detergent manufacturing industries worldwide.
+Maruti Chemicals is a B2B manufacturer, distributor, and export enterprise serving industrial, specialty, pharmaceutical, and healthcare sectors. This site retains the Maruti Chemicals identity and company information while listing the requested medical products under the 3M brand.
+
+## Catalog workflow
+1. Select an industry: Hospitals & Healthcare, Diagnostic Laboratories, Pharmaceutical Manufacturing, Operation Theatres & CSSD, Clinics & Nursing Homes, or Biotechnology & Research.
+2. Browse the relevant 3M product cards for that industry.
+3. Open a product line to view its sub-product cards.
+4. Open a sub-product to review details and available types/sizes, then add a selected variant to the RFQ cart.
+
+Product sizes, source links, product IDs, and images are shown where available. Search matches products across industries, 3M product categories, brands, models, and sizes. Product detail pages include image galleries when multiple 3M images are available; representative 3M category images are labeled when an exact product image is unavailable. Confirm product codes, variants, current availability, and compatibility before ordering.
 
 ## Features
-- **Industrial Chemical Catalog**: 40 certified industrial & pharmaceutical chemicals with CAS registry numbers, formulas, monograph grades, applications, packaging specs, and Certificate of Analysis (COA) data sheets.
-- **Interactive Multi-Product RFQ Engine**: Live commercial request-for-quotation cart drawer with container packaging selectors, metric ton estimators, Incoterm selector, and submission tracking.
-- **7-Step Process Workflow**: Interactive end-to-end timeline from requirement mapping to doorstep compliance dispatch.
-- **Principals & Credentials**: Verified partner representation (PharmaSteril, CleanLab Systems, AquaTest, BioSecure, MediPack, PureFlow) with regulatory certifications (Drug License, GST, ISO 9001:2015).
-- **Dark / Light Mode**: High-contrast theme system tailored for procurement desks.
-- **Direct Procurement Desk**: Instant contact desk with telephone, WhatsApp, email, and Ghaziabad corporate facility address.
+- Global search across product names, industry and product categories, brands, models, and sizes.
+- Category and brand filters.
+- RFQ cart with multiple product variants and quantities.
+- Product references to 3M India where available.
+- High-resolution 3M product imagery and galleries where available.
+- Dark and light display modes.
+- Maruti Chemicals contact and procurement information.
 
 ## Tech Stack
-- **Framework**: React 19 + Vite
-- **Styling**: Tailwind CSS
-- **Icons**: Lucide React
+- React 19 + Vite
+- Tailwind CSS
+- Lucide React
 
 ## Local Development
 ```bash

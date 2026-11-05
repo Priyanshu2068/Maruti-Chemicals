@@ -1,10 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import {
   FlaskConical,
-  Sprout,
-  Paintbrush,
-  Droplets,
-  Sparkles,
   Search,
   ShoppingCart,
   Moon,
@@ -36,986 +32,125 @@ import {
   BadgeCheck
 } from 'lucide-react';
 
-// ==========================================
-// 40 COMPREHENSIVE INDUSTRIAL CHEMICAL PRODUCTS
-// ==========================================
-const CHEMICAL_PRODUCTS = [
-  // 1. Pharmaceuticals & Healthcare (8 products)
-  {
-    id: 'pharma-1',
-    name: 'Purified Glycerin USP / BP',
-    cas: '56-81-5',
-    formula: 'C3H8O3',
-    grade: 'Pharma / USP / BP',
-    category: 'Pharmaceuticals & Healthcare',
-    packaging: '250 kg HDPE Drums',
-    packOptions: ['250 kg HDPE Drums', '1250 kg IBC Tote', '24 MT ISO Tank'],
-    image: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=80',
-    description: 'High-purity vegetable-derived glycerin 99.7% conforming to USP and European Pharmacopoeia standards. Essential humectant, solvent, and sweetening agent in syrups, cough elixirs, and topical formulations.',
-    applications: ['Cough Syrups & Elixirs', 'Topical Ointments & Creams', 'Oral Care Formulations', 'Gelatin Capsule Plasticizer'],
-    specifications: {
-      'Assay (Purity)': '≥ 99.7% min',
-      'Appearance': 'Clear, colorless viscous liquid',
-      'Specific Gravity @ 25°C': '1.261 - 1.263',
-      'Refractive Index @ 20°C': '1.4740 - 1.4753',
-      'Heavy Metals (Pb)': '< 5 ppm',
-      'Water Content (KF)': '≤ 0.3%',
-      'Sulphated Ash': '≤ 0.01%',
-      'Chlorides & Sulfates': 'Passes USP tests'
-    }
-  },
-  {
-    id: 'pharma-2',
-    name: 'Isopropyl Alcohol (IPA) USP',
-    cas: '67-63-0',
-    formula: 'C3H8O',
-    grade: 'USP / Electronic Grade',
-    category: 'Pharmaceuticals & Healthcare',
-    packaging: '160 kg Mild Steel Drums',
-    packOptions: ['160 kg MS Drums', '160 kg HDPE Drums', '1000 L IBC', 'Road Tankers'],
-    image: 'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&w=800&q=80',
-    description: 'Ultra-pure Isopropanol with 99.9% min assay. Critical pharmaceutical processing solvent, cleanroom disinfectant, sanitizing agent, and extractant for botanical and active ingredients.',
-    applications: ['Hospital Surface Disinfection', 'API Extraction Solvent', 'Medical Wipe Solutions', 'Sterile Cleanroom Sanitizer'],
-    specifications: {
-      'Purity (GC)': '≥ 99.90%',
-      'Water (Moisture)': '≤ 0.10%',
-      'Acidity (as Acetic)': '≤ 0.002%',
-      'Non-Volatile Residue': '≤ 10 mg/L',
-      'Appearance': 'Clear, water-white liquid',
-      'Density @ 20°C': '0.785 - 0.787 g/cm³',
-      'Distillation Range': '82.0°C - 83.0°C',
-      'Benzene Content': '< 2 ppm'
-    }
-  },
-  {
-    id: 'pharma-3',
-    name: 'Sodium Bicarbonate Pharma Grade',
-    cas: '144-55-8',
-    formula: 'NaHCO3',
-    grade: 'IP / BP / USP',
-    category: 'Pharmaceuticals & Healthcare',
-    packaging: '25 kg Multi-wall Paper Bags',
-    packOptions: ['25 kg Paper Bags with PE liner', '50 kg HDPE Bags', '1000 kg Jumbo Bags'],
-    image: 'https://images.unsplash.com/photo-1628771065518-0d82f1938462?auto=format&fit=crop&w=800&q=80',
-    description: 'Pharmaceutical grade sodium bicarbonate engineered for effervescent tablets, hemodialysis solutions, and antacid oral suspensions with strictly controlled carbonate and iron impurities.',
-    applications: ['Hemodialysis Solutions', 'Effervescent Granules', 'Antacid Suspensions', 'pH Buffer in Injections'],
-    specifications: {
-      'Assay (Dry Basis)': '99.0% - 100.5%',
-      'pH of 1% Solution': '8.0 - 8.6',
-      'Loss on Drying': '≤ 0.25%',
-      'Carbonate (Na2CO3)': 'Passes USP Limit',
-      'Heavy Metals (Pb)': '≤ 5 ppm',
-      'Arsenic (As)': '≤ 2 ppm',
-      'Iron (Fe)': '≤ 10 ppm',
-      'Chloride (Cl)': '≤ 150 ppm'
-    }
-  },
-  {
-    id: 'pharma-4',
-    name: 'Citric Acid Monohydrate',
-    cas: '5949-29-1',
-    formula: 'C6H8O7·H2O',
-    grade: 'Pharma / Food / IP / BP',
-    category: 'Pharmaceuticals & Healthcare',
-    packaging: '25 kg Kraft Paper Bags',
-    packOptions: ['25 kg Kraft Bags', '50 lb Bags', '1000 kg PP Jumbo Bags'],
-    image: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=800&q=80',
-    description: 'Natural fermentation-derived citric acid monohydrate crystalline powder. Functions as an effervescent couple, acidulant, chelating agent, and pH regulator in pharmaceuticals and nutritional effervescents.',
-    applications: ['Effervescent Formulations', 'Taste Masking & Acidulant', 'Blood Anticoagulant Formulations', 'Syrup Preservative Buffer'],
-    specifications: {
-      'Assay': '99.5% - 101.0%',
-      'Water Content': '7.5% - 8.8%',
-      'Appearance': 'White crystalline granules',
-      'Sulphated Ash': '≤ 0.05%',
-      'Oxalate': '≤ 100 ppm',
-      'Sulfate': '≤ 150 ppm',
-      'Heavy Metals': '≤ 5 ppm',
-      'Clarity of Solution': 'Passes test'
-    }
-  },
-  {
-    id: 'pharma-5',
-    name: 'Microcrystalline Cellulose MCC 101/102',
-    cas: '9004-34-6',
-    formula: '(C6H10O5)n',
-    grade: 'Pharma / USP / NF',
-    category: 'Pharmaceuticals & Healthcare',
-    packaging: '20 kg Fibre Drums',
-    packOptions: ['20 kg Fibre Drums', '25 kg Kraft Paper Bags'],
-    image: 'https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=800&q=80',
-    description: 'Purified, partially depolymerized alpha-cellulose spray-dried into free-flowing spherical microparticles. The global gold-standard binder and diluent for direct compression tableting.',
-    applications: ['Direct Compression Tablets', 'Hard Capsule Filling', 'Sustained-Release Pellets', 'Oral Suspension Thickener'],
-    specifications: {
-      'Loss on Drying': '≤ 5.0% (MCC 102)',
-      'pH': '5.0 - 7.5',
-      'Bulk Density': '0.28 - 0.34 g/cm³',
-      'Conductivity': '≤ 75 µS/cm',
-      'Residue on Ignition': '≤ 0.05%',
-      'Heavy Metals': '≤ 10 ppm',
-      'Particle Size (d50)': '50 µm (101) / 100 µm (102)',
-      'Total Viable Aerobic Count': '≤ 1000 CFU/g'
-    }
-  },
-  {
-    id: 'pharma-6',
-    name: 'Povidone Iodine PVP-I',
-    cas: '25655-41-8',
-    formula: '(C6H9NO)n·xI',
-    grade: 'USP / EP',
-    category: 'Pharmaceuticals & Healthcare',
-    packaging: '25 kg Fibre Drums',
-    packOptions: ['25 kg Fibre Drums with dual PE liners', '10 kg Poly Pails'],
-    image: 'https://images.unsplash.com/photo-1584017911766-d451b3d0e843?auto=format&fit=crop&w=800&q=80',
-    description: 'Complex of Polyvinylpyrrolidone with iodine providing broad-spectrum topical antiseptic efficacy against bacteria, viruses, and fungi with minimum skin irritation.',
-    applications: ['Surgical Scrub & Prep Solutions', 'Wound Dressing Formulations', 'Gargle & Mouthwash Actives', 'Veterinary Antiseptic Sprays'],
-    specifications: {
-      'Available Iodine': '9.0% - 12.0%',
-      'Loss on Drying': '≤ 8.0%',
-      'Residue on Ignition': '≤ 0.025%',
-      'Heavy Metals': '≤ 20 ppm',
-      'Iodide Ion (I⁻)': '≤ 6.6%',
-      'Nitrogen Content': '9.5% - 11.5%',
-      'Appearance': 'Yellow-brown amorphous powder',
-      'Solubility': 'Completely soluble in water'
-    }
-  },
-  {
-    id: 'pharma-7',
-    name: 'Propylene Glycol USP',
-    cas: '57-55-6',
-    formula: 'C3H8O2',
-    grade: 'Pharma / USP / EP',
-    category: 'Pharmaceuticals & Healthcare',
-    packaging: '215 kg Steel / HDPE Drums',
-    packOptions: ['215 kg HDPE Drums', '1000 L IBC Tote', '22 MT ISO Tanker'],
-    image: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=800&q=80',
-    description: 'Ultra-pure 1,2-propanediol exceeding 99.8% assay. Clear, viscous, odorless pharmaceutical vehicle, humectant, and co-solvent in injectable, topical, and oral formulations.',
-    applications: ['Injectable Drug Co-solvent', 'Oral Syrups & Drops', 'Ophthalmic Formulations', 'Cosmetic Emollient Base'],
-    specifications: {
-      'Purity (GC)': '≥ 99.8%',
-      'Specific Gravity @ 25°C': '1.035 - 1.037',
-      'Water Content': '≤ 0.2%',
-      'Acidity (as Acetic)': '≤ 0.005%',
-      'Heavy Metals (Pb)': '< 5 ppm',
-      'Residue on Ignition': '≤ 0.005%',
-      'Chlorides': '≤ 1 ppm',
-      'Appearance': 'Viscous clear odorless liquid'
-    }
-  },
-  {
-    id: 'pharma-8',
-    name: 'Liquid Paraffin Heavy & Light',
-    cas: '8042-47-5',
-    formula: 'Mineral Oil (Hydrocarbons)',
-    grade: 'IP / BP / USP',
-    category: 'Pharmaceuticals & Healthcare',
-    packaging: '175 kg New Steel Drums',
-    packOptions: ['175 kg Steel Drums', '200 L HDPE Drums', 'Tanker Loads'],
-    image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=800&q=80',
-    description: 'Highly refined pharmaceutical-grade white mineral oil transparent, free from fluorescence, sulfur, or aromatic compounds. Lubricant laxative and dermatological ointment base.',
-    applications: ['Ointment Base & Emulsions', 'Capsule Lubrication', 'Dermatological Barrier Creams', 'Oral Laxative Suspensions'],
-    specifications: {
-      'Kinematic Viscosity @ 40°C': '64 - 70 cSt (Heavy) / 15 - 25 cSt (Light)',
-      'Density @ 20°C': '0.860 - 0.890 g/cm³',
-      'Solid Paraffins': 'Passes pharmacopoeia test',
-      'Sulfur Compounds': 'Absent / Negative',
-      'Readily Carbonizable Substances': 'Passes test',
-      'Acidity / Alkalinity': 'Neutral to litmus',
-      'Odor & Color': 'Odorless, water-white transparent'
-    }
-  },
+import {
+  INDUSTRY_CATEGORIES,
+  MEDICAL_PRODUCTS as PRODUCT_LISTINGS,
+  MEDICAL_CATEGORIES
+} from './medicalProducts';
 
-  // 2. Agriculture & Fertilizers (8 products)
-  {
-    id: 'agri-1',
-    name: 'Zinc Sulphate Heptahydrate 21% Zn',
-    cas: '7446-20-0',
-    formula: 'ZnSO4·7H2O',
-    grade: 'Fertilizer & Feed Grade / FCO',
-    category: 'Agriculture & Fertilizers',
-    packaging: '25 kg HDPE Laminated Bags',
-    packOptions: ['25 kg HDPE Bags', '50 kg Woven Bags', '1000 kg Jumbo Bags'],
-    image: 'https://images.unsplash.com/photo-1500651230702-0e2d8a49d4ad?auto=format&fit=crop&w=800&q=80',
-    description: 'Premium crystalline fertilizer grade Zinc Sulphate containing 21% elemental Zinc. Fast-dissolving micronutrient providing rapid correction of zinc deficiency in cereal, paddy, and horticultural crops.',
-    applications: ['Soil Basal Application', 'Foliar Nutrient Sprays', 'Fertigation & Drip Systems', 'Animal Feed Mineral Premix'],
-    specifications: {
-      'Elemental Zinc (Zn)': '≥ 21.0% min',
-      'Sulfur (S)': '≥ 10.0%',
-      'Lead (Pb)': '< 15 ppm',
-      'Cadmium (Cd)': '< 5 ppm',
-      'Arsenic (As)': '< 10 ppm',
-      'pH of 5% Solution': '4.0 - 5.5',
-      'Matter Insoluble in Water': '≤ 0.05%',
-      'Appearance': 'Sparkling white crystalline granules'
-    }
-  },
-  {
-    id: 'agri-2',
-    name: 'Copper Sulphate Pentahydrate 24.5% Cu',
-    cas: '7758-99-8',
-    formula: 'CuSO4·5H2O',
-    grade: 'Agri Grade / Technical 99%',
-    category: 'Agriculture & Fertilizers',
-    packaging: '25 kg HDPE Bags with inner PE',
-    packOptions: ['25 kg Woven Bags', '50 kg Bags', '1000 kg Bulk Sacks'],
-    image: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=800&q=80',
-    description: 'Vibrant blue crystalline copper sulphate pentahydrate with 24.5% copper. Critical active ingredient for Bordeaux mixture, agricultural fungicides, algicide, and animal feed mineral premixes.',
-    applications: ['Bordeaux Mixture Fungicide', 'Algicide for Irrigation Ponds', 'Correction of Cu Deficiencies', 'Feed Grade Trace Mineral'],
-    specifications: {
-      'Copper (Cu)': '≥ 24.5% min',
-      'Assay (CuSO4·5H2O)': '≥ 98.5% min',
-      'Iron (Fe)': '≤ 0.15%',
-      'Insoluble Matter': '≤ 0.1%',
-      'Lead (Pb)': '< 20 ppm',
-      'Arsenic (As)': '< 10 ppm',
-      'pH (5% aq)': '3.5 - 4.5',
-      'Appearance': 'Bright blue crystals'
-    }
-  },
-  {
-    id: 'agri-3',
-    name: 'Magnesium Sulphate Epsom Salt',
-    cas: '10034-99-8',
-    formula: 'MgSO4·7H2O',
-    grade: 'FCO Agri & Horticultural Grade',
-    category: 'Agriculture & Fertilizers',
-    packaging: '50 kg PP Bags',
-    packOptions: ['25 kg Bags', '50 kg PP Woven Bags', '1200 kg Jumbo Bags'],
-    image: 'https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&w=800&q=80',
-    description: 'High-solubility magnesium sulphate heptahydrate providing 9.6% Mg and 12% S. Directly strengthens chlorophyll synthesis and enzymatic activation in high-yield crops.',
-    applications: ['Drip Fertigation', 'Chlorophyll Boosting Sprays', 'Hydroponics Formulations', 'Specialty NPK Blends'],
-    specifications: {
-      'Magnesium (as Mg)': '≥ 9.6% min',
-      'Magnesium Oxide (MgO)': '≥ 16.0% min',
-      'Sulfur (S)': '≥ 12.0%',
-      'Water Insoluble': '≤ 0.05%',
-      'pH (5% solution)': '6.0 - 7.5',
-      'Heavy Metals (Pb)': '< 10 ppm',
-      'Appearance': 'Small clear needle-like crystals'
-    }
-  },
-  {
-    id: 'agri-4',
-    name: 'Potassium Humate 85% Flakes',
-    cas: '68514-28-3',
-    formula: 'Humic Acid Potassium Salt',
-    grade: 'Bio-Stimulant Grade 100% Soluble',
-    category: 'Agriculture & Fertilizers',
-    packaging: '25 kg Kraft Paper Bags',
-    packOptions: ['25 kg Kraft Bags with foil liner', '1 kg Consumer Pouches (in master carton)'],
-    image: 'https://images.unsplash.com/photo-1595974482597-4b8da8879bc5?auto=format&fit=crop&w=800&q=80',
-    description: '100% water-soluble shiny black potassium humate flakes extracted from top-grade leonardite. Enhances soil cation exchange capacity (CEC), stimulates root growth, and increases fertilizer uptake efficiency.',
-    applications: ['Soil Conditioner & CEC Enhancer', 'Root Growth Bio-Stimulant', 'Drip Fertigation Mixes', 'Foliar Fertilizer Carrier'],
-    specifications: {
-      'Humic Acid (dry basis)': '≥ 65.0%',
-      'Fulvic Acid': '≥ 15.0%',
-      'Potassium (as K2O)': '≥ 10.0%',
-      'Water Solubility': '≥ 99.5% (Non-clogging)',
-      'Moisture': '≤ 15.0%',
-      'pH Range': '9.0 - 10.5',
-      'Appearance': 'Shiny black crystal flakes'
-    }
-  },
-  {
-    id: 'agri-5',
-    name: 'Ferrous Sulphate Heptahydrate 19% Fe',
-    cas: '7782-63-0',
-    formula: 'FeSO4·7H2O',
-    grade: 'Agri / Technical / FCO Grade',
-    category: 'Agriculture & Fertilizers',
-    packaging: '50 kg HDPE Bags with inner PE',
-    packOptions: ['50 kg HDPE Woven Bags', '1000 kg FIBC Bags'],
-    image: 'https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=800&q=80',
-    description: 'Green crystalline copperas compound supplying 19% bio-available ferrous iron. Prevents iron chlorosis in acidic/alkaline soils, lawn moss management, and animal nutrition.',
-    applications: ['Iron Chlorosis Correction', 'Soil pH Neutralization', 'Lawn Turf Moss Treatment', 'Industrial Trace Element Premix'],
-    specifications: {
-      'Iron (as Fe)': '≥ 19.0% min',
-      'Sulfur (S)': '≥ 10.5%',
-      'Lead (Pb)': '< 25 ppm',
-      'Insoluble Matter': '≤ 0.2%',
-      'Free Acid': '≤ 0.5%',
-      'Appearance': 'Bluish-green crystalline granules'
-    }
-  },
-  {
-    id: 'agri-6',
-    name: 'Borax Decahydrate 11% B',
-    cas: '1303-96-4',
-    formula: 'Na2B4O7·10H2O',
-    grade: 'Agri Micronutrient Grade',
-    category: 'Agriculture & Fertilizers',
-    packaging: '25 kg Bags',
-    packOptions: ['25 kg Kraft Bags', '50 kg Bags', '1000 kg Bulk Sacks'],
-    image: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80',
-    description: 'Standard sodium tetraborate decahydrate with 11% boron. Critical for flowering, pollen germination, cell wall development, and fruit setting in cotton, pulses, and oilseed crops.',
-    applications: ['Soil Boron Basal Treatment', 'Fruit Set Optimization', 'Foliar Boron Nutrition', 'Liquid Micronutrient Complexes'],
-    specifications: {
-      'Boron (as B)': '≥ 10.5% - 11.3%',
-      'B2O3 Content': '≥ 36.5%',
-      'Purity': '≥ 99.5%',
-      'Sulfate (SO4)': '≤ 50 ppm',
-      'Chloride': '≤ 35 ppm',
-      'Iron (Fe)': '≤ 10 ppm',
-      'Appearance': 'White granular crystalline powder'
-    }
-  },
-  {
-    id: 'agri-7',
-    name: 'Manganese Sulphate Monohydrate 31.8% Mn',
-    cas: '10034-96-5',
-    formula: 'MnSO4·H2O',
-    grade: 'Agri Micronutrient / Feed Grade',
-    category: 'Agriculture & Fertilizers',
-    packaging: '25 kg Woven Bags',
-    packOptions: ['25 kg HDPE Bags', '50 kg Bags', '1000 kg Jumbo Bags'],
-    image: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=800&q=80',
-    description: 'High-grade pale pink powder delivering 31.8% manganese. Essential catalyst for chlorophyll synthesis, nitrate assimilation, and oxidation-reduction reactions in crop physiology.',
-    applications: ['Soil Micronutrient Blend', 'Foliar Spray for Cereals & Citrus', 'Fertigation Formulations', 'Animal Mineral Premix'],
-    specifications: {
-      'Manganese (as Mn)': '≥ 31.8% min',
-      'Purity (MnSO4·H2O)': '≥ 98.0%',
-      'Insoluble Matter': '≤ 0.05%',
-      'Heavy Metals (Pb)': '< 10 ppm',
-      'Arsenic (As)': '< 5 ppm',
-      'Chloride': '≤ 0.01%',
-      'Appearance': 'Light pink free-flowing powder'
-    }
-  },
-  {
-    id: 'agri-8',
-    name: 'Chelated Micronutrient EDTA Mix',
-    cas: 'Chelate-Mix',
-    formula: 'EDTA (Zn, Fe, Cu, Mn, B, Mo)',
-    grade: 'Agri High Efficiency 100% Chelated',
-    category: 'Agriculture & Fertilizers',
-    packaging: '25 kg Fibre Drums',
-    packOptions: ['25 kg Fibre Drums', '5 kg HDPE Poly Jars', '1 kg Aluminum Foil Bags'],
-    image: 'https://images.unsplash.com/photo-1622383563227-04401ab4e5ea?auto=format&fit=crop&w=800&q=80',
-    description: 'Multi-element balanced micronutrient complex 100% chelated with EDTA. Prevents and rectifies multiple micronutrient deficiencies simultaneously across diverse pH ranges without soil lockup.',
-    applications: ['Hi-Tech Drip Irrigation', 'Greenhouse Hydroponics', 'Commercial Foliar Feeding', 'Orchard Nutrition Sprays'],
-    specifications: {
-      'Chelated Zinc (Zn)': '3.0%',
-      'Chelated Iron (Fe)': '4.0%',
-      'Chelated Manganese (Mn)': '2.0%',
-      'Chelated Copper (Cu)': '0.5%',
-      'Boron (B)': '0.5%',
-      'Molybdenum (Mo)': '0.05%',
-      'Chelating Agent': 'EDTA Di-Sodium Salt',
-      'Water Solubility': '100% instant solubility'
-    }
-  },
+const CATEGORY_ICONS = {
+  tape: Layers,
+  wound: ShieldCheck,
+  therapy: Package,
+  infection: ShieldCheck,
+  skin: CheckCircle,
+  sterilisation: ClipboardCheck,
+  temperature: Clock,
+  monitoring: Award,
+  healthcare: ShieldCheck,
+  laboratory: FlaskConical,
+  pharmaceutical: Building2,
+  theatre: ClipboardCheck,
+  clinic: CheckCircle,
+  research: Globe2
+};
 
-  // 3. Paints, Coatings & Inks (8 products)
-  {
-    id: 'paints-1',
-    name: 'Titanium Dioxide Rutile TiO2 R-996',
-    cas: '13463-67-7',
-    formula: 'TiO2',
-    grade: 'Industrial Rutile Grade',
-    category: 'Paints, Coatings & Inks',
-    packaging: '25 kg Valve Paper Bags',
-    packOptions: ['25 kg Multi-wall Paper Bags', '500 kg Bags', '1000 kg Jumbo Bags'],
-    image: 'https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=800&q=80',
-    description: 'Sulfate-process rutile pigment treated with zirconia and alumina. Exhibits outstanding opacity, high tinting strength, superior weatherability, and easy dispersion in architectural and industrial coatings.',
-    applications: ['Architectural Exterior Paints', 'Automotive OEM Coatings', 'Masterbatches & Plastics', 'Printing Inks & Coil Coatings'],
-    specifications: {
-      'TiO2 Content': '≥ 94.0%',
-      'Rutile Crystal Content': '≥ 98.0%',
-      'Color (L*)': '≥ 95.0',
-      'Tinting Strength (Reynolds)': '≥ 1850',
-      'Oil Absorption': '18 - 21 g/100g',
-      'Resistivity (30°C)': '≥ 8000 Ω·cm',
-      'pH of Aqueous Suspension': '6.5 - 8.5',
-      'Residue on 45µm Sieve': '≤ 0.02%'
-    }
-  },
-  {
-    id: 'paints-2',
-    name: 'Epoxy Resin E-51 Bisphenol-A',
-    cas: '25068-38-6',
-    formula: 'C21H24O4',
-    grade: 'Liquid Standard Resin',
-    category: 'Paints, Coatings & Inks',
-    packaging: '240 kg Steel Drums',
-    packOptions: ['20 kg Jerry Cans', '240 kg Steel Drums', '1200 kg IBC'],
-    image: 'https://images.unsplash.com/photo-1590682680695-43b964a3ae17?auto=format&fit=crop&w=800&q=80',
-    description: 'Standard unmodified liquid Bisphenol-A / Epichlorohydrin epoxy resin (EEW 184-194). Exceptional chemical resistance, mechanical strength, and electrical insulation for high-performance protective coatings.',
-    applications: ['Industrial Heavy-Duty Flooring', 'Marine Anti-Corrosion Paints', 'Electrical Potting & Encapsulation', 'Structural Adhesives & Composites'],
-    specifications: {
-      'Epoxide Equivalent Weight (EEW)': '184 - 194 g/eq',
-      'Epoxy Value': '0.51 - 0.54 eq/100g',
-      'Viscosity @ 25°C': '11,000 - 14,000 mPa·s',
-      'Color (Gardner)': '≤ 1.0 max',
-      'Hydrolyzable Chlorine': '≤ 0.05%',
-      'Volatile Matter': '≤ 0.2%',
-      'Appearance': 'Clear transparent liquid'
-    }
-  },
-  {
-    id: 'paints-3',
-    name: 'Mixed Xylene Solvent',
-    cas: '1330-20-7',
-    formula: 'C8H10',
-    grade: 'Industrial / Pure Grade',
-    category: 'Paints, Coatings & Inks',
-    packaging: '180 kg Steel Drums',
-    packOptions: ['180 kg MS Drums', 'ISO Tank Containers', 'Road Tankers'],
-    image: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=800&q=80',
-    description: 'High-purity aromatic solvent blend of ortho-, meta-, and para-xylene with ethylbenzene. Provides balanced evaporation rates, high solvency power, and superior flow in polyurethane and alkyd paints.',
-    applications: ['Paint Thinners & Reducers', 'Alkyd Resin Synthesis Solvent', 'Rubber Adhesives Formulation', 'Agrochemical Emulsifiable Concentrates'],
-    specifications: {
-      'Total Xylene Isomers + Ethylbenzene': '≥ 99.0% min',
-      'Benzene Content': '≤ 0.01%',
-      'Toluene Content': '≤ 0.5%',
-      'Distillation Range': '137°C - 143°C',
-      'Specific Gravity @ 20°C': '0.860 - 0.870',
-      'Flash Point': '27°C (Closed Cup)',
-      'Water Content': '≤ 0.03%',
-      'Appearance': 'Clear colorless mobile liquid'
-    }
-  },
-  {
-    id: 'paints-4',
-    name: 'Methyl Ethyl Ketone MEK',
-    cas: '78-93-3',
-    formula: 'C4H8O',
-    grade: 'Pure Solvent Grade',
-    category: 'Paints, Coatings & Inks',
-    packaging: '165 kg Steel Drums',
-    packOptions: ['165 kg Mild Steel Drums', 'ISO Tanks', 'Tanker Loads'],
-    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80',
-    description: 'Fast-evaporating oxygenated ketone solvent with high solvency for vinyl, acrylic, epoxy, and nitrocellulose resins. Widely used in flexographic inks, leather finishes, and contact adhesives.',
-    applications: ['Printing Inks & Solvents', 'Polyurethane & Vinyl Coatings', 'Industrial Adhesives & Cements', 'Degreasing & Cleaning Agents'],
-    specifications: {
-      'Purity (GC)': '≥ 99.5% min',
-      'Water Content': '≤ 0.05%',
-      'Acidity (as Acetic)': '≤ 0.003%',
-      'Non-Volatile Residue': '≤ 2 mg/100mL',
-      'Density @ 20°C': '0.804 - 0.807 g/cm³',
-      'Boiling Point': '79.6°C',
-      'Color (Pt-Co)': '≤ 10'
-    }
-  },
-  {
-    id: 'paints-5',
-    name: 'Short Oil Alkyd Resin 60%',
-    cas: '63148-69-6',
-    formula: 'Synthetic Polymer Solution',
-    grade: 'Industrial Stoving Grade',
-    category: 'Paints, Coatings & Inks',
-    packaging: '200 kg Steel Drums',
-    packOptions: ['200 kg MS Drums', 'Road Tankers'],
-    image: 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=800&q=80',
-    description: 'DCO / Coconut oil based short oil alkyd resin dissolved at 60% solids in Xylene. Yields extraordinary gloss, color retention, hardness, and chemical resistance in stoving and 2K polyurethane finishes.',
-    applications: ['Baking Industrial Enamels', 'Automotive Refinish Topcoats', 'Metal Can & Coil Coatings', 'Two-Component PU Systems'],
-    specifications: {
-      'Non-Volatile Matter (Solids)': '60.0% ± 2.0%',
-      'Viscosity @ 25°C': '60 - 100 sec (Ford Cup 4)',
-      'Acid Value (on solids)': '≤ 15 mg KOH/g',
-      'Solvent': 'Xylene',
-      'Color (Gardner)': '≤ 4',
-      'Oil Content': '32% - 35%'
-    }
-  },
-  {
-    id: 'paints-6',
-    name: 'Silicone-Free Defoaming Agent',
-    cas: 'Defoamer-SF',
-    formula: 'Polymer Compound Blend',
-    grade: 'High Shear Paint Additive',
-    category: 'Paints, Coatings & Inks',
-    packaging: '25 kg Plastic Carboys',
-    packOptions: ['25 kg Carboys', '190 kg Plastic Drums', '950 kg IBC'],
-    image: 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=800&q=80',
-    description: 'Engineered non-silicone defoamer for aqueous industrial coatings and inks. Eliminates macro and micro-foam under high shear grinding without causing fish eyes, craters, or intercoat adhesion loss.',
-    applications: ['Waterborne Architectural Paints', 'Emulsion Polymerization', 'Pigment Grinding Pastes', 'Flexo & Gravure Inks'],
-    specifications: {
-      'Active Content': '100% solvent-free',
-      'Appearance': 'Opaque yellowish viscous liquid',
-      'Density @ 20°C': '0.88 - 0.92 g/cm³',
-      'Viscosity @ 25°C': '400 - 900 mPa·s',
-      'Flash Point': '> 100°C',
-      'Ionicity': 'Non-ionic'
-    }
-  },
-  {
-    id: 'paints-7',
-    name: 'Synthetic Red Iron Oxide 130',
-    cas: '1309-37-1',
-    formula: 'Fe2O3',
-    grade: 'Inorganic Pigment Grade',
-    category: 'Paints, Coatings & Inks',
-    packaging: '25 kg Valve Paper Bags',
-    packOptions: ['25 kg Valve Paper Bags', '1000 kg Bulk Sacks'],
-    image: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80',
-    description: 'High-purity micronized synthetic red iron oxide 130. Demonstrates brilliant redness, unmatched hiding power, chemical inertness, and light-fastness in paints, primers, pavers, and plastics.',
-    applications: ['Anti-Corrosive Metal Primers', 'Concrete & Paver Coloration', 'Decorative Enamels', 'Plastics Masterbatches'],
-    specifications: {
-      'Fe2O3 Content': '≥ 96.0% min',
-      'Matter Volatile @ 105°C': '≤ 0.8%',
-      'Water-Soluble Matter': '≤ 0.3%',
-      'Oil Absorption': '15 - 25 g/100g',
-      'Residue on 325 Mesh': '≤ 0.05%',
-      'pH Value': '5.0 - 8.0',
-      'Tinting Strength': '98% - 102%'
-    }
-  },
-  {
-    id: 'paints-8',
-    name: 'Micronized Calcium Carbonate GCC',
-    cas: '471-34-1',
-    formula: 'CaCO3',
-    grade: 'Ultra-Fine 2 Micron',
-    category: 'Paints, Coatings & Inks',
-    packaging: '25 kg Laminated Paper Bags',
-    packOptions: ['25 kg Bags', '50 kg Bags', '1000 kg Jumbo Bags'],
-    image: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80',
-    description: 'High-brightness ground calcium carbonate derived from select pure calcite marble. Treated for rapid wet-in, gloss retention, and cost-effective titanium dioxide spacing in latex paints.',
-    applications: ['Architectural Matt & Sheen Emulsions', 'Powder Coatings Extender', 'Plastics & PVC Compounding', 'Adhesives & Sealants'],
-    specifications: {
-      'CaCO3 Assay': '≥ 98.5%',
-      'Whiteness (Brightness)': '≥ 96.0%',
-      'Top Cut (d98)': '≤ 10 µm',
-      'Mean Particle Size (d50)': '1.8 - 2.2 µm',
-      'Moisture Content': '≤ 0.2%',
-      'Oil Absorption': '19 - 22 g/100g',
-      'Specific Gravity': '2.7 g/cm³'
-    }
-  },
+const CATEGORIES = INDUSTRY_CATEGORIES.map((category) => ({
+  ...category,
+  icon: CATEGORY_ICONS[category.icon]
+}));
 
-  // 4. Water Treatment & Environmental (8 products)
-  {
-    id: 'water-1',
-    name: 'Polyaluminium Chloride PAC 30%',
-    cas: '1327-41-9',
-    formula: '[Al2(OH)nCl6-n]m',
-    grade: 'Drinking Water & Industrial Grade',
-    category: 'Water Treatment & Environmental',
-    packaging: '25 kg PP Bags with inner PE',
-    packOptions: ['25 kg Laminated Bags', '50 kg Bags', '1000 kg Jumbo Bags'],
-    image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80',
-    description: 'Spray-dried yellow powder polyaluminium chloride with 30% Al2O3. Superior inorganic macromolecular coagulant for municipal drinking water purification and industrial wastewater treatment across wide pH levels.',
-    applications: ['Municipal Potable Water Treatment', 'Textile & Paper Effluent Coagulation', 'River Water Clarification', 'Oily Wastewater Treatment'],
-    specifications: {
-      'Alumina (Al2O3) Content': '≥ 30.0%',
-      'Basicity': '45.0% - 85.0%',
-      'Insoluble Matter': '≤ 0.5%',
-      'pH (1% aqueous solution)': '3.5 - 5.0',
-      'Arsenic (As)': '≤ 0.0002%',
-      'Lead (Pb)': '≤ 0.001%',
-      'Cadmium (Cd)': '≤ 0.0002%',
-      'Appearance': 'Fine yellow crystalline powder'
-    }
-  },
-  {
-    id: 'water-2',
-    name: 'Sodium Hypochlorite 10-12%',
-    cas: '7681-52-9',
-    formula: 'NaOCl',
-    grade: 'Technical / Disinfectant Grade',
-    category: 'Water Treatment & Environmental',
-    packaging: '35 kg / 50 kg HDPE Carboys',
-    packOptions: ['35 kg Carboys', '50 kg Carboys', '250 kg Drums', '1200 kg IBC'],
-    image: 'https://images.unsplash.com/photo-1564419320461-6870880221ad?auto=format&fit=crop&w=800&q=80',
-    description: 'High-stability liquid sodium hypochlorite containing 10-12% available chlorine. Potent broad-spectrum disinfectant, bleaching agent, and chlorinating biocide for raw water disinfection and odor control.',
-    applications: ['Municipal Water Chlorination', 'Cooling Tower Biocide', 'Swimming Pool Sanitization', 'Industrial Odor Neutralization'],
-    specifications: {
-      'Available Chlorine (as Cl2)': '10.0% - 12.0% w/w',
-      'Free Alkali (as NaOH)': '0.5% - 1.2%',
-      'Specific Gravity @ 20°C': '1.16 - 1.20',
-      'Iron (Fe)': '≤ 2 ppm',
-      'Heavy Metals': '< 5 ppm',
-      'Appearance': 'Clear pale yellowish greenish liquid'
-    }
-  },
-  {
-    id: 'water-3',
-    name: 'Ferric Chloride Liquid 40%',
-    cas: '7705-08-0',
-    formula: 'FeCl3',
-    grade: 'Industrial Grade Solution',
-    category: 'Water Treatment & Environmental',
-    packaging: '50 kg HDPE Carboys',
-    packOptions: ['50 kg Carboys', '250 kg Drums', '1250 kg IBC', 'Dedicated Tankers'],
-    image: 'https://images.unsplash.com/photo-1616401784845-180882ba9ba8?auto=format&fit=crop&w=800&q=80',
-    description: 'Heavy brown aqueous solution of ferric chloride 40%. Exceptionally effective primary coagulant for sewage sludge conditioning, heavy metal precipitation, and phosphorus removal.',
-    applications: ['Sewage Sludge Dewatering', 'Phosphorus Precipitation', 'Hydrogen Sulfide Odor Control', 'PCB Etching Chemical'],
-    specifications: {
-      'Ferric Chloride (FeCl3)': '≥ 40.0% w/w',
-      'Ferrous Chloride (FeCl2)': '≤ 0.5%',
-      'Free Acidity (as HCl)': '≤ 1.0%',
-      'Specific Gravity @ 20°C': '1.42 - 1.45',
-      'Heavy Metals (Pb)': '≤ 20 ppm',
-      'Appearance': 'Dark reddish-brown liquid'
-    }
-  },
-  {
-    id: 'water-4',
-    name: 'Activated Carbon Granular 8x30 Mesh',
-    cas: '7440-44-0',
-    formula: 'C (Porous Matrix)',
-    grade: 'Iodine Number 1000+ mg/g',
-    category: 'Water Treatment & Environmental',
-    packaging: '25 kg PP Bags with inner liner',
-    packOptions: ['25 kg Bags', '500 kg Bulk Sacks'],
-    image: 'https://images.unsplash.com/photo-1595974482597-4b8da8879bc5?auto=format&fit=crop&w=800&q=80',
-    description: 'Steam-activated granular carbon manufactured from select coconut shell. Offers supreme microporosity, mechanical attrition resistance, and high adsorption capacity for organic compounds and chlorine removal.',
-    applications: ['Drinking Water Dechlorination', 'VOC & Organics Adsorption', 'RO System Pre-filtration', 'Wastewater Tertiary Polishing'],
-    specifications: {
-      'Iodine Number': '≥ 1000 mg/g min',
-      'Mesh Size': '8 x 30 US Mesh (≥ 90%)',
-      'Moisture Content': '≤ 5.0%',
-      'Ash Content': '≤ 4.0%',
-      'Hardness Number': '≥ 95%',
-      'Apparent Density': '0.48 - 0.53 g/cm³',
-      'CTC Activity': '≥ 55%'
-    }
-  },
-  {
-    id: 'water-5',
-    name: 'Non-Ferric Aluminium Sulphate Alum',
-    cas: '10043-01-3',
-    formula: 'Al2(SO4)3·18H2O',
-    grade: 'Technical Non-Ferric Grade',
-    category: 'Water Treatment & Environmental',
-    packaging: '50 kg HDPE Laminated Bags',
-    packOptions: ['50 kg Woven Bags', '1000 kg Jumbo Bags'],
-    image: 'https://images.unsplash.com/photo-1518152006812-edab29b069ac?auto=format&fit=crop&w=800&q=80',
-    description: 'Solid white kibbled or powder non-ferric aluminium sulphate with Fe < 100 ppm. Traditional, economical coagulant providing rapid flocculation in papermaking sizing and potable water clarification.',
-    applications: ['Potable Water Flocculation', 'Paper Sizing Agent', 'Lake Restoration Phosphorus Binder', 'Textile Dye Fixing Auxiliary'],
-    specifications: {
-      'Water Soluble Alumina (Al2O3)': '≥ 17.0%',
-      'Iron (as Fe)': '≤ 0.01% (100 ppm max)',
-      'Water Insoluble Matter': '≤ 0.2%',
-      'pH (5% aqueous solution)': '≥ 2.8',
-      'Appearance': 'White lumps / kibbled / powder'
-    }
-  },
-  {
-    id: 'water-6',
-    name: 'Hydrated Lime 90% High Calcium',
-    cas: '1305-62-0',
-    formula: 'Ca(OH)2',
-    grade: 'Water & Flue Gas Grade',
-    category: 'Water Treatment & Environmental',
-    packaging: '25 kg Paper Bags',
-    packOptions: ['25 kg Bags', '50 kg Bags', '1000 kg Jumbo Bags'],
-    image: 'https://images.unsplash.com/photo-1588854337221-4cf9fa96059c?auto=format&fit=crop&w=800&q=80',
-    description: 'High calcium hydrated lime containing 90% available Ca(OH)2. Widely utilized for acid wastewater neutralization, heavy metal precipitation, water softening, and flue gas desulfurization (FGD).',
-    applications: ['Acid Mine & Effluent Neutralization', 'Water Hardness Precipitation', 'Flue Gas SO2 Scrubbing', 'Sludge Stabilization'],
-    specifications: {
-      'Available Ca(OH)2': '≥ 90.0%',
-      'Calcium Oxide (CaO)': '≥ 68.0%',
-      'Magnesium (MgO)': '≤ 1.5%',
-      'Residue on 200 Mesh (75µm)': '≤ 2.0%',
-      'Silica (SiO2)': '≤ 1.0%',
-      'Iron (Fe2O3)': '≤ 0.2%'
-    }
-  },
-  {
-    id: 'water-7',
-    name: 'RO Membrane Anti-Scalant Compound',
-    cas: 'Polycarb-AS',
-    formula: 'Phosphonate-Polymer Blend',
-    grade: 'High Silica & Sulfate Control',
-    category: 'Water Treatment & Environmental',
-    packaging: '25 kg Poly Carboys',
-    packOptions: ['25 kg Carboys', '200 kg Drums', '1000 kg IBC'],
-    image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80',
-    description: 'Proprietary liquid threshold scale inhibitor formulated for high-salinity reverse osmosis and NF desalination systems. Inhibits calcium carbonate, calcium sulfate, and silica scaling.',
-    applications: ['Industrial RO Desalination', 'Effluent Recycling Plants', 'Boiler Feed Pre-treatment', 'High Recovery Membrane Systems'],
-    specifications: {
-      'Specific Gravity @ 20°C': '1.14 - 1.18',
-      'pH (neat)': '2.0 - 3.5',
-      'Appearance': 'Clear amber to colorless liquid',
-      'Compatibility': 'Compatible with all polyamide membranes',
-      'Maximum LSI Limit': 'Up to +2.8 without acid feed'
-    }
-  },
-  {
-    id: 'water-8',
-    name: 'Sodium Metabisulphite Food/Water Grade',
-    cas: '7681-57-4',
-    formula: 'Na2S2O5',
-    grade: 'Dechlorination / Food Grade',
-    category: 'Water Treatment & Environmental',
-    packaging: '25 kg Kraft Bags with inner PE',
-    packOptions: ['25 kg Bags', '50 lb Bags', '1000 kg Jumbo Bags'],
-    image: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=800&q=80',
-    description: 'High-purity sodium metabisulphite with 65% minimum SO2 content. Rapid reducing agent for chemical dechlorination prior to RO membranes and hexavalent chromium reduction in plating wastewater.',
-    applications: ['RO Membrane Dechlorination', 'Hexavalent Chromium Reduction (Cr VI to Cr III)', 'Oxygen Scavenging in Boilers', 'Food & Starch Preservation'],
-    specifications: {
-      'Assay (Na2S2O5)': '≥ 97.0%',
-      'SO2 Content': '≥ 65.4%',
-      'Iron (Fe)': '≤ 10 ppm',
-      'Heavy Metals (Pb)': '≤ 10 ppm',
-      'Arsenic (As)': '≤ 2 ppm',
-      'pH of 5% Solution': '4.0 - 4.8',
-      'Appearance': 'White crystalline free-flowing powder'
-    }
-  },
+const PRODUCT_CATEGORIES = MEDICAL_CATEGORIES.map((category) => ({
+  ...category,
+  icon: CATEGORY_ICONS[category.icon]
+}));
 
-  // 5. Textiles & Detergents (8 products)
-  {
-    id: 'textile-1',
-    name: 'Sodium Lauryl Ether Sulfate SLES 70%',
-    cas: '68585-34-2',
-    formula: 'CH3(CH2)11(OCH2CH2)nOSO3Na',
-    grade: 'Cosmetic / Detergent Grade 2EO',
-    category: 'Textiles & Detergents',
-    packaging: '170 kg / 220 kg HDPE Drums',
-    packOptions: ['170 kg HDPE Drums', '220 kg Drums', '1050 kg IBC Tote'],
-    image: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=80',
-    description: 'Anionic surfactant paste with 70% active substance. Remarkable flash foaming, detergency, wetting, and high salt tolerance for liquid soaps, shampoos, body washes, and heavy-duty laundry liquids.',
-    applications: ['Dishwash Liquids & Gels', 'Shampoos & Body Washes', 'Industrial Textile Scouring', 'Liquid Laundry Detergents'],
-    specifications: {
-      'Active Matter': '70.0% ± 2.0%',
-      'Unsulfated Matter': '≤ 2.0%',
-      'Sodium Sulfate': '≤ 1.2%',
-      '1,4-Dioxane': '≤ 30 ppm (or low dioxane grade < 10 ppm)',
-      'pH (1% aqueous solution)': '7.0 - 9.0',
-      'Color (Hazen 5% active)': '≤ 15',
-      'Appearance': 'White to light yellowish transparent paste'
-    }
-  },
-  {
-    id: 'textile-2',
-    name: 'Linear Alkylbenzene Sulphonic Acid LABSA 90%',
-    cas: '27176-87-0',
-    formula: 'C18H30O3S',
-    grade: 'Commercial 90% / 96% Detergent Grade',
-    category: 'Textiles & Detergents',
-    packaging: '210 kg / 225 kg HDPE Drums',
-    packOptions: ['210 kg HDPE Drums', '225 kg Drums', '1000 kg IBC Tote', 'Road Tankers'],
-    image: 'https://images.unsplash.com/photo-1527661591475-527312dd65f5?auto=format&fit=crop&w=800&q=80',
-    description: 'Biodegradable synthetic anionic surfactant with 90% active acid. Primary workhorse raw material for laundry detergent powders, dishwashers, and multipurpose industrial cleansers.',
-    applications: ['Washing Powder Manufacture', 'Liquid Detergents & Cleaners', 'Textile Mercerizing & Wetting', 'Agricultural Emulsifiers'],
-    specifications: {
-      'Active Matter (LABSA)': '≥ 90.0% (also available 96% Grade)',
-      'Free Sulfuric Acid': '≤ 5.0%',
-      'Free Oil': '≤ 2.0%',
-      'Water Content': '≤ 4.0%',
-      'Color (Klett)': '≤ 50',
-      'Appearance': 'Brown viscous liquid'
-    }
-  },
-  {
-    id: 'textile-3',
-    name: 'Caustic Soda Flakes 99% NaOH',
-    cas: '1310-73-2',
-    formula: 'NaOH',
-    grade: 'Rayon / Technical 99.5% Grade',
-    category: 'Textiles & Detergents',
-    packaging: '25 kg PP Bags with PE liner',
-    packOptions: ['25 kg Bags with PE liner', '50 kg Bags', '1000 kg Jumbo Bags'],
-    image: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80',
-    description: 'Ultra-pure white deliquescent sodium hydroxide flakes with 99.5% assay. Strong alkaline chemical for cotton textile mercerization, saponification in soap making, and chemical manufacturing.',
-    applications: ['Cotton Fabric Mercerization', 'Soap & Saponification Processing', 'Alumina Refining & Paper Pulping', 'Industrial Clean-In-Place (CIP)'],
-    specifications: {
-      'Sodium Hydroxide (NaOH)': '≥ 99.5% min',
-      'Sodium Carbonate (Na2CO3)': '≤ 0.4%',
-      'Sodium Chloride (NaCl)': '≤ 0.02%',
-      'Iron (Fe)': '≤ 10 ppm',
-      'Nickel (Ni)': '≤ 3 ppm',
-      'Appearance': 'Pure white crystalline flakes'
-    }
-  },
-  {
-    id: 'textile-4',
-    name: 'Hydrogen Peroxide 50% Stabilized',
-    cas: '7722-84-1',
-    formula: 'H2O2',
-    grade: 'Textile / Bleaching Grade',
-    category: 'Textiles & Detergents',
-    packaging: '30 kg / 50 kg HDPE Carboys',
-    packOptions: ['30 kg Carboys', '50 kg Carboys', '1000 kg IBC Tote', 'SS ISO Tanker'],
-    image: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=80',
-    description: 'High-stability aqueous solution containing 50% hydrogen peroxide. Eco-friendly, chlorine-free bleaching agent breaking down harmlessly into water and oxygen, essential for cotton and cellulose fabric whitening.',
-    applications: ['Textile Bleaching & Desizing', 'Pulp & Paper Eco-Friendly Bleach', 'Effluent Detoxification', 'Chemical Synthesis & Epoxidation'],
-    specifications: {
-      'Concentration (H2O2)': '≥ 50.0% w/w',
-      'Stability (Gas Evolution @ 100°C)': '≥ 97%',
-      'Specific Gravity @ 20°C': '1.19 - 1.20',
-      'Free Acidity (as H2SO4)': '≤ 0.03%',
-      'Residue on Evaporation': '≤ 0.05%',
-      'Appearance': 'Clear, water-like liquid'
-    }
-  },
-  {
-    id: 'textile-5',
-    name: 'Sodium Tripolyphosphate STPP',
-    cas: '7758-29-4',
-    formula: 'Na5P3O10',
-    grade: 'Detergent / Technical Grade',
-    category: 'Textiles & Detergents',
-    packaging: '25 kg Kraft Paper Bags',
-    packOptions: ['25 kg Valve Paper Bags', '1000 kg Jumbo Bags'],
-    image: 'https://images.unsplash.com/photo-1628771065518-0d82f1938462?auto=format&fit=crop&w=800&q=80',
-    description: 'Premium detergent builder with 57% P2O5 content. Sequesters calcium and magnesium water hardness ions, peptizes soil particles, prevents redeposition, and buffers alkaline washing liquors.',
-    applications: ['Heavy Duty Powder Detergent Builder', 'Ceramic Deflocculant', 'Textile Processing Auxiliary', 'Water Softening Additive'],
-    specifications: {
-      'Assay (Na5P3O10)': '≥ 94.0%',
-      'Phosphorus Pentoxide (P2O5)': '≥ 57.0%',
-      'Phase I Content': '20% - 30%',
-      'Water Insoluble Matter': '≤ 0.1%',
-      'Iron (Fe)': '≤ 50 ppm',
-      'pH of 1% Solution': '9.2 - 10.0',
-      'Bulk Density': '0.70 - 0.85 g/cm³'
-    }
-  },
-  {
-    id: 'textile-6',
-    name: 'Soda Ash Dense 99.2%',
-    cas: '497-19-8',
-    formula: 'Na2CO3',
-    grade: 'Dense Technical 99.2% Grade',
-    category: 'Textiles & Detergents',
-    packaging: '50 kg HDPE Woven Bags',
-    packOptions: ['50 kg Bags', '1000 kg Jumbo Bulk Bags', 'Bulk Hopper Trucks'],
-    image: 'https://images.unsplash.com/photo-1595974482597-4b8da8879bc5?auto=format&fit=crop&w=800&q=80',
-    description: 'High-density anhydrous sodium carbonate 99.2%. Fundamental industrial chemical providing alkalinity and buffering capacity in reactive textile dyeing, glass manufacturing, and detergent formulations.',
-    applications: ['Reactive Dyeing Alkali Fixation', 'Detergent Powder Saponifier', 'Container & Float Glass Making', 'Sodium Salt Synthesis'],
-    specifications: {
-      'Total Alkalinity (as Na2CO3)': '≥ 99.2% min',
-      'Sodium Chloride (NaCl)': '≤ 0.7%',
-      'Iron (as Fe2O3)': '≤ 0.004%',
-      'Sulfate (as Na2SO4)': '≤ 0.08%',
-      'Water Insoluble Matter': '≤ 0.04%',
-      'Bulk Density': '0.90 - 1.15 g/cm³',
-      'Appearance': 'White granular free-flowing powder'
-    }
-  },
-  {
-    id: 'textile-7',
-    name: 'Acetic Acid Glacial 99.85%',
-    cas: '64-19-7',
-    formula: 'CH3COOH',
-    grade: 'Industrial / Pure Glacial Grade',
-    category: 'Textiles & Detergents',
-    packaging: '30 kg / 35 kg Poly Carboys',
-    packOptions: ['30 kg Carboys', '210 kg HDPE Drums', '1050 kg IBC', 'ISO Tankers'],
-    image: 'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&w=800&q=80',
-    description: 'Glacial acetic acid with 99.85% min purity. Regulates dyebath acidity in wool, silk, and synthetic fiber processing, acts as a neutralizing agent after caustic scouring, and precursor to acetates.',
-    applications: ['Textile Dyebath pH Buffer', 'Neutralization After Caustic Scouring', 'Acetate & Chemical Intermediate', 'Leather Deliming & Tanning'],
-    specifications: {
-      'Purity (CH3COOH)': '≥ 99.85%',
-      'Freezing Point': '≥ 16.35°C',
-      'Water Content': '≤ 0.15%',
-      'Formic Acid / Reducing Substances': 'Passes permanganate test > 2 hrs',
-      'Heavy Metals (Pb)': '≤ 1 ppm',
-      'Color (Pt-Co)': '≤ 10'
-    }
-  },
-  {
-    id: 'textile-8',
-    name: 'Optical Brightener CBS-X Tinopal Type',
-    cas: '27344-41-8',
-    formula: 'C28H20S2O6Na2',
-    grade: 'High Soluble Distyrylbiphenyl',
-    category: 'Textiles & Detergents',
-    packaging: '25 kg Fibre Drums with PE liner',
-    packOptions: ['25 kg Fibre Drums', '25 kg Kraft Bags with foil liner'],
-    image: 'https://images.unsplash.com/photo-1518152006812-edab29b069ac?auto=format&fit=crop&w=800&q=80',
-    description: 'Fluorescent whitening agent of the distyryl biphenyl class. Imparts brilliant optical whiteness and bluish hue to cellulose and synthetic fibers even at low wash temperatures with superior chlorine stability.',
-    applications: ['Synthetic Laundry Detergents', 'Fabric Softeners & Conditioners', 'Textile Finishing & Bleaching', 'Paper Surface Fluorescent Coating'],
-    specifications: {
-      'Active Substance': '≥ 90.0%',
-      'Extinction Coefficient (1%, 1cm @ 348-350nm)': '≥ 1120',
-      'Moisture Content': '≤ 5.0%',
-      'Appearance': 'Bright greenish-yellow free flowing granules',
-      'Water Solubility @ 25°C': '≥ 25 g/L',
-      'Light Fastness': 'Grade 4 - 5'
-    }
-  }
-];
+const slugify = (value) => value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const getHighResolutionProductImage = (image) => {
+  if (!image?.includes('multimedia.3m.com/mws/media/')) return image;
+  return /[?&]width=\d+/i.test(image)
+    ? image.replace(/([?&]width=)\d+/i, '$11200')
+    : `${image}?width=1200`;
+};
 
-// 5 Industrial Categories with Icons
-const CATEGORIES = [
-  { name: 'Pharmaceuticals & Healthcare', icon: FlaskConical },
-  { name: 'Agriculture & Fertilizers', icon: Sprout },
-  { name: 'Paints, Coatings & Inks', icon: Paintbrush },
-  { name: 'Water Treatment & Environmental', icon: Droplets },
-  { name: 'Textiles & Detergents', icon: Sparkles },
-];
+const getPageFromPath = (pathname = window.location.pathname) => {
+  const [type, value] = pathname.split('/').filter(Boolean);
+  if (type === 'category' && value) return { type, value };
+  if (type === 'group' && value) return { type, value };
+  if (type === 'product' && value) return { type, value };
+  if (type === 'brand' && value) return { type, value: decodeURIComponent(value) };
+  return { type: 'home', value: '' };
+};
 
 // 7-Step Workflow Process Data
 const PROCESS_STEPS = [
   {
     step: '01',
-    title: 'Understanding Your Requirement',
-    desc: 'We start by listening — mapping your specifications, industry, and compliance needs.',
+    title: 'Choose a Product',
+    desc: 'Browse products by industry, then open a product line to view its sub-products.',
     icon: Search
   },
   {
     step: '02',
-    title: 'Product Selection',
-    desc: 'We identify the right product from our trusted manufacturing partners.',
+    title: 'Select a Product Variant',
+    desc: 'Review available product types, sizes, and pack quantities.',
     icon: FlaskConical
   },
   {
     step: '03',
-    title: 'Quality Verification',
-    desc: 'Every item is checked against quality, performance, and compliance criteria.',
+    title: 'Check Manufacturer Information',
+    desc: 'Review available product information and follow the manufacturer reference where listed.',
     icon: ShieldCheck
   },
   {
     step: '04',
-    title: 'Order Processing',
-    desc: 'Fast, transparent order handling with clear communication throughout.',
+    title: 'Add to Enquiry Cart',
+    desc: 'Add the selected product, size, and quantity to your enquiry cart.',
     icon: ClipboardCheck
   },
   {
     step: '05',
-    title: 'Safe Packaging',
-    desc: 'Products packaged to preserve sterility and integrity in transit.',
+    title: 'Send an Enquiry',
+    desc: 'Share your requirements with the Maruti Chemicals procurement team.',
     icon: Package
   },
   {
     step: '06',
-    title: 'Timely Delivery',
-    desc: 'A reliable distribution network delivers on schedule, across India.',
+    title: 'Confirm Availability',
+    desc: 'Confirm current regional availability, compatibility, and fulfilment details.',
     icon: Truck
   },
   {
     step: '07',
-    title: 'Customer Support',
-    desc: 'Dedicated after-sales support keeps your operations running smoothly.',
+    title: 'Get Product Support',
+    desc: 'Contact Maruti Chemicals for assistance with your product enquiry.',
     icon: Headphones
   }
 ];
 
 // Principals & Partner Brands
-const PRINCIPAL_BRANDS = [
-  'AquaTest',
-  'BioSecure',
-  'MediPack',
-  'PureFlow',
-  'SterileTech',
-  'LabTrust',
-  'PharmaSteril',
-  'CleanLab Systems'
-];
+const PRINCIPAL_BRANDS = ['3M'];
 
-// Regulatory Credentials
+// Product information highlights
 const CREDENTIALS = [
   {
-    title: 'Drug License',
-    desc: 'Valid Drug License for regulated distribution',
+    title: '3M India Product Links',
+    desc: 'Manufacturer pages are linked from product listings where available',
     icon: Building2
   },
   {
-    title: 'GST Registered',
-    desc: 'GST Registered Business Entity',
+    title: 'Product Variants',
+    desc: 'Choose listed product types and sizes on the product detail page',
     icon: FileText
   },
   {
-    title: 'ISO 9001:2015',
-    desc: 'Quality Management aligned processes',
+    title: 'Availability Check',
+    desc: 'Confirm stock, product codes, and pack sizes with the manufacturer',
     icon: Award
   },
   {
-    title: 'Compliance Assured',
-    desc: 'Products meeting regulatory expectations',
+    title: 'Product Enquiries',
+    desc: 'Send a request with the product and size you need',
     icon: ShieldCheck
   }
 ];
@@ -1023,10 +158,16 @@ const CREDENTIALS = [
 export default function App() {
   // Theme state
   const [darkMode, setDarkMode] = useState(false);
+  const [page, setPage] = useState(() => getPageFromPath());
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [industriesMenuOpen, setIndustriesMenuOpen] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   // Search & Filter state
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedVariant, setSelectedVariant] = useState('');
+  const [detailQuantity, setDetailQuantity] = useState('1');
 
   // RFQ Cart state
   const [cart, setCart] = useState([]);
@@ -1050,6 +191,47 @@ export default function App() {
     instructions: ''
   });
 
+  const navigateTo = (path) => {
+    if (window.location.pathname !== path) window.history.pushState({}, '', path);
+    const nextPage = getPageFromPath(path);
+    setPage(nextPage);
+    setSelectedCategory(nextPage.type === 'category'
+      ? CATEGORIES.find((category) => slugify(category.name) === nextPage.value)?.name || 'All'
+      : 'All');
+    setIndustriesMenuOpen(false);
+    setMobileMenuOpen(false);
+    setSearchQuery('');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    const handlePopState = () => {
+      const nextPage = getPageFromPath();
+      setPage(nextPage);
+      setSelectedCategory(nextPage.type === 'category'
+        ? CATEGORIES.find((category) => slugify(category.name) === nextPage.value)?.name || 'All'
+        : 'All');
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const activeCategory = page.type === 'category'
+    ? CATEGORIES.find((category) => slugify(category.name) === page.value)
+    : null;
+  const activeProductCategory = page.type === 'group'
+    ? PRODUCT_CATEGORIES.find((category) => slugify(category.name) === page.value)
+    : null;
+  const activeProduct = page.type === 'product'
+    ? PRODUCT_LISTINGS.find((product) => product.id === page.value)
+    : null;
+
+  useEffect(() => {
+    setSelectedVariant(activeProduct?.packOptions[0] || '');
+    setDetailQuantity('1');
+    setSelectedImageIndex(0);
+  }, [activeProduct?.id]);
+
   // Toggle Dark Mode class on document element
   useEffect(() => {
     if (darkMode) {
@@ -1060,30 +242,57 @@ export default function App() {
   }, [darkMode]);
 
   // Cart Helper functions
-  const isInCart = (productId) => cart.some(item => item.product.id === productId);
+  const isInCart = (productId, packaging) => cart.some(item =>
+    item.product.id === productId && (packaging === undefined || item.packaging === packaging)
+  );
 
-  const toggleCartItem = (product) => {
-    if (isInCart(product.id)) {
-      setCart(cart.filter(item => item.product.id !== product.id));
+  const toggleCartItem = (product, variant = product.packOptions[0], quantity = '1') => {
+    const cartItemId = `${product.id}::${variant}`;
+    if (isInCart(product.id, variant)) {
+      setCart(cart.filter(item => item.cartItemId !== cartItemId));
     } else {
       setCart([...cart, {
+        cartItemId,
         product,
-        quantity: '1 Metric Ton (MT)',
-        packaging: product.packaging || product.packOptions[0]
+        quantity,
+        packaging: variant
       }]);
     }
   };
 
-  const updateCartItemQuantity = (productId, newQuantity) => {
-    setCart(cart.map(item => item.product.id === productId ? { ...item, quantity: newQuantity } : item));
+  const updateCartItemQuantity = (cartItemId, newQuantity) => {
+    setCart(cart.map(item => item.cartItemId === cartItemId ? { ...item, quantity: newQuantity } : item));
   };
 
-  const updateCartItemPackaging = (productId, newPackaging) => {
-    setCart(cart.map(item => item.product.id === productId ? { ...item, packaging: newPackaging } : item));
+  const updateCartItemPackaging = (cartItemId, newPackaging) => {
+    setCart(currentCart => {
+      const currentItem = currentCart.find(item => item.cartItemId === cartItemId);
+      if (!currentItem) return currentCart;
+
+      const existingVariant = currentCart.find(item =>
+        item.cartItemId !== cartItemId &&
+        item.product.id === currentItem.product.id &&
+        item.packaging === newPackaging
+      );
+
+      if (existingVariant) {
+        return currentCart
+          .filter(item => item.cartItemId !== cartItemId)
+          .map(item => item.cartItemId === existingVariant.cartItemId
+            ? { ...item, quantity: String(Number(item.quantity) + Number(currentItem.quantity)) }
+            : item
+          );
+      }
+
+      return currentCart.map(item => item.cartItemId === cartItemId
+        ? { ...item, cartItemId: `${item.product.id}::${newPackaging}`, packaging: newPackaging }
+        : item
+      );
+    });
   };
 
-  const removeCartItem = (productId) => {
-    setCart(cart.filter(item => item.product.id !== productId));
+  const removeCartItem = (cartItemId) => {
+    setCart(cart.filter(item => item.cartItemId !== cartItemId));
   };
 
   const clearCart = () => {
@@ -1092,22 +301,45 @@ export default function App() {
 
   // Live filtered products calculation
   const filteredProducts = useMemo(() => {
-    return CHEMICAL_PRODUCTS.filter(product => {
-      if (selectedCategory !== 'All' && product.category !== selectedCategory) {
+    const query = searchQuery.toLowerCase().trim();
+    return PRODUCT_LISTINGS.filter(product => {
+      if (!query && page.type === 'category' && !activeCategory?.productCategories.includes(product.category)) {
         return false;
       }
-      if (searchQuery.trim() !== '') {
-        const query = searchQuery.toLowerCase().trim();
-        const matchName = product.name.toLowerCase().includes(query);
-        const matchCas = product.cas.toLowerCase().includes(query);
-        const matchFormula = product.formula.toLowerCase().includes(query);
-        const matchGrade = product.grade.toLowerCase().includes(query);
-        const matchApps = product.applications.some(app => app.toLowerCase().includes(query));
-        return matchName || matchCas || matchFormula || matchGrade || matchApps;
+      if (!query && page.type === 'group' && product.category !== activeProductCategory?.name) return false;
+      if (!query && page.type === 'brand' && product.brand.toLowerCase() !== page.value.toLowerCase()) return false;
+      if (query) {
+        const searchableText = [
+          product.id,
+          product.name,
+          product.brand,
+          product.line,
+          product.category,
+          ...INDUSTRY_CATEGORIES
+            .filter(industry => industry.productCategories.includes(product.category))
+            .map(industry => industry.name),
+          product.model,
+          ...product.packOptions,
+          ...product.applications,
+          ...Object.values(product.specifications)
+        ].join(' ').toLowerCase();
+        const normalizedQuery = query.endsWith('s') ? query.slice(0, -1) : query;
+        return searchableText.includes(query) || searchableText.includes(normalizedQuery);
       }
       return true;
     });
-  }, [searchQuery, selectedCategory]);
+  }, [searchQuery, page, activeCategory, activeProductCategory]);
+
+  const visibleProductCategories = PRODUCT_CATEGORIES.filter(category =>
+    filteredProducts.some(product => product.category === category.name)
+  );
+  const visibleIndustryCategories = CATEGORIES.filter(category =>
+    filteredProducts.some(product => category.productCategories.includes(product.category))
+  );
+  const searchIsActive = searchQuery.trim().length > 0;
+  const activeProductImages = activeProduct
+    ? (activeProduct.gallery?.length ? activeProduct.gallery : activeProduct.image ? [activeProduct.image] : [])
+    : [];
 
   const openSingleProductRfq = (product) => {
     setRfqTargetProduct(product);
@@ -1135,7 +367,8 @@ export default function App() {
   };
 
   const getCategoryCartCount = (catName) => {
-    return cart.filter(item => item.product.category === catName).length;
+    const category = CATEGORIES.find((item) => item.name === catName);
+    return cart.filter(item => category?.productCategories.includes(item.product.category)).length;
   };
 
   return (
@@ -1146,15 +379,15 @@ export default function App() {
       {/* ========================================================
           1. STICKY GLOBAL HEADER (Distinctive Brand + Search + Only 1 Contact Us)
          ======================================================== */}
-      <header className={`sticky top-0 z-40 w-full h-20 backdrop-blur-md border-b transition-colors duration-200 ${
+      <header className={`sticky top-0 z-40 w-full backdrop-blur-md border-b transition-colors duration-200 ${
         darkMode ? 'bg-slate-900/90 border-slate-800' : 'bg-white/95 border-sky-100 shadow-sm'
       }`}>
-        <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+        <div className="max-w-7xl mx-auto h-20 px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
           
           {/* Brand Logo */}
           <div
             className="flex items-center gap-3 cursor-pointer group transition-transform duration-200 hover:scale-[1.02]"
-            onClick={() => { setSelectedCategory('All'); setSearchQuery(''); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+            onClick={() => navigateTo('/')}
           >
             <div className="w-11 h-11 rounded-xl flex items-center justify-center shadow-md bg-gradient-to-tr from-[#0284c7] to-[#4fc3f7] text-white group-hover:shadow-sky-500/30 transition-all duration-300">
               <FlaskConical className="w-6 h-6" />
@@ -1175,67 +408,76 @@ export default function App() {
           </div>
 
           {/* Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-6 text-sm font-semibold">
+          <nav className="hidden xl:flex items-center gap-3 whitespace-nowrap text-xs font-semibold">
             <a
-              href="#products"
+              href="/#products"
               className="relative text-slate-700 dark:text-slate-300 hover:text-[#0284c7] dark:hover:text-[#4fc3f7] transition-colors py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#0284c7] dark:after:bg-[#4fc3f7] hover:after:w-full after:transition-all after:duration-300"
             >
               Products
             </a>
+            <div className="relative">
+              <button
+                type="button"
+                aria-haspopup="true"
+                aria-expanded={industriesMenuOpen}
+                onClick={() => setIndustriesMenuOpen(open => !open)}
+                className="whitespace-nowrap text-slate-700 dark:text-slate-300 hover:text-[#0284c7] dark:hover:text-[#4fc3f7]"
+              >
+                Industries <ChevronRight className={`inline h-3.5 w-3.5 transition-transform ${industriesMenuOpen ? 'rotate-[270deg]' : 'rotate-90'}`} />
+              </button>
+              {industriesMenuOpen && (
+                <div
+                  className={`absolute left-0 top-full z-[70] mt-3 grid w-[min(88vw,22rem)] grid-cols-1 gap-1 rounded-xl border p-2 shadow-2xl ${
+                    darkMode ? 'border-slate-700 bg-slate-900' : 'border-slate-200 bg-white'
+                  }`}
+                >
+                  {CATEGORIES.map((category) => (
+                    <button
+                      key={category.name}
+                      type="button"
+                      onClick={() => navigateTo(`/category/${slugify(category.name)}`)}
+                      className="w-full rounded-lg px-3 py-2.5 text-left text-xs leading-snug hover:bg-sky-50 dark:hover:bg-slate-800"
+                    >
+                      {category.name}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
             <a
-              href="#sectors"
-              className="relative text-slate-700 dark:text-slate-300 hover:text-[#0284c7] dark:hover:text-[#4fc3f7] transition-colors py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#0284c7] dark:after:bg-[#4fc3f7] hover:after:w-full after:transition-all after:duration-300"
-            >
-              Industries
-            </a>
-            <a
-              href="#process"
+              href="/#process"
               className="relative text-slate-700 dark:text-slate-300 hover:text-[#0284c7] dark:hover:text-[#4fc3f7] transition-colors py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#0284c7] dark:after:bg-[#4fc3f7] hover:after:w-full after:transition-all after:duration-300"
             >
               Our Process
             </a>
             <a
-              href="#principals"
+              href="/#principals"
               className="relative text-slate-700 dark:text-slate-300 hover:text-[#0284c7] dark:hover:text-[#4fc3f7] transition-colors py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#0284c7] dark:after:bg-[#4fc3f7] hover:after:w-full after:transition-all after:duration-300"
             >
               Principals & Credentials
             </a>
             <a
-              href="#specs-info"
+              href="/#specs-info"
               className="relative text-slate-700 dark:text-slate-300 hover:text-[#0284c7] dark:hover:text-[#4fc3f7] transition-colors py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#0284c7] dark:after:bg-[#4fc3f7] hover:after:w-full after:transition-all after:duration-300"
             >
               Quality & COA
             </a>
           </nav>
 
-          {/* Live Global Search Bar (Desktop) */}
-          <div className="hidden md:flex flex-1 max-w-sm relative">
-            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-              <Search className="w-4 h-4" />
-            </div>
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search by Chemical, CAS (e.g. 56-81-5), Formula..."
-              className={`w-full pl-10 pr-9 py-2 rounded-xl text-xs sm:text-sm border focus:outline-none focus:ring-2 focus:ring-[#0284c7] transition ${
-                darkMode
-                  ? 'bg-slate-800 border-slate-700 text-slate-100 placeholder-slate-400'
-                  : 'bg-slate-100/80 border-slate-200 text-slate-900 placeholder-slate-500'
-              }`}
-            />
-            {searchQuery && (
-              <button
-                onClick={() => setSearchQuery('')}
-                className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            )}
-          </div>
-
           {/* Action Controls: Dark Mode Toggle, RFQ Cart & ONE Contact Us Button */}
           <div className="flex items-center gap-2.5 sm:gap-3">
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={mobileMenuOpen}
+              className={`xl:hidden p-2.5 rounded-xl border transition ${
+                darkMode
+                  ? 'bg-slate-800 border-slate-700 text-slate-200'
+                  : 'bg-white border-slate-200 text-slate-700'
+              }`}
+            >
+              {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+            </button>
             {/* Dark/Light Mode Button */}
             <button
               onClick={() => setDarkMode(!darkMode)}
@@ -1272,23 +514,62 @@ export default function App() {
           </div>
         </div>
 
-        {/* Mobile Search Bar beneath header */}
-        <div className={`md:hidden px-4 pb-3 pt-1 border-t ${darkMode ? 'border-slate-800 bg-slate-900' : 'border-slate-100 bg-white'}`}>
-          <div className="relative">
-            <Search className="absolute left-3 top-2.5 w-4 h-4 text-slate-400" />
+        {mobileMenuOpen && (
+          <nav className={`xl:hidden border-t px-4 py-3 ${darkMode ? 'border-slate-800 bg-slate-900' : 'border-slate-100 bg-white'}`}>
+            <div className="mx-auto flex max-w-7xl flex-col gap-1 text-sm font-semibold">
+              <a href="/#products" onClick={() => setMobileMenuOpen(false)} className="rounded-lg px-3 py-2 hover:bg-sky-50 dark:hover:bg-slate-800">
+                Products
+              </a>
+              <details className="rounded-lg">
+                <summary className="cursor-pointer list-none rounded-lg px-3 py-2 hover:bg-sky-50 dark:hover:bg-slate-800">
+                  Industries <ChevronRight className="inline h-3.5 w-3.5 rotate-90" />
+                </summary>
+                <div className="grid gap-1 pl-3">
+                  {CATEGORIES.map((category) => (
+                    <button
+                      key={category.name}
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        navigateTo(`/category/${slugify(category.name)}`);
+                      }}
+                      className="rounded-lg px-3 py-2 text-left text-xs hover:bg-sky-50 dark:hover:bg-slate-800"
+                    >
+                      {category.name}
+                    </button>
+                  ))}
+                </div>
+              </details>
+              <a href="/#process" onClick={() => setMobileMenuOpen(false)} className="rounded-lg px-3 py-2 hover:bg-sky-50 dark:hover:bg-slate-800">
+                Our Process
+              </a>
+              <a href="/#principals" onClick={() => setMobileMenuOpen(false)} className="rounded-lg px-3 py-2 hover:bg-sky-50 dark:hover:bg-slate-800">
+                Principals & Credentials
+              </a>
+              <a href="/#specs-info" onClick={() => setMobileMenuOpen(false)} className="rounded-lg px-3 py-2 hover:bg-sky-50 dark:hover:bg-slate-800">
+                Quality & COA
+              </a>
+            </div>
+          </nav>
+        )}
+
+        {/* Search bar beneath the navigation */}
+        <div className={`px-4 sm:px-6 lg:px-8 pb-3 pt-2 border-t ${darkMode ? 'border-slate-800 bg-slate-900' : 'border-slate-100 bg-white'}`}>
+          <div className="max-w-7xl mx-auto relative">
+            <Search className="absolute left-3.5 top-2.5 w-4 h-4 text-slate-400" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search chemicals, CAS numbers..."
-              className={`w-full pl-9 pr-8 py-2 rounded-lg text-xs border focus:outline-none focus:ring-2 focus:ring-[#0284c7] ${
-                darkMode ? 'bg-slate-800 border-slate-700 text-white' : 'bg-slate-50 border-slate-200 text-slate-900'
+              placeholder="Search medical products, brands, models, or sizes..."
+              className={`w-full pl-10 pr-9 py-2 rounded-xl text-xs sm:text-sm border focus:outline-none focus:ring-2 focus:ring-[#0284c7] transition ${
+                darkMode ? 'bg-slate-800 border-slate-700 text-slate-100 placeholder-slate-400' : 'bg-slate-100/80 border-slate-200 text-slate-900 placeholder-slate-500'
               }`}
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-2.5 top-2.5 text-slate-400"
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                aria-label="Clear product search"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -1300,6 +581,7 @@ export default function App() {
       {/* ========================================================
           2. HIGH-IMPACT CHEMICAL HERO (Distinctive Prompt Layout with Hover Effects)
          ======================================================== */}
+      {page.type === 'home' && (
       <section className={`relative overflow-hidden border-b transition-colors duration-200 ${
         darkMode ? 'bg-gradient-to-b from-slate-900 to-slate-950 border-slate-800' : 'bg-gradient-to-b from-sky-50 via-white to-[#faf9f6] border-sky-100'
       }`}>
@@ -1308,18 +590,18 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 relative">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold tracking-wide uppercase mb-5 bg-sky-100 dark:bg-sky-950 text-[#0284c7] dark:text-[#4fc3f7] border border-sky-200 dark:border-sky-800 shadow-sm">
-              <ShieldCheck className="w-4 h-4 text-[#0284c7]" /> ISO 9001:2015 & REACH Compliant Manufacturer & Exporter
+              <ShieldCheck className="w-4 h-4 text-[#0284c7]" /> Maruti Chemicals · Healthcare Supply
             </div>
 
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-slate-950 dark:text-white">
-              Precision Chemical Distribution &{' '}
+                Maruti Chemicals: Medical Products for{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0284c7] to-[#4fc3f7]">
-                Global Export Portal
+                  Clinical Care
               </span>
             </h1>
 
             <p className="mt-5 text-base sm:text-lg text-slate-700 dark:text-slate-300 leading-relaxed font-normal">
-              Serving industrial procurement teams worldwide. Explore certified chemical raw materials across 5 core industries, review technical specification sheets, and compile multi-product commercial RFQs with verified delivery guarantees.
+                Maruti Chemicals is a supplier and distributor serving pharmaceutical, industrial, and healthcare requirements. Browse the medical products listed by industry, review available product sizes, and send us an enquiry. 3M is the brand shown for the medical product listings below.
             </p>
 
             {/* Quick Hero CTAs with Hover Lift */}
@@ -1355,8 +637,8 @@ export default function App() {
                   <Globe2 className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white font-mono">50+</div>
-                  <div className="text-xs font-medium text-slate-500 dark:text-slate-400">Export Countries</div>
+                  <div className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white font-mono">{CATEGORIES.length}</div>
+                  <div className="text-xs font-medium text-slate-500 dark:text-slate-400">Industries Served</div>
                 </div>
               </div>
             </div>
@@ -1369,8 +651,8 @@ export default function App() {
                   <Package className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white font-mono">15,000+</div>
-                  <div className="text-xs font-medium text-slate-500 dark:text-slate-400">MT Shipped Annually</div>
+                  <div className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white font-mono">{PRODUCT_LISTINGS.length}</div>
+                  <div className="text-xs font-medium text-slate-500 dark:text-slate-400">Product Families</div>
                 </div>
               </div>
             </div>
@@ -1383,8 +665,8 @@ export default function App() {
                   <Clock className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white font-mono">4-Hour</div>
-                  <div className="text-xs font-medium text-slate-500 dark:text-slate-400">RFQ Quote SLA</div>
+                  <div className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white font-mono">3M</div>
+                  <div className="text-xs font-medium text-slate-500 dark:text-slate-400">Listed Product Brand</div>
                 </div>
               </div>
             </div>
@@ -1397,42 +679,234 @@ export default function App() {
                   <Award className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white font-mono">100%</div>
-                  <div className="text-xs font-medium text-slate-500 dark:text-slate-400">Batch COA Assured</div>
+                  <div className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white font-mono">RFQ</div>
+                  <div className="text-xs font-medium text-slate-500 dark:text-slate-400">Product Enquiries</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </section>
+      )}
 
       {/* ========================================================
           3. INDUSTRIAL CATALOG & MULTI-PRODUCT RFQ ENGINE (#products)
          ======================================================== */}
+      {activeProduct && !searchIsActive ? (
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+        <button
+          onClick={() => navigateTo(`/group/${slugify(activeProduct.category)}`)}
+          className="mb-6 inline-flex items-center gap-2 text-sm font-semibold text-[#0284c7] dark:text-[#4fc3f7] hover:underline"
+        >
+          <ArrowRight className="w-4 h-4 rotate-180" /> Back to {activeProduct.category} products
+        </button>
+
+        <div className={`grid grid-cols-1 lg:grid-cols-2 gap-8 rounded-3xl border p-5 sm:p-8 ${
+          darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-sky-100'
+        }`}>
+          <div>
+            <div className="relative flex min-h-[22rem] items-center justify-center overflow-hidden rounded-2xl bg-slate-100 dark:bg-slate-800 sm:min-h-[30rem]">
+              {activeProductImages.length > 0 ? (
+                <>
+                  <img
+                    src={getHighResolutionProductImage(activeProductImages[selectedImageIndex] || activeProductImages[0])}
+                    alt={`${activeProduct.name}${activeProductImages.length > 1 ? ` image ${selectedImageIndex + 1}` : ''}`}
+                    className="h-full min-h-[22rem] w-full object-contain p-5 sm:min-h-[30rem] sm:p-8"
+                    onError={(event) => {
+                      event.currentTarget.classList.add('hidden');
+                      const fallback = event.currentTarget.nextElementSibling;
+                      fallback?.classList.remove('hidden');
+                      fallback?.classList.add('flex');
+                    }}
+                  />
+                  <div className="absolute inset-0 hidden items-center justify-center bg-gradient-to-br from-sky-100 via-white to-slate-200 dark:from-slate-800 dark:via-slate-900 dark:to-slate-700">
+                    <Package className="h-20 w-20 text-[#0284c7]/60 dark:text-[#4fc3f7]/60" aria-hidden="true" />
+                  </div>
+                </>
+              ) : (
+                <div className="flex min-h-[22rem] h-full w-full items-center justify-center bg-gradient-to-br from-sky-100 via-white to-slate-200 dark:from-slate-800 dark:via-slate-900 dark:to-slate-700 sm:min-h-[30rem]">
+                  <Package className="h-20 w-20 text-[#0284c7]/60 dark:text-[#4fc3f7]/60" aria-hidden="true" />
+                </div>
+              )}
+              {activeProduct.imageIsRepresentative && (
+                <span className="absolute bottom-3 left-3 rounded bg-black/70 px-2.5 py-1.5 text-[10px] font-semibold text-white">
+                  Representative 3M product-category image
+                </span>
+              )}
+            </div>
+            {activeProductImages.length > 1 && (
+              <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
+                {activeProductImages.map((image, index) => (
+                  <button
+                    key={image}
+                    type="button"
+                    onClick={() => setSelectedImageIndex(index)}
+                    aria-label={`View product image ${index + 1}`}
+                    aria-pressed={selectedImageIndex === index}
+                    className={`h-20 w-20 shrink-0 overflow-hidden rounded-lg border-2 bg-white p-1 ${
+                      selectedImageIndex === index
+                        ? 'border-[#0284c7]'
+                        : 'border-slate-200 dark:border-slate-700'
+                    }`}
+                  >
+                    <img
+                      src={getHighResolutionProductImage(image)}
+                      alt=""
+                      className="h-full w-full object-contain"
+                      loading="lazy"
+                      onError={(event) => event.currentTarget.closest('button')?.classList.add('hidden')}
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="flex flex-col">
+            <div className="flex flex-wrap gap-2">
+              <button
+                onClick={() => navigateTo(`/brand/${encodeURIComponent(activeProduct.brand)}`)}
+                className="rounded-full bg-sky-100 px-3 py-1 text-xs font-bold text-[#0284c7] hover:bg-sky-200 dark:bg-sky-950 dark:text-[#4fc3f7]"
+              >
+                {activeProduct.brand}
+              </button>
+              <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700 dark:bg-slate-800 dark:text-slate-300">
+                {activeProduct.category}
+              </span>
+            </div>
+
+            <p className="mt-4 text-sm font-semibold text-[#0284c7] dark:text-[#4fc3f7]">{activeProduct.line}</p>
+            <h1 className="mt-1 text-2xl sm:text-3xl font-extrabold text-slate-950 dark:text-white">{activeProduct.name}</h1>
+            <p className="mt-4 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{activeProduct.description}</p>
+            <div className="mt-4 grid grid-cols-1 gap-2 text-xs sm:grid-cols-2">
+              <p className="rounded-lg bg-slate-100 px-3 py-2 text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+                Product ID: <span className="font-mono font-bold text-slate-900 dark:text-white">{activeProduct.id}</span>
+              </p>
+              <p className="rounded-lg bg-slate-100 px-3 py-2 text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+                Product code / model: <span className="font-semibold text-slate-900 dark:text-white">{activeProduct.model}</span>
+              </p>
+            </div>
+
+            <div className="mt-6">
+              <label htmlFor="product-variant" className="mb-2 block text-sm font-bold text-slate-900 dark:text-white">
+                Select available type / size
+              </label>
+              <select
+                id="product-variant"
+                value={selectedVariant}
+                onChange={(event) => setSelectedVariant(event.target.value)}
+                className={`w-full rounded-xl border px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#0284c7] ${
+                  darkMode ? 'bg-slate-800 border-slate-700 text-white' : 'bg-white border-slate-300 text-slate-900'
+                }`}
+              >
+                {activeProduct.packOptions.map((option) => (
+                  <option key={option} value={option}>{option}</option>
+                ))}
+              </select>
+              <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
+                Product options are based on 3M India listings where available. Confirm current stock, product code, and pack size before ordering.
+              </p>
+            </div>
+
+            <div className="mt-5 max-w-40">
+              <label htmlFor="product-quantity" className="mb-2 block text-sm font-bold text-slate-900 dark:text-white">
+                Quantity
+              </label>
+              <input
+                id="product-quantity"
+                type="number"
+                min="1"
+                value={detailQuantity}
+                onChange={(event) => setDetailQuantity(event.target.value)}
+                className={`w-full rounded-xl border px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#0284c7] ${
+                  darkMode ? 'bg-slate-800 border-slate-700 text-white' : 'bg-white border-slate-300 text-slate-900'
+                }`}
+              />
+            </div>
+
+            <div className="mt-6 flex flex-wrap gap-3">
+              <button
+                onClick={() => toggleCartItem(activeProduct, selectedVariant, detailQuantity)}
+                className="inline-flex items-center gap-2 rounded-xl bg-[#0284c7] px-5 py-3 text-sm font-bold text-white hover:bg-[#0369a1]"
+              >
+                {isInCart(activeProduct.id, selectedVariant) ? <Trash2 className="h-4 w-4" /> : <ShoppingCart className="h-4 w-4" />}
+                {isInCart(activeProduct.id, selectedVariant) ? 'Remove this size from RFQ Cart' : 'Add selected size to cart'}
+              </button>
+              <button
+                onClick={() => openSingleProductRfq({ ...activeProduct, packaging: selectedVariant, quantity: detailQuantity })}
+                className="inline-flex items-center gap-2 rounded-xl border border-sky-200 bg-sky-50 px-5 py-3 text-sm font-bold text-[#0284c7] hover:bg-sky-100 dark:border-sky-800 dark:bg-sky-950/60 dark:text-[#4fc3f7]"
+              >
+                <Send className="h-4 w-4" /> Enquire
+              </button>
+            </div>
+
+            <a href={activeProduct.sourceUrl} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-1 text-xs font-semibold text-[#0284c7] hover:underline dark:text-[#4fc3f7]">
+              View manufacturer details on 3M India <ArrowRight className="h-3.5 w-3.5" />
+            </a>
+          </div>
+        </div>
+
+        <div className={`mt-8 rounded-2xl border p-5 sm:p-7 ${
+          darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'
+        }`}>
+          <h2 className="text-xl font-bold text-slate-950 dark:text-white">Product details</h2>
+          <dl className="mt-4 divide-y divide-slate-200 dark:divide-slate-800">
+            <div className="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3">
+              <dt className="text-sm font-semibold text-slate-600 dark:text-slate-400">Product ID</dt>
+              <dd className="font-mono text-sm text-slate-900 dark:text-white sm:col-span-2">{activeProduct.id}</dd>
+            </div>
+            {Object.entries(activeProduct.specifications).map(([label, value]) => (
+              <div key={label} className="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3">
+                <dt className="text-sm font-semibold text-slate-600 dark:text-slate-400">{label}</dt>
+                <dd className="text-sm text-slate-900 dark:text-white sm:col-span-2">{value}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </main>
+      ) : (
       <main id="products" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
         
-        {/* Industry Filter Tabs with dynamic cart badges */}
+        {/* Medical category tabs with cart badges */}
         <div id="sectors" className="flex flex-col gap-4 mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
               <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-950 dark:text-white flex items-center gap-2.5">
                 <Layers className="w-7 h-7 text-[#0284c7] dark:text-[#4fc3f7]" />
-                Industrial Chemical Catalog
+                {searchIsActive
+                  ? `Search Results for "${searchQuery.trim()}"`
+                  : activeProductCategory?.name || (activeCategory ? `Products for ${activeCategory.name}` : page.type === 'brand' ? `${page.value} Products` : 'Industries Served')}
               </h2>
               <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">
-                Filter by sector or search by chemical name, molecular formula, or CAS registry number.
+                {searchIsActive
+                  ? 'Matching products from all product categories and brands.'
+                  : activeProductCategory
+                  ? `Browse the sub-products in this 3M product line. Select one to view available types and sizes.`
+                  : activeCategory
+                  ? `Browse 3M product cards for ${activeCategory.name}. Open a product line to view its sub-products.`
+                  : page.type === 'brand'
+                    ? `Choose a product category to browse products from ${page.value}.`
+                    : 'Choose an industry to browse the 3M product lines available for that sector.'}
               </p>
             </div>
 
             <div className="text-xs font-semibold text-slate-500">
-              Showing <span className="font-bold text-[#0284c7] dark:text-[#4fc3f7]">{filteredProducts.length}</span> verified chemical products
+              Showing <span className="font-bold text-[#0284c7] dark:text-[#4fc3f7]">
+                {searchIsActive ? filteredProducts.length
+                  : page.type === 'home' ? visibleIndustryCategories.length
+                  : activeCategory || page.type === 'brand' ? visibleProductCategories.length
+                    : filteredProducts.length}
+              </span> {searchIsActive ? 'products'
+                : page.type === 'home' ? 'industries'
+                : activeCategory || page.type === 'brand' ? 'product lines'
+                  : 'sub-products'}
             </div>
           </div>
 
           {/* Category Tabs Scrollable on Mobile with Hover Effects */}
           <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none pt-2">
             <button
-              onClick={() => setSelectedCategory('All')}
+              onClick={() => navigateTo('/')}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs whitespace-nowrap transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm active:translate-y-0 ${
                 selectedCategory === 'All'
                   ? 'bg-[#0284c7] text-white shadow-md'
@@ -1441,7 +915,7 @@ export default function App() {
                     : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
               }`}
             >
-              <span>All Sectors</span>
+              <span>All Industries</span>
             </button>
 
             {CATEGORIES.map((cat) => {
@@ -1452,7 +926,7 @@ export default function App() {
               return (
                 <button
                   key={cat.name}
-                  onClick={() => setSelectedCategory(cat.name)}
+                  onClick={() => navigateTo(`/category/${slugify(cat.name)}`)}
                   className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-xs whitespace-nowrap transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm active:translate-y-0 ${
                     isSelected
                       ? 'bg-[#0284c7] text-white shadow-md'
@@ -1474,13 +948,25 @@ export default function App() {
           </div>
 
           {/* Active Filter Badges */}
-          {(selectedCategory !== 'All' || searchQuery !== '') && (
+          {(activeCategory || activeProductCategory || page.type === 'brand' || searchQuery !== '') && (
             <div className="flex items-center gap-2 pt-1 text-xs">
               <span className="text-slate-500">Active filters:</span>
-              {selectedCategory !== 'All' && (
+              {page.type === 'brand' && (
                 <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-sky-100 dark:bg-sky-950 text-sky-800 dark:text-sky-300 border border-sky-200 dark:border-sky-800">
-                  Sector: {selectedCategory}
-                  <button onClick={() => setSelectedCategory('All')}><X className="w-3 h-3 hover:text-red-500" /></button>
+                  Brand: {page.value}
+                  <button onClick={() => navigateTo('/')} aria-label="Clear brand filter"><X className="w-3 h-3 hover:text-red-500" /></button>
+                </span>
+              )}
+              {activeCategory && (
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-sky-100 dark:bg-sky-950 text-sky-800 dark:text-sky-300 border border-sky-200 dark:border-sky-800">
+                  Industry: {activeCategory.name}
+                  <button onClick={() => navigateTo('/')} aria-label="Clear category filter"><X className="w-3 h-3 hover:text-red-500" /></button>
+                </span>
+              )}
+              {activeProductCategory && (
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-sky-100 dark:bg-sky-950 text-sky-800 dark:text-sky-300 border border-sky-200 dark:border-sky-800">
+                  Product category: {activeProductCategory.name}
+                  <button onClick={() => navigateTo('/')} aria-label="Clear product category filter"><X className="w-3 h-3 hover:text-red-500" /></button>
                 </span>
               )}
               {searchQuery && (
@@ -1490,7 +976,7 @@ export default function App() {
                 </span>
               )}
               <button
-                onClick={() => { setSelectedCategory('All'); setSearchQuery(''); }}
+                onClick={() => navigateTo('/')}
                 className="text-[#0284c7] dark:text-[#4fc3f7] font-semibold hover:underline ml-2"
               >
                 Clear filters
@@ -1507,16 +993,111 @@ export default function App() {
             darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'
           }`}>
             <AlertCircle className="w-12 h-12 text-slate-400 mx-auto mb-4" />
-            <h3 className="text-lg font-bold text-slate-900 dark:text-white">No Chemicals Matched Your Criteria</h3>
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white">No Medical Products Matched Your Criteria</h3>
             <p className="mt-1 text-xs text-slate-500 max-w-md mx-auto">
-              We couldn't find any products matching "{searchQuery}". Try searching by CAS number (e.g., 56-81-5), common name, or reset the filters.
+              We couldn't find products matching "{searchQuery}". Try a product name, brand (such as 3M), product category, model, or listed size.
             </p>
             <button
-              onClick={() => { setSelectedCategory('All'); setSearchQuery(''); }}
+              onClick={() => navigateTo('/')}
               className="mt-5 px-4 py-2 rounded-xl text-xs font-semibold bg-[#0284c7] text-white hover:bg-[#0369a1]"
             >
               Reset Filters
             </button>
+          </div>
+        ) : page.type === 'home' && !searchIsActive ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {visibleIndustryCategories.map((category) => {
+              const Icon = category.icon;
+              const groupCount = PRODUCT_CATEGORIES.filter(productCategory =>
+                category.productCategories.includes(productCategory.name) &&
+                filteredProducts.some(product => product.category === productCategory.name)
+              ).length;
+
+              return (
+                <button
+                  key={category.name}
+                  onClick={() => navigateTo(`/category/${slugify(category.name)}`)}
+                  className={`group rounded-2xl border p-6 text-left transition-all hover:-translate-y-1 hover:border-sky-300 hover:shadow-xl dark:hover:border-sky-700 ${
+                    darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-sky-100'
+                  }`}
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-sky-100 text-[#0284c7] dark:bg-sky-950 dark:text-[#4fc3f7]">
+                      <Icon className="h-6 w-6" />
+                    </span>
+                    <span className="rounded-full bg-slate-100 px-3 py-1 text-[11px] font-semibold text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+                      {groupCount} 3M product lines
+                    </span>
+                  </div>
+                  <h3 className="mt-5 text-lg font-bold text-slate-950 group-hover:text-[#0284c7] dark:text-white dark:group-hover:text-[#4fc3f7]">
+                    {category.name}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                    Browse medical and healthcare products available to {category.name.toLowerCase()} through Maruti Chemicals.
+                  </p>
+                  <span className="mt-5 inline-flex items-center gap-2 text-xs font-bold text-[#0284c7] dark:text-[#4fc3f7]">
+                    Browse products <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        ) : (activeCategory || page.type === 'brand') && !searchIsActive ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+            {visibleProductCategories.map((productCategory) => {
+              const Icon = productCategory.icon;
+              const categoryProducts = filteredProducts.filter(product => product.category === productCategory.name);
+              const imageProduct = categoryProducts.find(product => product.image);
+
+              return (
+                <button
+                  key={productCategory.name}
+                  onClick={() => navigateTo(`/group/${slugify(productCategory.name)}`)}
+                  className={`group overflow-hidden rounded-2xl border text-left transition-all hover:-translate-y-1 hover:border-sky-300 hover:shadow-xl dark:hover:border-sky-700 ${
+                    darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-sky-100'
+                  }`}
+                >
+                  <div className="relative flex h-44 items-center justify-center overflow-hidden bg-slate-100 dark:bg-slate-800">
+                    {imageProduct ? (
+                      <>
+                        <img
+                          src={getHighResolutionProductImage(imageProduct.image)}
+                          alt={productCategory.name}
+                          className="h-full w-full object-contain p-5 transition-transform duration-500 group-hover:scale-105"
+                          loading="lazy"
+                          onError={(event) => {
+                            event.currentTarget.classList.add('hidden');
+                            const fallback = event.currentTarget.nextElementSibling;
+                            fallback?.classList.remove('hidden');
+                            fallback?.classList.add('flex');
+                          }}
+                        />
+                        <Icon className="hidden h-16 w-16 text-[#0284c7]/60 dark:text-[#4fc3f7]/60" />
+                      </>
+                    ) : (
+                      <Icon className="h-16 w-16 text-[#0284c7]/60 dark:text-[#4fc3f7]/60" />
+                    )}
+                    <span className="absolute right-3 top-3 rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-bold text-slate-700 dark:bg-slate-900/90 dark:text-slate-200">
+                      {categoryProducts.length} sub-products
+                    </span>
+                  </div>
+                  <div className="p-5">
+                    <p className="text-[11px] font-bold uppercase tracking-wide text-[#0284c7] dark:text-[#4fc3f7]">
+                      3M · Product line
+                    </p>
+                    <h3 className="mt-1 text-base font-bold text-slate-950 group-hover:text-[#0284c7] dark:text-white dark:group-hover:text-[#4fc3f7]">
+                      {productCategory.name}
+                    </h3>
+                    <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-slate-600 dark:text-slate-400">
+                      {categoryProducts.map(product => product.name).join(' · ')}
+                    </p>
+                    <span className="mt-4 inline-flex items-center gap-2 text-xs font-bold text-[#0284c7] dark:text-[#4fc3f7]">
+                      View sub-products <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </span>
+                  </div>
+                </button>
+              );
+            })}
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -1544,14 +1125,30 @@ export default function App() {
                   )}
 
                   {/* Top Image Container with Zoom Effect */}
-                  <div className="relative h-48 w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=800&q=80'; }}
-                      className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-                      loading="lazy"
-                    />
+                  <div className="relative h-56 w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
+                    {product.image ? (
+                      <>
+                        <img
+                          src={getHighResolutionProductImage(product.image)}
+                          alt={product.name}
+                          className="w-full h-full object-contain p-5 transition-transform duration-700 ease-out group-hover:scale-105"
+                          loading="lazy"
+                          onError={(event) => {
+                            event.currentTarget.classList.add('hidden');
+                            const fallback = event.currentTarget.nextElementSibling;
+                            fallback?.classList.remove('hidden');
+                            fallback?.classList.add('flex');
+                          }}
+                        />
+                        <div className="hidden h-full items-center justify-center bg-gradient-to-br from-sky-100 via-white to-slate-200 dark:from-slate-800 dark:via-slate-900 dark:to-slate-700">
+                          <Package className="w-16 h-16 text-[#0284c7]/60 dark:text-[#4fc3f7]/60" aria-hidden="true" />
+                        </div>
+                      </>
+                    ) : (
+                      <div className="flex h-full items-center justify-center bg-gradient-to-br from-sky-100 via-white to-slate-200 dark:from-slate-800 dark:via-slate-900 dark:to-slate-700">
+                        <Package className="w-16 h-16 text-[#0284c7]/60 dark:text-[#4fc3f7]/60" aria-hidden="true" />
+                      </div>
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
 
                     {/* Sector pill overlay */}
@@ -1559,30 +1156,45 @@ export default function App() {
                       <span className="px-2.5 py-0.5 rounded-md font-medium backdrop-blur-md bg-slate-900/70 border border-white/10 truncate max-w-[170px]">
                         {product.category}
                       </span>
-                      <span className="font-mono text-[11px] px-2 py-0.5 rounded bg-black/60 text-[#4fc3f7] font-semibold">
-                        CAS: {product.cas}
+                      <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-black/70 text-[#4fc3f7] font-semibold">
+                        ID: {product.id}
                       </span>
                     </div>
+                    {product.imageIsRepresentative && (
+                      <span className="absolute left-3 top-3 rounded bg-black/65 px-2 py-1 text-[9px] font-semibold text-white">
+                        Representative category image
+                      </span>
+                    )}
                   </div>
 
                   {/* Body Content */}
                   <div className="p-5 flex-1 flex flex-col">
-                    <h3 className="font-bold text-base text-slate-950 dark:text-white line-clamp-1 group-hover:text-[#0284c7] dark:group-hover:text-[#4fc3f7] transition-colors">
+                    <button
+                      onClick={() => navigateTo(`/product/${product.id}`)}
+                      className="text-left font-bold text-base text-slate-950 dark:text-white line-clamp-1 group-hover:text-[#0284c7] dark:group-hover:text-[#4fc3f7] transition-colors"
+                    >
                       {product.name}
-                    </h3>
+                    </button>
 
-                    {/* Formula & Grade Metadata */}
+                    {/* Brand and product-family metadata */}
                     <div className="mt-2 flex flex-wrap items-center gap-1.5 text-xs">
-                      <span className="font-mono px-2 py-0.5 rounded font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
-                        {product.formula}
-                      </span>
+                      <button
+                        onClick={() => navigateTo(`/brand/${encodeURIComponent(product.brand)}`)}
+                        className="font-mono px-2 py-0.5 rounded font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-sky-400"
+                        aria-label={`View all ${product.brand} products`}
+                      >
+                        {product.brand}
+                      </button>
                       <span className="px-2 py-0.5 rounded bg-sky-50 dark:bg-sky-950 text-[#0284c7] dark:text-[#4fc3f7] border border-sky-100 dark:border-sky-900 truncate max-w-[140px] font-medium">
-                        {product.grade}
+                        {product.line}
                       </span>
                     </div>
 
                     <p className="mt-3 text-xs text-slate-600 dark:text-slate-400 line-clamp-2 leading-relaxed">
                       {product.description}
+                    </p>
+                    <p className="mt-2 text-[10px] font-medium text-slate-500 dark:text-slate-400">
+                      Product code / model: {product.model}
                     </p>
 
                     <div className="mt-3 flex flex-wrap gap-1">
@@ -1599,7 +1211,7 @@ export default function App() {
                     <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
                       <span className="flex items-center gap-1">
                         <Package className="w-3.5 h-3.5 text-slate-400" />
-                        Pack: <strong className="text-slate-700 dark:text-slate-300 font-medium">{product.packaging}</strong>
+                        Type / size: <strong className="text-slate-700 dark:text-slate-300 font-medium">{product.packaging}</strong>
                       </span>
                     </div>
                   </div>
@@ -1608,17 +1220,17 @@ export default function App() {
                   <div className="p-4 pt-0 flex flex-col gap-2">
                     <div className="grid grid-cols-2 gap-2">
                       <button
-                        onClick={() => setActiveSpecProduct(product)}
+                        onClick={() => navigateTo(`/product/${product.id}`)}
                         className={`py-2 px-3 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all duration-200 hover:scale-[1.02] active:scale-95 ${
                           darkMode
                             ? 'bg-slate-800 hover:bg-slate-700 text-slate-200'
                             : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
                         }`}
                       >
-                        <FileText className="w-3.5 h-3.5 text-[#0284c7] dark:text-[#4fc3f7]" /> Specs
+                        <FileText className="w-3.5 h-3.5 text-[#0284c7] dark:text-[#4fc3f7]" /> Types & Sizes
                       </button>
                       <button
-                        onClick={() => openSingleProductRfq(product)}
+                        onClick={() => navigateTo(`/product/${product.id}`)}
                         className={`py-2 px-3 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all duration-200 hover:scale-[1.02] active:scale-95 ${
                           darkMode
                             ? 'bg-sky-950/60 hover:bg-sky-900/60 text-[#4fc3f7] border border-sky-800'
@@ -1630,7 +1242,7 @@ export default function App() {
                     </div>
 
                     <button
-                      onClick={() => toggleCartItem(product)}
+                      onClick={() => navigateTo(`/product/${product.id}`)}
                       className={`w-full py-2.5 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all duration-200 hover:shadow-md hover:brightness-105 active:scale-95 ${
                         inCart
                           ? 'bg-rose-50 hover:bg-rose-100 text-rose-700 dark:bg-rose-950/40 dark:hover:bg-rose-900/60 dark:text-rose-400 border border-rose-200 dark:border-rose-900'
@@ -1639,11 +1251,11 @@ export default function App() {
                     >
                       {inCart ? (
                         <>
-                          <Trash2 className="w-3.5 h-3.5" /> Remove from Cart
+                          <Check className="w-3.5 h-3.5" /> Choose a size
                         </>
                       ) : (
                         <>
-                          <Plus className="w-4 h-4" /> Add to RFQ Cart
+                          <Plus className="w-4 h-4" /> Select a size
                         </>
                       )}
                     </button>
@@ -1654,7 +1266,10 @@ export default function App() {
           </div>
         )}
       </main>
+      )}
 
+      {page.type === 'home' && (
+      <>
       {/* ========================================================
           4. OUR PROCESS: 7-STEP WORKFLOW (#process)
          ======================================================== */}
@@ -1729,24 +1344,25 @@ export default function App() {
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          {/* Part A: OUR PRINCIPALS */}
+          {/* Part A: 3M catalog */}
           <div className="text-center max-w-3xl mx-auto mb-10">
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3 bg-sky-100 dark:bg-sky-950 text-[#0284c7] dark:text-[#4fc3f7] border border-sky-200 dark:border-sky-800">
-              OUR PRINCIPALS
+              OUR PRINCIPALS & BRANDS
             </div>
             <h2 className="text-2xl sm:text-4xl font-black text-slate-950 dark:text-white tracking-tight">
-              Representing <span className="text-[#0284c7] dark:text-[#4fc3f7]">globally trusted</span> manufacturers
+              Maruti Chemicals <span className="text-[#0284c7] dark:text-[#4fc3f7]">principals & brands</span>
             </h2>
             <p className="mt-3 text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl mx-auto">
-              We partner with reputed brands to bring authentic, compliant products to Indian industry.
+              Maruti Chemicals supplies products across pharmaceutical, industrial, and healthcare sectors. The medical listings in this catalog are from 3M.
             </p>
           </div>
 
-          {/* Principal Brand Pills Grid with Hover Lift */}
+          {/* Manufacturer brand links */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5 sm:gap-4 max-w-4xl mx-auto mb-16">
             {PRINCIPAL_BRANDS.map((brand) => (
-              <div
+              <button
                 key={brand}
+                onClick={() => navigateTo(`/brand/${encodeURIComponent(brand)}`)}
                 className={`p-4 rounded-xl border flex items-center justify-center gap-2.5 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-sky-400 dark:hover:border-sky-600 cursor-pointer group ${
                   darkMode
                     ? 'bg-slate-900 border-slate-800 text-slate-200 hover:text-white'
@@ -1755,18 +1371,18 @@ export default function App() {
               >
                 <ShieldCheck className="w-4 h-4 text-[#0284c7] dark:text-[#4fc3f7] group-hover:scale-110 transition-transform" />
                 <span className="font-bold text-xs sm:text-sm tracking-wide">{brand}</span>
-              </div>
+              </button>
             ))}
           </div>
 
-          {/* Part B: CERTIFICATIONS & CREDENTIALS */}
+          {/* Part B: catalog guidance */}
           <div className="pt-10 border-t border-slate-200/80 dark:border-slate-800/80">
             <div className="text-center max-w-3xl mx-auto mb-10">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-2 text-slate-500">
-                CERTIFICATIONS & CREDENTIALS
+                PRODUCT CATALOG
               </div>
               <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-950 dark:text-white tracking-tight">
-                Regulatory credentials you can rely on
+                Product references & enquiry guidance
               </h3>
             </div>
 
@@ -1794,16 +1410,13 @@ export default function App() {
               })}
             </div>
 
-            <p className="mt-8 text-center text-[11px] text-slate-500 dark:text-slate-400 italic max-w-2xl mx-auto">
-              * Credentials shown are indicative. Final certificate numbers and compliance dossiers can be shared upon commercial request during onboarding.
-            </p>
           </div>
 
         </div>
       </section>
 
       {/* ========================================================
-          6. QUALITY & COA HIGHLIGHTS (#specs-info)
+          6. PRODUCT INFORMATION (#specs-info)
          ======================================================== */}
       <section id="specs-info" className={`py-14 border-t ${
         darkMode ? 'bg-slate-900/40 border-slate-800' : 'bg-white border-sky-100'
@@ -1811,13 +1424,13 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mb-10">
             <span className="text-xs font-bold uppercase tracking-wider text-[#0284c7] dark:text-[#4fc3f7]">
-              TECHNICAL ASSURANCE
+              PRODUCT INFORMATION
             </span>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-950 dark:text-white mt-1">
-              Guaranteed Pharmacopoeial & Industrial Standards
+              Product Details & Availability
             </h2>
             <p className="mt-2 text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-              Every shipment is backed by manufacturer Certificate of Analysis (COA), safety data sheets (SDS/MSDS), and strict batch compliance.
+              Maruti Chemicals provides product information and enquiry support. Follow the manufacturer references shown on individual product pages to verify specifications, codes, and current availability.
             </p>
           </div>
 
@@ -1828,9 +1441,9 @@ export default function App() {
               <div className="w-12 h-12 rounded-xl bg-sky-100 dark:bg-sky-950 text-[#0284c7] dark:text-[#4fc3f7] flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-[#0284c7] group-hover:text-white transition-all duration-300 shadow-sm">
                 <FileText className="w-6 h-6" />
               </div>
-              <h3 className="font-bold text-sm text-slate-900 dark:text-white mb-1.5">Monograph Compliance</h3>
+              <h3 className="font-bold text-sm text-slate-900 dark:text-white mb-1.5">Manufacturer References</h3>
               <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Tested against USP, BP, EP, and Indian Pharmacopoeia standards with verified purity thresholds, heavy metals limits, and solubility tests.
+                Use the 3M India product reference linked from each catalog entry to check current product information.
               </p>
             </div>
 
@@ -1840,9 +1453,9 @@ export default function App() {
               <div className="w-12 h-12 rounded-xl bg-sky-100 dark:bg-sky-950 text-[#0284c7] dark:text-[#4fc3f7] flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-[#0284c7] group-hover:text-white transition-all duration-300 shadow-sm">
                 <Package className="w-6 h-6" />
               </div>
-              <h3 className="font-bold text-sm text-slate-900 dark:text-white mb-1.5">Export Grade Packaging</h3>
+              <h3 className="font-bold text-sm text-slate-900 dark:text-white mb-1.5">Product Variants</h3>
               <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Tamper-evident packaging in UN-certified HDPE drums, multi-wall paper bags with barrier liners, and fumigated wooden pallets for international transit.
+                Select a listed type or size on a product page. Confirm any additional pack options with 3M.
               </p>
             </div>
 
@@ -1852,9 +1465,9 @@ export default function App() {
               <div className="w-12 h-12 rounded-xl bg-sky-100 dark:bg-sky-950 text-[#0284c7] dark:text-[#4fc3f7] flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-[#0284c7] group-hover:text-white transition-all duration-300 shadow-sm">
                 <Clock className="w-6 h-6" />
               </div>
-              <h3 className="font-bold text-sm text-slate-900 dark:text-white mb-1.5">4-Hour SLA Delivery</h3>
+              <h3 className="font-bold text-sm text-slate-900 dark:text-white mb-1.5">Availability Confirmation</h3>
               <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Guaranteed commercial quotation response, proforma invoicing, and freight dispatch estimations within 4 business hours.
+                Confirm product code, system compatibility, regional availability, and fulfilment details before ordering.
               </p>
             </div>
           </div>
@@ -1880,7 +1493,7 @@ export default function App() {
               </h2>
 
               <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                Connect with our commercial export and distribution desk for bulk orders, contract pricing, or customized packaging specifications.
+                Contact us with the product name, brand, selected size, and quantity to request current availability and quotation details.
               </p>
 
               <div className="space-y-4 pt-2 text-xs">
@@ -2023,14 +1636,14 @@ export default function App() {
 
                   <div>
                     <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1">
-                      Required Chemicals & Target Volume
+                      Medical Products & Requested Quantity
                     </label>
                     <textarea
                       rows={3}
                       required
                       value={rfqForm.instructions}
                       onChange={(e) => setRfqForm({ ...rfqForm, instructions: e.target.value })}
-                      placeholder="Specify chemicals, grades, packaging type, required volume, and delivery destination..."
+                      placeholder="List the 3M product name or model, size, quantity, and delivery destination..."
                       className={`w-full p-3.5 rounded-xl border outline-none focus:ring-2 focus:ring-[#0284c7] ${
                         darkMode ? 'bg-slate-800 border-slate-700 text-white' : 'bg-[#faf9f6] border-slate-300 text-slate-900'
                       }`}
@@ -2051,6 +1664,8 @@ export default function App() {
           </div>
         </div>
       </section>
+      </>
+      )}
 
       {/* ========================================================
           6. FLOATING BOTTOM RFQ BAR
@@ -2097,7 +1712,7 @@ export default function App() {
                   <div>
                     <h3 className="font-bold text-base text-slate-900 dark:text-white">Commercial RFQ Cart</h3>
                     <p className="text-xs text-slate-500">
-                      {cart.length} chemical item{cart.length !== 1 ? 's' : ''} in quotation queue
+                      {cart.length} medical product{cart.length !== 1 ? 's' : ''} in enquiry list
                     </p>
                   </div>
                 </div>
@@ -2115,12 +1730,12 @@ export default function App() {
                   <div className="h-full flex flex-col items-center justify-center text-center p-6 text-slate-400">
                     <ShoppingCart className="w-10 h-10 mb-2 stroke-[1.5] text-slate-300 dark:text-slate-700" />
                     <p className="font-medium text-xs text-slate-600 dark:text-slate-400">Your RFQ cart is empty</p>
-                    <p className="text-[11px] text-slate-400 mt-1">Browse our chemicals and add items to request a quote.</p>
+                    <p className="text-[11px] text-slate-400 mt-1">Browse the 3M catalog and add selected product sizes to request a quote.</p>
                   </div>
                 ) : (
                   cart.map((item) => (
                     <div
-                      key={item.product.id}
+                      key={item.cartItemId}
                       className={`p-4 rounded-xl border flex flex-col gap-3 ${
                         darkMode ? 'bg-slate-800/60 border-slate-700' : 'bg-[#faf9f6] border-slate-200'
                       }`}
@@ -2131,13 +1746,13 @@ export default function App() {
                             {item.product.name}
                           </h4>
                           <div className="flex items-center gap-2 mt-1 text-[11px] font-mono text-slate-500">
-                            <span>CAS: {item.product.cas}</span>
+                            <span>{item.product.brand}</span>
                             <span>•</span>
-                            <span className="text-[#0284c7] dark:text-[#4fc3f7] font-semibold">{item.product.formula}</span>
+                            <span className="text-[#0284c7] dark:text-[#4fc3f7] font-semibold">{item.product.line}</span>
                           </div>
                         </div>
                         <button
-                          onClick={() => removeCartItem(item.product.id)}
+                          onClick={() => removeCartItem(item.cartItemId)}
                           className="text-slate-400 hover:text-rose-500 transition"
                           title="Remove item"
                         >
@@ -2153,8 +1768,10 @@ export default function App() {
                           <input
                             type="text"
                             value={item.quantity}
-                            onChange={(e) => updateCartItemQuantity(item.product.id, e.target.value)}
-                            placeholder="e.g. 2 MT, 500 kg"
+                            min="1"
+                            type="number"
+                            onChange={(e) => updateCartItemQuantity(item.cartItemId, e.target.value)}
+                            placeholder="Quantity"
                             className={`w-full px-2.5 py-1.5 rounded-lg border text-xs focus:ring-1 focus:ring-[#0284c7] outline-none ${
                               darkMode ? 'bg-slate-900 border-slate-700 text-white' : 'bg-white border-slate-300 text-slate-900'
                             }`}
@@ -2167,7 +1784,7 @@ export default function App() {
                           </label>
                           <select
                             value={item.packaging}
-                            onChange={(e) => updateCartItemPackaging(item.product.id, e.target.value)}
+                            onChange={(e) => updateCartItemPackaging(item.cartItemId, e.target.value)}
                             className={`w-full px-2.5 py-1.5 rounded-lg border text-xs focus:ring-1 focus:ring-[#0284c7] outline-none ${
                               darkMode ? 'bg-slate-900 border-slate-700 text-white' : 'bg-white border-slate-300 text-slate-900'
                             }`}
@@ -2221,7 +1838,7 @@ export default function App() {
           }`}>
             <div className="relative h-44 w-full overflow-hidden bg-slate-900">
               <img
-                src={activeSpecProduct.image}
+                src={getHighResolutionProductImage(activeSpecProduct.image)}
                 alt={activeSpecProduct.name}
                 onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=800&q=80'; }}
                 className="w-full h-full object-cover opacity-60"
@@ -2243,9 +1860,9 @@ export default function App() {
                   {activeSpecProduct.name}
                 </h3>
                 <div className="flex items-center gap-2 mt-1 text-xs font-mono text-sky-200">
-                  <span>CAS: {activeSpecProduct.cas}</span>
+                  <span>{activeSpecProduct.brand}</span>
                   <span>•</span>
-                  <span>{activeSpecProduct.formula}</span>
+                  <span>{activeSpecProduct.line}</span>
                 </div>
               </div>
             </div>
@@ -2260,7 +1877,7 @@ export default function App() {
 
               <div>
                 <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
-                  Standard Certificate of Analysis (COA) Specifications
+                  Product Types, Sizes & Details
                 </h4>
                 <div className="rounded-xl border overflow-hidden text-xs">
                   <table className="w-full text-left">
@@ -2375,7 +1992,7 @@ export default function App() {
                 </div>
 
                 <p className="text-xs text-slate-600 dark:text-slate-300 max-w-md leading-relaxed">
-                  Thank you for your commercial inquiry. Our commercial desk will dispatch your proforma quote, COA, and freight timeline to <strong className="text-slate-900 dark:text-white">{rfqForm.email || 'your email'}</strong> within <strong>4 working hours</strong>.
+                  Thank you for your product enquiry. Our procurement team will contact you at <strong className="text-slate-900 dark:text-white">{rfqForm.email || 'your email'}</strong> to confirm product availability and quotation details.
                 </p>
 
                 <div className="pt-2">
@@ -2391,20 +2008,20 @@ export default function App() {
               <form onSubmit={handleRfqSubmit} className="flex-1 overflow-y-auto p-6 space-y-5">
                 <div>
                   <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
-                    Chemical Items in this Quotation
+                    Medical Products in this Enquiry
                   </h4>
                   <div className="rounded-xl border divide-y overflow-hidden text-xs max-h-36 overflow-y-auto border-slate-200 dark:border-slate-800">
                     {rfqTargetProduct ? (
                       <div className="p-3 flex items-center justify-between bg-slate-50 dark:bg-slate-800/40">
                         <div>
                           <span className="font-bold text-slate-900 dark:text-white">{rfqTargetProduct.name}</span>
-                          <span className="ml-2 font-mono text-slate-500">CAS: {rfqTargetProduct.cas}</span>
+                          <span className="ml-2 font-mono text-slate-500">{rfqTargetProduct.brand} · {rfqTargetProduct.line}</span>
                         </div>
                         <span className="font-medium text-slate-600 dark:text-slate-300">{rfqTargetProduct.packaging}</span>
                       </div>
                     ) : (
                       cart.map(item => (
-                        <div key={item.product.id} className="p-3 flex items-center justify-between bg-slate-50 dark:bg-slate-800/40">
+                        <div key={item.cartItemId} className="p-3 flex items-center justify-between bg-slate-50 dark:bg-slate-800/40">
                           <div>
                             <span className="font-bold text-slate-900 dark:text-white">{item.product.name}</span>
                             <span className="ml-2 font-mono text-slate-500">({item.quantity})</span>
@@ -2574,7 +2191,7 @@ export default function App() {
                 </div>
               </div>
               <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
-                Maruti Chemicals is a premier manufacturer, distributor, and export enterprise delivering high-purity industrial, specialty, and pharmacopoeial chemicals across global trading destinations.
+                Maruti Chemicals is a premier manufacturer, distributor, and export enterprise delivering high-purity industrial, specialty, and pharmacopoeial chemicals across global trading destinations. Browse the listed medical products by industry and enquire about the 3M options shown.
               </p>
               <div className="text-xs text-slate-400">
                 Director: <strong className="text-white">Pankaj Gupta</strong> · 10+ Years of Distribution Excellence
@@ -2582,12 +2199,12 @@ export default function App() {
             </div>
 
             <div className="lg:col-span-3 space-y-3">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-white">5 Core Industries</h4>
+              <h4 className="text-xs font-bold uppercase tracking-wider text-white">Industries Served</h4>
               <ul className="space-y-2">
                 {CATEGORIES.map(cat => (
                   <li key={cat.name}>
                     <button
-                      onClick={() => { setSelectedCategory(cat.name); window.scrollTo({ top: 400, behavior: 'smooth' }); }}
+                      onClick={() => navigateTo(`/category/${slugify(cat.name)}`)}
                       className="hover:text-[#4fc3f7] transition"
                     >
                       {cat.name}
@@ -2613,7 +2230,7 @@ export default function App() {
 
           <div className="mt-12 pt-6 border-t border-slate-800 text-[11px] flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-500">
             <p>© {new Date().getFullYear()} Maruti Chemicals. All Rights Reserved.</p>
-            <p>ISO 9001:2015, WHO-cGMP & REACH Compliant Distribution.</p>
+            <p>3M is the brand of the medical products shown in this catalog. Product information and images link to 3M India where available.</p>
           </div>
         </div>
       </footer>
