@@ -54,17 +54,29 @@ const CATEGORY_ICONS = {
   pharmaceutical: Building2,
   theatre: ClipboardCheck,
   clinic: CheckCircle,
-  research: Globe2
+  research: Globe2,
+  handrub: FlaskConical,
+  scrub: ShieldCheck,
+  wash: CheckCircle,
+  disinfectant: ShieldCheck,
+  hospital_disinfectant: Building2,
+  instrument: ClipboardCheck,
+  instrument_clean: FlaskConical,
+  alcohol_surface: FlaskConical,
+  sporicidal: AlertCircle,
+  fogging: Globe2,
+  anaesthesia: Clock,
+  accessory: Package
 };
 
 const CATEGORIES = INDUSTRY_CATEGORIES.map((category) => ({
   ...category,
-  icon: CATEGORY_ICONS[category.icon]
+  icon: CATEGORY_ICONS[category.icon] || ShieldCheck
 }));
 
 const PRODUCT_CATEGORIES = MEDICAL_CATEGORIES.map((category) => ({
   ...category,
-  icon: CATEGORY_ICONS[category.icon]
+  icon: CATEGORY_ICONS[category.icon] || Package
 }));
 
 const slugify = (value) => value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -149,7 +161,7 @@ const PROCESS_STEPS = [
 ];
 
 // Principals & Partner Brands
-const PRINCIPAL_BRANDS = ['3M'];
+const PRINCIPAL_BRANDS = ['3M', 'Raman & Weil'];
 
 // Product information highlights
 const CREDENTIALS = [
@@ -181,6 +193,7 @@ export default function App() {
   const [page, setPage] = useState(() => getPageFromPath());
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [industriesMenuOpen, setIndustriesMenuOpen] = useState(false);
+  const [brandsMenuOpen, setBrandsMenuOpen] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   // Search & Filter state
@@ -188,6 +201,10 @@ export default function App() {
   const [searchFocused, setSearchFocused] = useState(false);
   const searchContainerRef = useRef(null);
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedBrand, setSelectedBrand] = useState(() => {
+    const init = getPageFromPath();
+    return init.type === 'brand' ? decodeURIComponent(init.value) : 'All';
+  });
   const [selectedVariant, setSelectedVariant] = useState('');
   const [selectedColor, setSelectedColor] = useState('');
   const [detailQuantity, setDetailQuantity] = useState('1');
@@ -222,7 +239,7 @@ export default function App() {
     return null;
   });
 
-  const navigateTo = (path) => {
+  const navigateTo = (path, options = {}) => {
     const isHashMode = Boolean(window.location.hash);
     if (isHashMode) {
       window.location.hash = path.startsWith('/') ? path : `/${path}`;
@@ -245,6 +262,8 @@ export default function App() {
     } else if (nextPage.type === 'home') {
       setCurrentIndustry(null);
       setSelectedCategory('All');
+    } else if (nextPage.type === 'brand') {
+      setSelectedBrand(decodeURIComponent(nextPage.value));
     } else if (nextPage.type === 'group') {
       if (!currentIndustry) {
         const groupCat = PRODUCT_CATEGORIES.find((pc) => slugify(pc.name) === nextPage.value)?.name;
@@ -253,15 +272,27 @@ export default function App() {
       }
     }
     setIndustriesMenuOpen(false);
+    setBrandsMenuOpen(false);
     setMobileMenuOpen(false);
     setSearchQuery('');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (options.scrollToSectors) {
+      setTimeout(() => {
+        const el = document.getElementById('sectors') || document.getElementById('products');
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          window.scrollTo({ top: scrollTop + rect.top - 80, behavior: 'smooth' });
+        }
+      }, 50);
+    } else if (!options.preventScroll) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
-  const handleLinkClick = (e, path) => {
+  const handleLinkClick = (e, path, options = {}) => {
     if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
       e.preventDefault();
-      navigateTo(path);
+      navigateTo(path, options);
     }
   };
 
@@ -276,6 +307,9 @@ export default function App() {
       } else if (nextPage.type === 'home') {
         setCurrentIndustry(null);
         setSelectedCategory('All');
+        setSelectedBrand('All');
+      } else if (nextPage.type === 'brand') {
+        setSelectedBrand(decodeURIComponent(nextPage.value));
       }
     };
     window.addEventListener('popstate', handleNavigation);
@@ -428,7 +462,24 @@ export default function App() {
         }
       }
       if (!query && page.type === 'group' && product.category !== activeProductCategory?.name) return false;
-      if (!query && page.type === 'brand' && product.brand.toLowerCase() !== page.value.toLowerCase()) return false;
+      if (!query && page.type === 'brand') {
+        const brandVal = page.value.toLowerCase();
+        const prodBrand = product.brand.toLowerCase();
+        if (brandVal === '3m') {
+          if (prodBrand !== '3m' && !prodBrand.includes('littmann')) return false;
+        } else if (prodBrand !== brandVal) {
+          return false;
+        }
+      }
+      if (selectedBrand !== 'All') {
+        const b = selectedBrand.toLowerCase();
+        const prodBrand = product.brand.toLowerCase();
+        if (b === '3m') {
+          if (prodBrand !== '3m' && !prodBrand.includes('littmann')) return false;
+        } else if (prodBrand !== b) {
+          return false;
+        }
+      }
       if (query) {
         const searchableText = [
           product.id,
@@ -447,7 +498,24 @@ export default function App() {
       }
       return true;
     });
-  }, [searchQuery, page, activeCategory, activeProductCategory]);
+  }, [searchQuery, page, activeCategory, activeProductCategory, selectedBrand]);
+
+  const brandCounts = useMemo(() => {
+    let prods = PRODUCT_LISTINGS;
+    if (activeCategory) {
+      prods = prods.filter(p => p.industries && p.industries.includes(activeCategory.name));
+    }
+    if (activeProductCategory) {
+      prods = prods.filter(p => p.category === activeProductCategory.name);
+    }
+    const count3M = prods.filter(p => p.brand === '3M' || p.brand.toLowerCase().includes('littmann')).length;
+    const countRW = prods.filter(p => p.brand.toLowerCase().includes('raman')).length;
+    return {
+      all: prods.length,
+      '3M': count3M,
+      'Raman & Weil': countRW
+    };
+  }, [activeCategory, activeProductCategory]);
 
   const visibleProductCategories = PRODUCT_CATEGORIES.filter(category =>
     filteredProducts.some(product => product.category === category.name)
@@ -463,24 +531,24 @@ export default function App() {
   const handleGoBack = () => {
     if (page.type === 'product') {
       if (activeProduct?.category) {
-        navigateTo(`/group/${slugify(activeProduct.category)}`);
+        navigateTo(`/group/${slugify(activeProduct.category)}`, { scrollToSectors: true });
       } else if (effectiveIndustry) {
-        navigateTo(`/category/${slugify(effectiveIndustry)}`);
+        navigateTo(`/category/${slugify(effectiveIndustry)}`, { scrollToSectors: true });
       } else {
-        navigateTo('/');
+        navigateTo('/', { scrollToSectors: true });
       }
     } else if (page.type === 'group') {
       if (effectiveIndustry) {
-        navigateTo(`/category/${slugify(effectiveIndustry)}`);
+        navigateTo(`/category/${slugify(effectiveIndustry)}`, { scrollToSectors: true });
       } else {
-        navigateTo('/');
+        navigateTo('/', { scrollToSectors: true });
       }
     } else if (page.type === 'category' || page.type === 'brand') {
-      navigateTo('/');
+      navigateTo('/', { scrollToSectors: true });
     } else if (searchIsActive) {
       setSearchQuery('');
     } else {
-      navigateTo('/');
+      navigateTo('/', { scrollToSectors: true });
     }
   };
 
@@ -645,6 +713,63 @@ export default function App() {
                 </div>
               )}
             </div>
+            {/* Brands Dropdown Menu with Hover */}
+            <div
+              className="relative py-1"
+              onMouseEnter={() => setBrandsMenuOpen(true)}
+              onMouseLeave={() => setBrandsMenuOpen(false)}
+            >
+              <button
+                type="button"
+                aria-haspopup="true"
+                aria-expanded={brandsMenuOpen}
+                onClick={() => setBrandsMenuOpen(open => !open)}
+                className="whitespace-nowrap text-slate-700 dark:text-slate-300 hover:text-[#0284c7] dark:hover:text-[#4fc3f7] flex items-center gap-1 transition-colors py-1 cursor-pointer"
+              >
+                Brands <ChevronRight className={`inline h-3.5 w-3.5 transition-transform duration-200 ${brandsMenuOpen ? 'rotate-[270deg]' : 'rotate-90'}`} />
+              </button>
+              {brandsMenuOpen && (
+                <div
+                  className="absolute left-0 top-full z-[70] pt-1.5 w-56"
+                  onMouseEnter={() => setBrandsMenuOpen(true)}
+                  onMouseLeave={() => setBrandsMenuOpen(false)}
+                >
+                  <div className={`grid grid-cols-1 gap-1 rounded-xl border p-2 shadow-2xl transition-all duration-200 ${
+                    darkMode ? 'border-slate-700 bg-slate-900' : 'border-slate-200 bg-white'
+                  }`}>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setBrandsMenuOpen(false);
+                        setSelectedBrand('All');
+                        navigateTo('/');
+                      }}
+                      className="w-full flex items-center justify-between rounded-lg px-3 py-2 text-left text-xs leading-snug hover:bg-sky-50 dark:hover:bg-slate-800 transition-colors font-semibold text-slate-700 dark:text-slate-300 cursor-pointer"
+                    >
+                      <span>All Brands</span>
+                      <span className="text-[10px] bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-slate-500">88 products</span>
+                    </button>
+                    {['3M', 'Raman & Weil'].map((b) => (
+                      <button
+                        key={b}
+                        type="button"
+                        onClick={() => {
+                          setBrandsMenuOpen(false);
+                          setSelectedBrand(b);
+                          navigateTo(`/brand/${encodeURIComponent(b)}`);
+                        }}
+                        className="w-full flex items-center justify-between rounded-lg px-3 py-2 text-left text-xs leading-snug hover:bg-sky-50 dark:hover:bg-slate-800 transition-colors font-bold text-slate-900 dark:text-white cursor-pointer"
+                      >
+                        <span className="text-[#0284c7] dark:text-[#4fc3f7]">{b}</span>
+                        <span className="text-[10px] bg-sky-50 dark:bg-sky-950 text-sky-700 dark:text-sky-300 px-1.5 py-0.5 rounded font-medium">
+                          {b === '3M' ? '51 products' : '37 products'}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
             <a
               href="/#process"
               className="relative text-slate-700 dark:text-slate-300 hover:text-[#0284c7] dark:hover:text-[#4fc3f7] transition-colors py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#0284c7] dark:after:bg-[#4fc3f7] hover:after:w-full after:transition-all after:duration-300"
@@ -738,6 +863,36 @@ export default function App() {
                     >
                       {category.name}
                     </a>
+                  ))}
+                </div>
+              </details>
+              <details className="rounded-lg">
+                <summary className="cursor-pointer list-none rounded-lg px-3 py-2 hover:bg-sky-50 dark:hover:bg-slate-800">
+                  Brands <ChevronRight className="inline h-3.5 w-3.5 rotate-90" />
+                </summary>
+                <div className="grid gap-1 pl-3">
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      setSelectedBrand('All');
+                      navigateTo('/');
+                    }}
+                    className="block w-full text-left rounded-lg px-3 py-2 text-xs hover:bg-sky-50 dark:hover:bg-slate-800"
+                  >
+                    All Brands (88 products)
+                  </button>
+                  {['3M', 'Raman & Weil'].map((b) => (
+                    <button
+                      key={b}
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        setSelectedBrand(b);
+                        navigateTo(`/brand/${encodeURIComponent(b)}`);
+                      }}
+                      className="block w-full text-left rounded-lg px-3 py-2 text-xs font-bold text-[#0284c7] dark:text-[#4fc3f7] hover:bg-sky-50 dark:hover:bg-slate-800"
+                    >
+                      {b} ({b === '3M' ? '51' : '37'})
+                    </button>
                   ))}
                 </div>
               </details>
@@ -930,7 +1085,7 @@ export default function App() {
             </h1>
 
             <p className="mt-5 text-base sm:text-lg text-slate-700 dark:text-slate-300 leading-relaxed font-normal">
-                Maruti Chemicals is a supplier and distributor serving pharmaceutical, industrial, and healthcare requirements. Browse the medical products listed by industry, review available product sizes, and send us an enquiry. 3M is the brand shown for the medical product listings below.
+                Maruti Chemicals is a supplier and distributor serving pharmaceutical, industrial, and healthcare requirements. Browse medical and clinical products listed by industry from trusted partner brands including 3M and Raman & Weil, review product specifications, and send us an enquiry.
             </p>
 
             {/* Quick Hero CTAs with Hover Lift */}
@@ -994,8 +1149,8 @@ export default function App() {
                   <Clock className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white font-mono">3M</div>
-                  <div className="text-xs font-medium text-slate-500 dark:text-slate-400">Listed Product Brand</div>
+                  <div className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white font-mono">3M & R&W</div>
+                  <div className="text-xs font-medium text-slate-500 dark:text-slate-400">Partner Brands</div>
                 </div>
               </div>
             </div>
@@ -1240,7 +1395,7 @@ export default function App() {
             </div>
 
             <a href={activeProduct.sourceUrl} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-1 text-xs font-semibold text-[#0284c7] hover:underline dark:text-[#4fc3f7]">
-              View manufacturer details on 3M India <ArrowRight className="h-3.5 w-3.5" />
+              View manufacturer details on {activeProduct.brand} <ArrowRight className="h-3.5 w-3.5" />
             </a>
           </div>
         </div>
@@ -1274,29 +1429,29 @@ export default function App() {
                 <Layers className="w-7 h-7 text-[#0284c7] dark:text-[#4fc3f7]" />
                 {searchIsActive
                   ? `Search Results for "${searchQuery.trim()}"`
-                  : activeProductCategory?.name || (activeCategory ? `Products for ${activeCategory.name}` : page.type === 'brand' ? `${page.value} Products` : 'Industries Served')}
+                  : activeProductCategory?.name || (activeCategory ? `Products for ${activeCategory.name}` : page.type === 'brand' ? `${page.value} Products` : 'All Medical & Healthcare Products')}
               </h2>
               <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">
                 {searchIsActive
                   ? 'Matching products from all product categories and brands.'
                   : activeProductCategory
-                  ? `Browse the sub-products in this 3M product line. Select one to view available types and sizes.`
+                  ? `Browse the sub-products in this ${activeProductCategory.name} product line. Select one to view available types and sizes.`
                   : activeCategory
-                  ? `Browse 3M product cards for ${activeCategory.name}. Open a product line to view its sub-products.`
+                  ? `Browse medical product cards for ${activeCategory.name}. Open a product line to view its sub-products.`
                   : page.type === 'brand'
                     ? `Choose a product category to browse products from ${page.value}.`
-                    : 'Choose an industry to browse the 3M product lines available for that sector.'}
+                    : 'Browse all 21 medical product categories across all industries, or select an industry tab below to filter.'}
               </p>
             </div>
 
             <div className="text-xs font-semibold text-slate-500">
               Showing <span className="font-bold text-[#0284c7] dark:text-[#4fc3f7]">
                 {searchIsActive ? filteredProducts.length
-                  : page.type === 'home' ? visibleIndustryCategories.length
+                  : page.type === 'home' ? visibleProductCategories.length
                   : activeCategory || page.type === 'brand' ? visibleProductCategories.length
                     : filteredProducts.length}
               </span> {searchIsActive ? 'products'
-                : page.type === 'home' ? 'industries'
+                : page.type === 'home' ? 'product categories'
                 : activeCategory || page.type === 'brand' ? 'product lines'
                   : 'sub-products'}
             </div>
@@ -1312,7 +1467,7 @@ export default function App() {
                 <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
                 <span>
                   {page.type === 'group'
-                    ? `Back to ${effectiveIndustry || 'Industries'}`
+                    ? `Back to ${effectiveIndustry || 'All Categories'}`
                     : page.type === 'category'
                     ? 'Back to All Industries'
                     : page.type === 'brand'
@@ -1327,7 +1482,7 @@ export default function App() {
                   <li>
                     <a
                       href={getRouteUrl('/')}
-                      onClick={(e) => handleLinkClick(e, '/')}
+                      onClick={(e) => handleLinkClick(e, '/', { scrollToSectors: true })}
                       className="hover:text-[#0284c7] dark:hover:text-[#4fc3f7] font-medium transition-colors"
                     >
                       All Industries
@@ -1341,7 +1496,7 @@ export default function App() {
                       ) : (
                         <a
                           href={getRouteUrl(`/category/${slugify(effectiveIndustry)}`)}
-                          onClick={(e) => handleLinkClick(e, `/category/${slugify(effectiveIndustry)}`)}
+                          onClick={(e) => handleLinkClick(e, `/category/${slugify(effectiveIndustry)}`, { scrollToSectors: true })}
                           className="hover:text-[#0284c7] dark:hover:text-[#4fc3f7] font-medium transition-colors"
                         >
                           {effectiveIndustry}
@@ -1366,11 +1521,60 @@ export default function App() {
             </div>
           )}
 
+          {/* Brand Filter Pills Bar */}
+          <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <span className="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1 mr-1">
+                <ShieldCheck className="w-3.5 h-3.5 text-[#0284c7] dark:text-[#4fc3f7]" /> Brand:
+              </span>
+              {[
+                { id: 'All', label: 'All Brands', count: brandCounts.all },
+                { id: '3M', label: '3M', count: brandCounts['3M'] },
+                { id: 'Raman & Weil', label: 'Raman & Weil', count: brandCounts['Raman & Weil'] }
+              ].map((b) => {
+                const isSelected = selectedBrand === b.id;
+                return (
+                  <button
+                    key={b.id}
+                    type="button"
+                    onClick={() => setSelectedBrand(b.id)}
+                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer active:scale-95 ${
+                      isSelected
+                        ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-950 shadow-sm'
+                        : darkMode
+                        ? 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                        : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
+                    }`}
+                  >
+                    <span>{b.label}</span>
+                    <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
+                      isSelected
+                        ? 'bg-white/20 text-white dark:bg-black/20 dark:text-black'
+                        : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300'
+                    }`}>
+                      {b.count}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {selectedBrand !== 'All' && (
+              <button
+                type="button"
+                onClick={() => setSelectedBrand('All')}
+                className="text-xs font-semibold text-[#0284c7] dark:text-[#4fc3f7] hover:underline cursor-pointer"
+              >
+                Reset to All Brands
+              </button>
+            )}
+          </div>
+
           {/* Category Tabs Scrollable on Mobile with Hover Effects */}
           <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none pt-2">
             <button
-              onClick={() => navigateTo('/')}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs whitespace-nowrap transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm active:translate-y-0 ${
+              onClick={() => navigateTo('/', { scrollToSectors: true })}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs whitespace-nowrap transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm active:translate-y-0 cursor-pointer ${
                 selectedCategory === 'All'
                   ? 'bg-[#0284c7] text-white shadow-md'
                   : darkMode
@@ -1390,8 +1594,8 @@ export default function App() {
                 <a
                   key={cat.name}
                   href={getRouteUrl(`/category/${slugify(cat.name)}`)}
-                  onClick={(e) => handleLinkClick(e, `/category/${slugify(cat.name)}`)}
-                  className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-xs whitespace-nowrap transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm active:translate-y-0 ${
+                  onClick={(e) => handleLinkClick(e, `/category/${slugify(cat.name)}`, { scrollToSectors: true })}
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-xs whitespace-nowrap transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm active:translate-y-0 cursor-pointer ${
                     isSelected
                       ? 'bg-[#0284c7] text-white shadow-md'
                       : darkMode
@@ -1411,37 +1615,59 @@ export default function App() {
             })}
           </div>
 
-          {/* Active Filter Badges */}
-          {(activeCategory || activeProductCategory || page.type === 'brand' || searchQuery !== '') && (
-            <div className="flex items-center gap-2 pt-1 text-xs">
-              <span className="text-slate-500">Active filters:</span>
-              {page.type === 'brand' && (
+          {/* Active Sub-Filter Badges (Brand, Product Category, Search) */}
+          {(Boolean(activeProductCategory) || selectedBrand !== 'All' || Boolean(searchQuery)) && (
+            <div className="flex items-center gap-2 pt-1 text-xs flex-wrap">
+              <span className="text-slate-500 font-medium">Active filters:</span>
+              {selectedBrand !== 'All' && (
                 <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-sky-100 dark:bg-sky-950 text-sky-800 dark:text-sky-300 border border-sky-200 dark:border-sky-800">
-                  Brand: {page.value}
-                  <button onClick={() => navigateTo('/')} aria-label="Clear brand filter"><X className="w-3 h-3 hover:text-red-500" /></button>
-                </span>
-              )}
-              {activeCategory && (
-                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-sky-100 dark:bg-sky-950 text-sky-800 dark:text-sky-300 border border-sky-200 dark:border-sky-800">
-                  Industry: {activeCategory.name}
-                  <button onClick={() => navigateTo('/')} aria-label="Clear category filter"><X className="w-3 h-3 hover:text-red-500" /></button>
+                  Brand: {selectedBrand}
+                  <button
+                    onClick={() => {
+                      setSelectedBrand('All');
+                      if (page.type === 'brand') {
+                        const target = effectiveIndustry ? `/category/${slugify(effectiveIndustry)}` : '/';
+                        navigateTo(target);
+                      }
+                    }}
+                    aria-label="Clear brand filter"
+                  >
+                    <X className="w-3 h-3 hover:text-red-500 cursor-pointer" />
+                  </button>
                 </span>
               )}
               {activeProductCategory && (
                 <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-sky-100 dark:bg-sky-950 text-sky-800 dark:text-sky-300 border border-sky-200 dark:border-sky-800">
-                  Product category: {activeProductCategory.name}
-                  <button onClick={() => navigateTo('/')} aria-label="Clear product category filter"><X className="w-3 h-3 hover:text-red-500" /></button>
+                  Category: {activeProductCategory.name}
+                  <button
+                    onClick={() => {
+                      const target = effectiveIndustry ? `/category/${slugify(effectiveIndustry)}` : '/';
+                      navigateTo(target);
+                    }}
+                    aria-label="Clear product category filter"
+                  >
+                    <X className="w-3 h-3 hover:text-red-500 cursor-pointer" />
+                  </button>
                 </span>
               )}
               {searchQuery && (
                 <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-sky-100 dark:bg-sky-950 text-sky-800 dark:text-sky-300 border border-sky-200 dark:border-sky-800">
                   Search: "{searchQuery}"
-                  <button onClick={() => setSearchQuery('')}><X className="w-3 h-3 hover:text-red-500" /></button>
+                  <button onClick={() => setSearchQuery('')} aria-label="Clear search filter">
+                    <X className="w-3 h-3 hover:text-red-500 cursor-pointer" />
+                  </button>
                 </span>
               )}
               <button
-                onClick={() => navigateTo('/')}
-                className="text-[#0284c7] dark:text-[#4fc3f7] font-semibold hover:underline ml-2"
+                onClick={() => {
+                  setSelectedBrand('All');
+                  setSearchQuery('');
+                  if (page.type === 'group' || page.type === 'brand') {
+                    const target = effectiveIndustry ? `/category/${slugify(effectiveIndustry)}` : '/';
+                    navigateTo(target);
+                  }
+                }}
+                className="text-[#0284c7] dark:text-[#4fc3f7] font-semibold hover:underline ml-2 cursor-pointer"
               >
                 Clear filters
               </button>
@@ -1462,52 +1688,20 @@ export default function App() {
               We couldn't find products matching "{searchQuery}". Try a product name, brand (such as 3M), product category, model, or listed size.
             </p>
             <button
-              onClick={() => navigateTo('/')}
-              className="mt-5 px-4 py-2 rounded-xl text-xs font-semibold bg-[#0284c7] text-white hover:bg-[#0369a1]"
+              onClick={() => {
+                setSearchQuery('');
+                setSelectedBrand('All');
+                if (page.type === 'group' || page.type === 'brand') {
+                  const target = effectiveIndustry ? `/category/${slugify(effectiveIndustry)}` : '/';
+                  navigateTo(target);
+                }
+              }}
+              className="mt-5 px-4 py-2 rounded-xl text-xs font-semibold bg-[#0284c7] text-white hover:bg-[#0369a1] cursor-pointer"
             >
               Reset Filters
             </button>
           </div>
-        ) : page.type === 'home' && !searchIsActive ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {visibleIndustryCategories.map((category) => {
-              const Icon = category.icon;
-              const groupCount = PRODUCT_CATEGORIES.filter(productCategory =>
-                category.productCategories.includes(productCategory.name) &&
-                filteredProducts.some(product => product.category === productCategory.name)
-              ).length;
-
-              return (
-                <a
-                  key={category.name}
-                  href={getRouteUrl(`/category/${slugify(category.name)}`)}
-                  onClick={(e) => handleLinkClick(e, `/category/${slugify(category.name)}`)}
-                  className={`group rounded-2xl border p-6 text-left transition-all hover:-translate-y-1 hover:border-sky-300 hover:shadow-xl dark:hover:border-sky-700 block ${
-                    darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-sky-100'
-                  }`}
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-sky-100 text-[#0284c7] dark:bg-sky-950 dark:text-[#4fc3f7]">
-                      <Icon className="h-6 w-6" />
-                    </span>
-                    <span className="rounded-full bg-slate-100 px-3 py-1 text-[11px] font-semibold text-slate-600 dark:bg-slate-800 dark:text-slate-300">
-                      {groupCount} 3M product lines
-                    </span>
-                  </div>
-                  <h3 className="mt-5 text-lg font-bold text-slate-950 group-hover:text-[#0284c7] dark:text-white dark:group-hover:text-[#4fc3f7]">
-                    {category.name}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
-                    Browse medical and healthcare products available to {category.name.toLowerCase()} through Maruti Chemicals.
-                  </p>
-                  <span className="mt-5 inline-flex items-center gap-2 text-xs font-bold text-[#0284c7] dark:text-[#4fc3f7]">
-                    Browse products <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </span>
-                </a>
-              );
-            })}
-          </div>
-        ) : (activeCategory || page.type === 'brand') && !searchIsActive ? (
+        ) : !searchIsActive && page.type !== 'group' ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {visibleProductCategories.map((productCategory) => {
               const Icon = productCategory.icon;
@@ -1518,7 +1712,7 @@ export default function App() {
                 <a
                   key={productCategory.name}
                   href={getRouteUrl(`/group/${slugify(productCategory.name)}`)}
-                  onClick={(e) => handleLinkClick(e, `/group/${slugify(productCategory.name)}`)}
+                  onClick={(e) => handleLinkClick(e, `/group/${slugify(productCategory.name)}`, { scrollToSectors: true })}
                   className={`group overflow-hidden rounded-2xl border text-left transition-all hover:-translate-y-1 hover:border-sky-300 hover:shadow-xl dark:hover:border-sky-700 block ${
                     darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-sky-100'
                   }`}
@@ -1549,7 +1743,7 @@ export default function App() {
                   </div>
                   <div className="p-5">
                     <p className="text-[11px] font-bold uppercase tracking-wide text-[#0284c7] dark:text-[#4fc3f7]">
-                      3M · Product line
+                      {[...new Set(categoryProducts.map(p => p.brand))].join(' · ') || 'Medical'} · Product line
                     </p>
                     <h3 className="mt-1 text-base font-bold text-slate-950 group-hover:text-[#0284c7] dark:text-white dark:group-hover:text-[#4fc3f7]">
                       {productCategory.name}
@@ -1593,7 +1787,7 @@ export default function App() {
                   {/* Top Image Container with Zoom Effect */}
                   <a
                     href={getRouteUrl(`/product/${product.id}`)}
-                    onClick={(e) => handleLinkClick(e, `/product/${product.id}`)}
+                    onClick={(e) => handleLinkClick(e, `/product/${product.id}`, { scrollToSectors: true })}
                     className="block relative h-56 w-full overflow-hidden bg-slate-100 dark:bg-slate-800 cursor-pointer"
                   >
                     {product.image ? (
@@ -1641,7 +1835,7 @@ export default function App() {
                   <div className="p-5 flex-1 flex flex-col">
                     <a
                       href={getRouteUrl(`/product/${product.id}`)}
-                      onClick={(e) => handleLinkClick(e, `/product/${product.id}`)}
+                      onClick={(e) => handleLinkClick(e, `/product/${product.id}`, { scrollToSectors: true })}
                       className="block text-left font-bold text-base text-slate-950 dark:text-white line-clamp-1 group-hover:text-[#0284c7] dark:group-hover:text-[#4fc3f7] transition-colors"
                     >
                       {product.name}
@@ -1650,8 +1844,8 @@ export default function App() {
                     {/* Brand and product-family metadata */}
                     <div className="mt-2 flex flex-wrap items-center gap-1.5 text-xs">
                       <button
-                        onClick={() => navigateTo(`/brand/${encodeURIComponent(product.brand)}`)}
-                        className="font-mono px-2 py-0.5 rounded font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-sky-400"
+                        onClick={() => navigateTo(`/brand/${encodeURIComponent(product.brand)}`, { scrollToSectors: true })}
+                        className="font-mono px-2 py-0.5 rounded font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-sky-400 cursor-pointer"
                         aria-label={`View all ${product.brand} products`}
                       >
                         {product.brand}
@@ -1833,12 +2027,12 @@ export default function App() {
               Maruti Chemicals <span className="text-[#0284c7] dark:text-[#4fc3f7]">principals & brands</span>
             </h2>
             <p className="mt-3 text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl mx-auto">
-              Maruti Chemicals supplies products across pharmaceutical, industrial, and healthcare sectors. The medical listings in this catalog are from 3M.
+              Maruti Chemicals supplies products across pharmaceutical, industrial, and healthcare sectors. The clinical and healthcare listings in this catalog are from trusted partner manufacturers including 3M and Raman & Weil.
             </p>
           </div>
 
           {/* Manufacturer brand links */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5 sm:gap-4 max-w-4xl mx-auto mb-16">
+          <div className="grid grid-cols-2 max-w-xl mx-auto mb-16 gap-4">
             {PRINCIPAL_BRANDS.map((brand) => (
               <button
                 key={brand}
@@ -2707,7 +2901,7 @@ export default function App() {
                 </div>
               </div>
               <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
-                Maruti Chemicals is a premier manufacturer, distributor, and export enterprise delivering high-purity industrial, specialty, and pharmacopoeial chemicals across global trading destinations. Browse the listed medical products by industry and enquire about the 3M options shown.
+                Maruti Chemicals is a premier manufacturer, distributor, and export enterprise delivering high-purity industrial, specialty, and pharmacopoeial chemicals across global trading destinations. Browse the listed medical products by industry and enquire about 3M and Raman & Weil product options.
               </p>
               <div className="text-xs text-slate-400">
                 Director: <strong className="text-white">Pankaj Gupta</strong> · 10+ Years of Distribution Excellence
@@ -2747,7 +2941,7 @@ export default function App() {
 
           <div className="mt-12 pt-6 border-t border-slate-800 text-[11px] flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-500">
             <p>© {new Date().getFullYear()} Maruti Chemicals. All Rights Reserved.</p>
-            <p>3M is the brand of the medical products shown in this catalog. Product information and images link to 3M India where available.</p>
+            <p>Product information and images reference authorized manufacturers including 3M India and Raman & Weil.</p>
           </div>
         </div>
       </footer>

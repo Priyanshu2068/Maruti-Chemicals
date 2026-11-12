@@ -1,4 +1,4 @@
-// Auto-generated comprehensive 3M Medical & Healthcare Catalog (51 Required Products)
+// Auto-generated comprehensive Medical & Healthcare Catalog (3M & Raman & Weil: 88 Products)
 export const INDUSTRY_CATEGORIES = [
   {
     "name": "Hospitals & Healthcare",
@@ -10,7 +10,20 @@ export const INDUSTRY_CATEGORIES = [
       "Skin Protection",
       "Sterilisation & Monitoring",
       "Patient Temperature Management",
-      "Patient Monitoring Accessories"
+      "Patient Monitoring Accessories",
+      "Alcohol-Based Hand Rubs",
+      "Surgical Hand Scrubs",
+      "Hand & Body Wash",
+      "General Surface Disinfectants",
+      "Hospital Surface Disinfectants",
+      "Instrument Disinfectants",
+      "Instrument Cleaning Solutions",
+      "Alcohol-Based Surface Disinfectants",
+      "Sporicidal Disinfectants",
+      "Skin Antiseptics",
+      "Fogging & Environmental Disinfection",
+      "Inhalation Anaesthesia Products",
+      "Accessories"
     ]
   },
   {
@@ -18,7 +31,17 @@ export const INDUSTRY_CATEGORIES = [
     "icon": "laboratory",
     "productCategories": [
       "Infection Prevention",
-      "Sterilisation & Monitoring"
+      "Sterilisation & Monitoring",
+      "Alcohol-Based Hand Rubs",
+      "Surgical Hand Scrubs",
+      "Hand & Body Wash",
+      "General Surface Disinfectants",
+      "Hospital Surface Disinfectants",
+      "Alcohol-Based Surface Disinfectants",
+      "Pharmaceutical Disinfectants",
+      "Sporicidal Disinfectants",
+      "Skin Antiseptics",
+      "Fogging & Environmental Disinfection"
     ]
   },
   {
@@ -26,7 +49,13 @@ export const INDUSTRY_CATEGORIES = [
     "icon": "pharmaceutical",
     "productCategories": [
       "Infection Prevention",
-      "Sterilisation & Monitoring"
+      "Sterilisation & Monitoring",
+      "General Surface Disinfectants",
+      "Hospital Surface Disinfectants",
+      "Alcohol-Based Surface Disinfectants",
+      "Pharmaceutical Disinfectants",
+      "Sporicidal Disinfectants",
+      "Fogging & Environmental Disinfection"
     ]
   },
   {
@@ -39,7 +68,20 @@ export const INDUSTRY_CATEGORIES = [
       "Skin Protection",
       "Sterilisation & Monitoring",
       "Patient Temperature Management",
-      "Patient Monitoring Accessories"
+      "Patient Monitoring Accessories",
+      "Alcohol-Based Hand Rubs",
+      "Surgical Hand Scrubs",
+      "Hand & Body Wash",
+      "General Surface Disinfectants",
+      "Hospital Surface Disinfectants",
+      "Instrument Disinfectants",
+      "Instrument Cleaning Solutions",
+      "Alcohol-Based Surface Disinfectants",
+      "Sporicidal Disinfectants",
+      "Skin Antiseptics",
+      "Fogging & Environmental Disinfection",
+      "Inhalation Anaesthesia Products",
+      "Accessories"
     ]
   },
   {
@@ -50,7 +92,19 @@ export const INDUSTRY_CATEGORIES = [
       "Wound Care & Dressings",
       "Infection Prevention",
       "Skin Protection",
-      "Patient Monitoring Accessories"
+      "Patient Monitoring Accessories",
+      "Alcohol-Based Hand Rubs",
+      "Surgical Hand Scrubs",
+      "Hand & Body Wash",
+      "General Surface Disinfectants",
+      "Hospital Surface Disinfectants",
+      "Instrument Disinfectants",
+      "Instrument Cleaning Solutions",
+      "Alcohol-Based Surface Disinfectants",
+      "Sporicidal Disinfectants",
+      "Skin Antiseptics",
+      "Fogging & Environmental Disinfection",
+      "Accessories"
     ]
   },
   {
@@ -58,7 +112,13 @@ export const INDUSTRY_CATEGORIES = [
     "icon": "research",
     "productCategories": [
       "Infection Prevention",
-      "Sterilisation & Monitoring"
+      "Sterilisation & Monitoring",
+      "General Surface Disinfectants",
+      "Hospital Surface Disinfectants",
+      "Alcohol-Based Surface Disinfectants",
+      "Pharmaceutical Disinfectants",
+      "Sporicidal Disinfectants",
+      "Fogging & Environmental Disinfection"
     ]
   }
 ];
@@ -91,6 +151,62 @@ export const MEDICAL_CATEGORIES = [
   {
     "name": "Patient Monitoring Accessories",
     "icon": "monitoring"
+  },
+  {
+    "name": "Alcohol-Based Hand Rubs",
+    "icon": "handrub"
+  },
+  {
+    "name": "Surgical Hand Scrubs",
+    "icon": "scrub"
+  },
+  {
+    "name": "Hand & Body Wash",
+    "icon": "wash"
+  },
+  {
+    "name": "General Surface Disinfectants",
+    "icon": "disinfectant"
+  },
+  {
+    "name": "Hospital Surface Disinfectants",
+    "icon": "hospital_disinfectant"
+  },
+  {
+    "name": "Instrument Disinfectants",
+    "icon": "instrument"
+  },
+  {
+    "name": "Instrument Cleaning Solutions",
+    "icon": "instrument_clean"
+  },
+  {
+    "name": "Alcohol-Based Surface Disinfectants",
+    "icon": "alcohol_surface"
+  },
+  {
+    "name": "Pharmaceutical Disinfectants",
+    "icon": "pharmaceutical"
+  },
+  {
+    "name": "Sporicidal Disinfectants",
+    "icon": "sporicidal"
+  },
+  {
+    "name": "Skin Antiseptics",
+    "icon": "skin"
+  },
+  {
+    "name": "Fogging & Environmental Disinfection",
+    "icon": "fogging"
+  },
+  {
+    "name": "Inhalation Anaesthesia Products",
+    "icon": "anaesthesia"
+  },
+  {
+    "name": "Accessories",
+    "icon": "accessory"
   }
 ];
 
@@ -2191,6 +2307,1619 @@ export const MEDICAL_PRODUCTS = [
       "Category": "Patient Monitoring Accessories",
       "Model / SKU": "3M ID 70201185942",
       "Color Options": "26 options available"
+    },
+    "industries": [
+      "Hospitals & Healthcare",
+      "Operation Theatres & CSSD",
+      "Clinics & Nursing Homes"
+    ]
+  },
+  {
+    "id": "raman-weil-sterillium",
+    "name": "Sterillium\u00ae",
+    "brand": "Raman & Weil",
+    "line": "Alcohol-Based Hand Rubs",
+    "category": "Alcohol-Based Hand Rubs",
+    "model": "100 ml",
+    "packaging": "100 ml",
+    "packOptions": [
+      "100 ml",
+      "500 ml",
+      "5 L",
+      "Pack of 2 (500 ml each)"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/files/familyphotosterillium_1500x.webp?v=1774418397",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/files/familyphotosterillium_1500x.webp?v=1774418397",
+      "https://ramanweil.com/cdn/shop/files/100mlsterillium_1500x.webp?v=1774418397",
+      "https://ramanweil.com/cdn/shop/files/500mlsterillium_1500x.webp?v=1774418397",
+      "https://ramanweil.com/cdn/shop/files/5litreSterillium_1500x.webp?v=1774418397",
+      "https://ramanweil.com/cdn/shop/files/sterillium-3315427_1500x.png?v=1774418397",
+      "https://ramanweil.com/cdn/shop/files/sterillium-3576622_1500x.png?v=1774418397"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/sterillium",
+    "description": "Gold-standard blue alcohol-based hand rub for hygienic and surgical hand disinfection, with skin protectors for frequent use.",
+    "applications": [
+      "Hygienic hand disinfection in 30 seconds (3 ml)",
+      "Surgical hand disinfection in 1.5 minutes (9 ml)",
+      "Broad-spectrum: bacteria incl. MRSA, fungi and viruses",
+      "Skin protectors help maintain skin hydration with frequent use",
+      "Passes multiple European (EN) norms"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "Alcohol-Based Hand Rubs",
+      "Category": "Disinfectants & Antiseptics",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "Alcohol-based hand rub",
+      "Use": "Undiluted, on clean dry hands",
+      "Hygienic": "3 ml, 30 s | Surgical: 9 ml, 1.5 min",
+      "EN norms": "EN 1500, EN 12791, EN 13727, EN 13624, EN 14348, EN 1040, EN 1275, EN 14476",
+      "Pack sizes": "100 ml, 500 ml, 5 L, Pack of 2 x 500 ml"
+    },
+    "industries": [
+      "Hospitals & Healthcare",
+      "Diagnostic Laboratories",
+      "Operation Theatres & CSSD",
+      "Clinics & Nursing Homes"
+    ]
+  },
+  {
+    "id": "raman-weil-baccirub",
+    "name": "Baccirub\u00ae",
+    "brand": "Raman & Weil",
+    "line": "Alcohol-Based Hand Rubs",
+    "category": "Alcohol-Based Hand Rubs",
+    "model": "100 ml",
+    "packaging": "100 ml",
+    "packOptions": [
+      "100 ml",
+      "500 ml",
+      "5 L"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/products/baccirub-1764611_1500x.png?v=1766474343",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/products/baccirub-1764611_1500x.png?v=1766474343",
+      "https://ramanweil.com/cdn/shop/products/baccirub-7144319_1500x.png?v=1766474340",
+      "https://ramanweil.com/cdn/shop/products/baccirub-5721845_1500x.png?v=1766474341",
+      "https://ramanweil.com/cdn/shop/products/baccirub-6802571_1500x.png?v=1766474345"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/baccirub",
+    "description": "Ethanol + Chlorhexidine Gluconate (CHG) alcohol hand rub with germicidal action, at a cost-effective price.",
+    "applications": [
+      "Ethanol + CHG combination for rapid and persistent action",
+      "Antimicrobial action within 30 seconds",
+      "Bactericidal (incl. MRSA), fungicidal, tuberculocidal",
+      "Also suitable for operative / peri-operative skin antisepsis",
+      "Skin-friendly formulation for frequent use"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "Alcohol-Based Hand Rubs",
+      "Category": "Disinfectants & Antiseptics",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "CHG-based alcohol hand rub / skin disinfectant",
+      "Actives": "Ethanol + Chlorhexidine Gluconate",
+      "EN norms": "EN 1500, EN 12791, EN 1040, EN 1656, EN 1275, EN 1657",
+      "Pack sizes": "100 ml, 500 ml (with dispenser), 5 L",
+      "Storage": "Cool, dry place; keep tightly closed (flammable)"
+    },
+    "industries": [
+      "Hospitals & Healthcare",
+      "Diagnostic Laboratories",
+      "Operation Theatres & CSSD",
+      "Clinics & Nursing Homes"
+    ]
+  },
+  {
+    "id": "raman-weil-bactorub-pink",
+    "name": "Bactorub Pink\u00ae",
+    "brand": "Raman & Weil",
+    "line": "Alcohol-Based Hand Rubs",
+    "category": "Alcohol-Based Hand Rubs",
+    "model": "500 ml",
+    "packaging": "500 ml",
+    "packOptions": [
+      "500 ml",
+      "5 L",
+      "Pack of 2 (500 ml each)"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/files/bactorub-pink-6907397_1500x.webp?v=1766474433",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/files/bactorub-pink-6907397_1500x.webp?v=1766474433",
+      "https://ramanweil.com/cdn/shop/files/bactorub-pink-6645002_1500x.webp?v=1766474429",
+      "https://ramanweil.com/cdn/shop/files/bactorub-pink-8430549_1500x.webp?v=1766474430",
+      "https://ramanweil.com/cdn/shop/files/bactorub-pink-6665839_1500x.webp?v=1766474431",
+      "https://ramanweil.com/cdn/shop/files/bactorub-pink-8452792_1500x.webp?v=1766474434",
+      "https://ramanweil.com/cdn/shop/files/bactorub-pink-2617073_1500x.webp?v=1766474436"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/bactorub-pink",
+    "description": "Popular Ethanol + CHG antiseptic hand rub offering broad-spectrum microbicidal action for hygienic and surgical use.",
+    "applications": [
+      "Ethanol + CHG with residual antimicrobial activity",
+      "Hygienic hand disinfection: 3 ml for 30 seconds",
+      "For surgical hand rub and pre-operative skin painting",
+      "Effective against Gram-positive and Gram-negative bacteria incl. MRSA",
+      "Emollients and moisturisers for repeated use"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "Alcohol-Based Hand Rubs",
+      "Category": "Disinfectants & Antiseptics",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "CHG-based alcohol hand rub",
+      "Actives": "Ethanol (IP grade) + Chlorhexidine Gluconate",
+      "EN norms": "EN 1500, EN 12791, EN 14476",
+      "Pack sizes": "500 ml, 5 L, Pack of 2 x 500 ml"
+    },
+    "industries": [
+      "Hospitals & Healthcare",
+      "Diagnostic Laboratories",
+      "Operation Theatres & CSSD",
+      "Clinics & Nursing Homes"
+    ]
+  },
+  {
+    "id": "raman-weil-bactoscrub",
+    "name": "Bactoscrub",
+    "brand": "Raman & Weil",
+    "line": "Surgical Hand Scrubs",
+    "category": "Surgical Hand Scrubs",
+    "model": "100 ml",
+    "packaging": "100 ml",
+    "packOptions": [
+      "100 ml",
+      "500 ml",
+      "5 L"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/products/bactoscrub-2281360_1500x.png?v=1766474314",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/products/bactoscrub-2281360_1500x.png?v=1766474314",
+      "https://ramanweil.com/cdn/shop/products/bactoscrub-8144768_1500x.png?v=1766474311",
+      "https://ramanweil.com/cdn/shop/products/bactoscrub-2881746_1500x.png?v=1766474312",
+      "https://ramanweil.com/cdn/shop/products/bactoscrub-9401004_1500x.png?v=1766474315"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/bacto-scrub",
+    "description": "4% Chlorhexidine Gluconate medicated hand & body wash - bactericidal, fungicidal and gentle on skin.",
+    "applications": [
+      "Chlorhexidine Gluconate 4% w/v",
+      "Kills about 80% of bacteria in a 30-second wash",
+      "Remains active under gloves",
+      "Suitable for pre-surgical patient bathing",
+      "Enriched with emollients and moisturisers"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "Surgical Hand Scrubs",
+      "Category": "Disinfectants & Antiseptics",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "CHG medicated hand & body wash / surgical scrub",
+      "Active": "Chlorhexidine Gluconate 4% w/v",
+      "EN norms": "EN 1499 (hygienic hand wash)",
+      "Pack sizes": "100 ml, 500 ml, 5 L"
+    },
+    "industries": [
+      "Hospitals & Healthcare",
+      "Diagnostic Laboratories",
+      "Operation Theatres & CSSD",
+      "Clinics & Nursing Homes"
+    ]
+  },
+  {
+    "id": "raman-weil-stellisept-med",
+    "name": "Stellisept Med\u00ae",
+    "brand": "Raman & Weil",
+    "line": "Surgical Hand Scrubs",
+    "category": "Surgical Hand Scrubs",
+    "model": "Not listed on R&W site (enquiry only)",
+    "packaging": "Not listed on R&W site (enquiry only)",
+    "packOptions": [
+      "Not listed on R&W site (enquiry only)"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/files/stellisept-med-3723373_1500x.webp?v=1766474383",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/files/stellisept-med-3723373_1500x.webp?v=1766474383",
+      "https://ramanweil.com/cdn/shop/files/stellisept-med-7222375_1500x.webp?v=1766474385"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/stellisept-med",
+    "description": "Antimicrobial body and hand wash lotion with broad-spectrum action against MRSA/ORSA and VRE.",
+    "applications": [
+      "Antimicrobial hand and body wash lotion",
+      "Effective against MRSA/ORSA and VRE",
+      "Replenishing, skin-compatible formulation",
+      "Tested as per European standards"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "Surgical Hand Scrubs",
+      "Category": "Disinfectants & Antiseptics",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "Antimicrobial wash lotion",
+      "Pack sizes": "Not listed on R&W site (enquiry only)"
+    },
+    "industries": [
+      "Hospitals & Healthcare",
+      "Diagnostic Laboratories",
+      "Operation Theatres & CSSD",
+      "Clinics & Nursing Homes"
+    ]
+  },
+  {
+    "id": "raman-weil-baktolin-5-5",
+    "name": "Baktolin\u00ae 5.5",
+    "brand": "Raman & Weil",
+    "line": "Hand & Body Wash",
+    "category": "Hand & Body Wash",
+    "model": "500 ml",
+    "packaging": "500 ml",
+    "packOptions": [
+      "500 ml",
+      "5 L"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/products/baktolin-55-3341833_1500x.png?v=1766474320",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/products/baktolin-55-3341833_1500x.png?v=1766474320",
+      "https://ramanweil.com/cdn/shop/products/baktolin-55-8891737_1500x.png?v=1766474317",
+      "https://ramanweil.com/cdn/shop/products/baktolin-55-7003509_1500x.png?v=1766474318"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/baktolin-5-5",
+    "description": "Soap-free, pH 5.5 hygienic hand and body wash lotion designed for frequent hand washers.",
+    "applications": [
+      "Skin-friendly pH 5.5, soap-free and alkali-free",
+      "Log 3 germ reduction",
+      "No colour; pleasant fragrance",
+      "About 1000 hand washes per bottle",
+      "For hand washing (0.5 ml) and body bathing (2-5 ml)"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "Hand & Body Wash",
+      "Category": "Disinfectants & Antiseptics",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "Hygienic hand & body wash lotion",
+      "pH": "5.5",
+      "EN norms": "EN 13727 (bactericidal incl. MRSA)",
+      "Dosage": "0.5 ml per hand wash; 2-5 ml per bath",
+      "Pack sizes": "500 ml, 5 L"
+    },
+    "industries": [
+      "Hospitals & Healthcare",
+      "Diagnostic Laboratories",
+      "Operation Theatres & CSSD",
+      "Clinics & Nursing Homes"
+    ]
+  },
+  {
+    "id": "raman-weil-bacillocid-extra",
+    "name": "Bacillocid\u00ae Extra",
+    "brand": "Raman & Weil",
+    "line": "General Surface Disinfectants",
+    "category": "General Surface Disinfectants",
+    "model": "500 ml",
+    "packaging": "500 ml",
+    "packOptions": [
+      "500 ml",
+      "5 L",
+      "Pack of 2 (500 ml each)"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/files/bacillocid-extra-6967601_1500x.webp?v=1766474456",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/files/bacillocid-extra-6967601_1500x.webp?v=1766474456",
+      "https://ramanweil.com/cdn/shop/files/bacillocid-extra-5280494_1500x.webp?v=1766474453",
+      "https://ramanweil.com/cdn/shop/files/bacillocid-extra-8933367_1500x.webp?v=1766474455",
+      "https://ramanweil.com/cdn/shop/files/bacillocid-extra-8101709_1500x.webp?v=1766474458",
+      "https://ramanweil.com/cdn/shop/files/bacillocid-extra-1626768_1500x.webp?v=1766474460"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/bacillocid-extra",
+    "description": "Surface and environmental disinfectant concentrate with strong cleaning action and broad-spectrum, sporicidal activity.",
+    "applications": [
+      "Dual action: cleaning and disinfection",
+      "Sporicidal incl. C. difficile spores",
+      "Short contact time (15-20 min for mopping)",
+      "Corrosion inhibitors protect surfaces",
+      "Suitable for mopping and fogging"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "General Surface Disinfectants",
+      "Category": "Disinfectants & Antiseptics",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "Surface & environmental disinfectant concentrate (aldehyde-containing)",
+      "Use": "Dilute with water as per R&W dilution chart",
+      "EN norms": "EN 1040, EN 1275, EN 1276, EN 1650, EN 13624, EN 13727, EN 14347, EN 14348, EN 16615, EN 14476",
+      "Pack sizes": "500 ml, 5 L, Pack of 2 x 500 ml"
+    },
+    "industries": [
+      "Hospitals & Healthcare",
+      "Diagnostic Laboratories",
+      "Pharmaceutical Manufacturing",
+      "Operation Theatres & CSSD",
+      "Clinics & Nursing Homes",
+      "Biotechnology & Research"
+    ]
+  },
+  {
+    "id": "raman-weil-bacillo-floor",
+    "name": "Bacillo Floor",
+    "brand": "Raman & Weil",
+    "line": "General Surface Disinfectants",
+    "category": "General Surface Disinfectants",
+    "model": "500 ml",
+    "packaging": "500 ml",
+    "packOptions": [
+      "500 ml",
+      "5 L"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/files/bacillo-floor-3107374_1500x.webp?v=1766474291",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/files/bacillo-floor-3107374_1500x.webp?v=1766474291",
+      "https://ramanweil.com/cdn/shop/files/bacillo-floor-1906279_1500x.webp?v=1766474289",
+      "https://ramanweil.com/cdn/shop/files/bacillo-floor-6955128_1500x.webp?v=1766474290"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/bacillo-floor-aldehyde-free",
+    "description": "Economical aldehyde-free floor and surface disinfectant concentrate with built-in cleansers and a pleasant fragrance.",
+    "applications": [
+      "Aldehyde-free, general-purpose concentrate",
+      "Built-in cleansers and corrosion inhibitors",
+      "Safe on marble, granite and vitrified tiles",
+      "Low-foaming - suitable for scrubbing machines",
+      "Pleasant leave-behind fragrance"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "General Surface Disinfectants",
+      "Category": "Disinfectants & Antiseptics",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "Aldehyde-free surface / floor disinfectant concentrate",
+      "Use": "Dilute as per R&W chart; keep surface wet at least 15 min",
+      "Pack sizes": "500 ml, 5 L"
+    },
+    "industries": [
+      "Hospitals & Healthcare",
+      "Diagnostic Laboratories",
+      "Pharmaceutical Manufacturing",
+      "Operation Theatres & CSSD",
+      "Clinics & Nursing Homes",
+      "Biotechnology & Research"
+    ]
+  },
+  {
+    "id": "raman-weil-aceptik-hc-plus",
+    "name": "Aceptik\u00ae HC Plus",
+    "brand": "Raman & Weil",
+    "line": "General Surface Disinfectants",
+    "category": "General Surface Disinfectants",
+    "model": "1 L",
+    "packaging": "1 L",
+    "packOptions": [
+      "1 L"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/products/aceptik-hc-plus-5548505_1500x.png?v=1766474338",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/products/aceptik-hc-plus-5548505_1500x.png?v=1766474338"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/aceptik-hc",
+    "description": "Multipurpose hospital concentrate - disinfectant cum antiseptic and antibacterial cleansing agent.",
+    "applications": [
+      "All-rounder disinfectant cum antiseptic",
+      "General disinfection: 10 ml in 1 L water",
+      "Dirty wounds / catheters: 35 ml in 1 L water",
+      "Log 3 reduction in bacterial count",
+      "Can be diluted with water or alcohol"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "General Surface Disinfectants",
+      "Category": "Disinfectants & Antiseptics",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "Hospital concentrate disinfectant / antiseptic",
+      "EN norms": "EN 1276, EN 1650, EN 13697",
+      "Pack size": "1 L"
+    },
+    "industries": [
+      "Hospitals & Healthcare",
+      "Diagnostic Laboratories",
+      "Pharmaceutical Manufacturing",
+      "Operation Theatres & CSSD",
+      "Clinics & Nursing Homes",
+      "Biotechnology & Research"
+    ]
+  },
+  {
+    "id": "raman-weil-bacillocid-special",
+    "name": "Bacillocid\u00ae Special",
+    "brand": "Raman & Weil",
+    "line": "Hospital Surface Disinfectants",
+    "category": "Hospital Surface Disinfectants",
+    "model": "500 ml",
+    "packaging": "500 ml",
+    "packOptions": [
+      "500 ml",
+      "5 L"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/files/bacillocid-special-7196131_1500x.webp?v=1766474447",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/files/bacillocid-special-7196131_1500x.webp?v=1766474447"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/bacillocid-special%C2%AE",
+    "description": "High-level surface, environmental and equipment disinfectant concentrate for OTs, critical care and special wards.",
+    "applications": [
+      "High-level disinfection for high-risk areas",
+      "Effective against C. difficile spores, HIV, HBV, HCV",
+      "Corrosion inhibitors protect equipment",
+      "Dual cleaning and disinfection action",
+      "Recommended by NABH and Kayakalp"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "Hospital Surface Disinfectants",
+      "Category": "Disinfectants & Antiseptics",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "Surface & environmental disinfectant concentrate",
+      "Use": "Dilute as per R&W dilution chart",
+      "EN norms": "EN 1040, EN 1275, EN 1650, EN 13624, EN 13727, EN 14347, EN 14348, EN 14476",
+      "Pack sizes": "500 ml, 5 L"
+    },
+    "industries": [
+      "Hospitals & Healthcare",
+      "Diagnostic Laboratories",
+      "Pharmaceutical Manufacturing",
+      "Operation Theatres & CSSD",
+      "Clinics & Nursing Homes",
+      "Biotechnology & Research"
+    ]
+  },
+  {
+    "id": "raman-weil-mikrobac-forte",
+    "name": "Mikrobac\u00ae Forte",
+    "brand": "Raman & Weil",
+    "line": "Hospital Surface Disinfectants",
+    "category": "Hospital Surface Disinfectants",
+    "model": "500 ml",
+    "packaging": "500 ml",
+    "packOptions": [
+      "500 ml"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/products/mikrobac-forte-8381242_1500x.png?v=1766474327",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/products/mikrobac-forte-8381242_1500x.png?v=1766474327",
+      "https://ramanweil.com/cdn/shop/products/mikrobac-forte-1487727_1500x.png?v=1766474325",
+      "https://ramanweil.com/cdn/shop/products/mikrobac-forte-2463203_1500x.png?v=1766474326"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/mikrobac-forte",
+    "description": "Aldehyde- and alcohol-free 5th-generation QAC surface disinfectant concentrate with strong cleansing power.",
+    "applications": [
+      "5th-generation QAC, aldehyde- and alcohol-free",
+      "Neutral odour - suits patient areas",
+      "For surfaces, walls, floors and medical equipment",
+      "Corrosion inhibitors, excellent material tolerance",
+      "Bactericidal, fungicidal, tuberculocidal, virucidal"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "Hospital Surface Disinfectants",
+      "Category": "Disinfectants & Antiseptics",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "QAC surface disinfectant cleaner concentrate",
+      "Use": "Dilute as per R&W chart; exposure 15-20 min",
+      "Pack size": "500 ml"
+    },
+    "industries": [
+      "Hospitals & Healthcare",
+      "Diagnostic Laboratories",
+      "Pharmaceutical Manufacturing",
+      "Operation Theatres & CSSD",
+      "Clinics & Nursing Homes",
+      "Biotechnology & Research"
+    ]
+  },
+  {
+    "id": "raman-weil-glutihyde-2",
+    "name": "Glutihyde 2%",
+    "brand": "Raman & Weil",
+    "line": "Instrument Disinfectants",
+    "category": "Instrument Disinfectants",
+    "model": "5 L (with liquid activator)",
+    "packaging": "5 L (with liquid activator)",
+    "packOptions": [
+      "5 L (with liquid activator)"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/products/glutihyde-2-and-glutihyde-245-5616346_1500x.png?v=1766474323",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/products/glutihyde-2-and-glutihyde-245-5616346_1500x.png?v=1766474323"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/glutihyde-2",
+    "description": "2% glutaraldehyde high-level disinfectant for heat-sensitive endoscopes, anaesthesia accessories and instruments.",
+    "applications": [
+      "High-level disinfection and sterilisation",
+      "For rigid and flexible endoscopes",
+      "Built-in corrosion inhibitors",
+      "Compatible with metals, glass, rubber, silicone, plastics",
+      "Active 14-28 days after activation"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "Instrument Disinfectants",
+      "Category": "Instrument Cleaning",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "Glutaraldehyde 2% instrument disinfectant",
+      "EN norms": "EN 13727, EN 13624, EN 14476, EN 13704",
+      "Shelf life after activation": "14-28 days (monitor with test strips)",
+      "Pack size": "5 L with liquid activator"
+    },
+    "industries": [
+      "Hospitals & Healthcare",
+      "Operation Theatres & CSSD",
+      "Clinics & Nursing Homes"
+    ]
+  },
+  {
+    "id": "raman-weil-glutihyde-2-45",
+    "name": "Glutihyde 2.45%",
+    "brand": "Raman & Weil",
+    "line": "Instrument Disinfectants",
+    "category": "Instrument Disinfectants",
+    "model": "5 L (with liquid activator)",
+    "packaging": "5 L (with liquid activator)",
+    "packOptions": [
+      "5 L (with liquid activator)"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/products/glutihyde-2-and-glutihyde-245-5616346_1500x.png?v=1766474323",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/products/glutihyde-2-and-glutihyde-245-5616346_1500x.png?v=1766474323"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/glutihyde-2",
+    "description": "2.45% glutaraldehyde high-level disinfectant for heat-sensitive endoscopes, anaesthesia accessories and instruments.",
+    "applications": [
+      "High-level disinfection and sterilisation",
+      "Higher-strength 2.45% glutaraldehyde",
+      "For rigid and flexible endoscopes",
+      "Built-in corrosion inhibitors",
+      "Active 14-28 days after activation"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "Instrument Disinfectants",
+      "Category": "Instrument Cleaning",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "Glutaraldehyde 2.45% instrument disinfectant",
+      "EN norms": "EN 13727, EN 13624, EN 14476, EN 13704",
+      "Shelf life after activation": "14-28 days (monitor with test strips)",
+      "Pack size": "5 L with liquid activator"
+    },
+    "industries": [
+      "Hospitals & Healthcare",
+      "Operation Theatres & CSSD",
+      "Clinics & Nursing Homes"
+    ]
+  },
+  {
+    "id": "raman-weil-rw-opa",
+    "name": "RW OPA",
+    "brand": "Raman & Weil",
+    "line": "Instrument Disinfectants",
+    "category": "Instrument Disinfectants",
+    "model": "Not listed on R&W site (enquiry only)",
+    "packaging": "Not listed on R&W site (enquiry only)",
+    "packOptions": [
+      "Not listed on R&W site (enquiry only)"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/files/rw-opa-3700672_1500x.png?v=1766474357",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/files/rw-opa-3700672_1500x.png?v=1766474357",
+      "https://ramanweil.com/cdn/shop/files/rw-opa-2079218_1500x.png?v=1766474358"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/glutihyde-opa",
+    "description": "OPA-based high-level disinfectant for semi-critical medical and dental devices and endoscope reprocessing.",
+    "applications": [
+      "High-level disinfectant (OPA)",
+      "For semi-critical medical and dental devices",
+      "For endoscope and accessory reprocessing",
+      "Short contact time"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "Instrument Disinfectants",
+      "Category": "Instrument Cleaning",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "OPA high-level disinfectant",
+      "Pack sizes": "Not listed on R&W site (enquiry only)"
+    },
+    "industries": [
+      "Hospitals & Healthcare",
+      "Operation Theatres & CSSD",
+      "Clinics & Nursing Homes"
+    ]
+  },
+  {
+    "id": "raman-weil-korsolex-rapid",
+    "name": "Korsolex\u00ae Rapid",
+    "brand": "Raman & Weil",
+    "line": "Instrument Disinfectants",
+    "category": "Instrument Disinfectants",
+    "model": "500 ml",
+    "packaging": "500 ml",
+    "packOptions": [
+      "500 ml"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/files/korsolex-rapid-7429818_1500x.webp?v=1766474469",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/files/korsolex-rapid-7429818_1500x.webp?v=1766474469"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/korsolex-rapid",
+    "description": "Cold steriliser concentrate for thermolabile and thermostable instruments, effective against spores, bacteria, viruses and mycobacteria.",
+    "applications": [
+      "Cold steriliser for heat-sensitive instruments and scopes",
+      "Use at 5%: standard disinfection 5 min",
+      "Emergency 10-15 min; total sterilisation 4 h",
+      "Effective vs HBV, HIV, HCV, spores, mycobacteria",
+      "Endorsed by Karl Storz, Pentax, Richard Wolf"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "Instrument Disinfectants",
+      "Category": "Instrument Cleaning",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "Aldehyde-based instrument disinfectant concentrate",
+      "Working strength": "5%",
+      "EN norms": "EN 1040, EN 1275, EN 13727, EN 13624, EN 14561, EN 14562, EN 14348, EN 14563, EN 14476",
+      "Pack size": "500 ml"
+    },
+    "industries": [
+      "Hospitals & Healthcare",
+      "Operation Theatres & CSSD",
+      "Clinics & Nursing Homes"
+    ]
+  },
+  {
+    "id": "raman-weil-bodedex-forte",
+    "name": "Bodedex\u00ae Forte",
+    "brand": "Raman & Weil",
+    "line": "Instrument Cleaning Solutions",
+    "category": "Instrument Cleaning Solutions",
+    "model": "500 ml",
+    "packaging": "500 ml",
+    "packOptions": [
+      "500 ml"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/products/bodedex-forte-7839892_1500x.png?v=1766474322",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/products/bodedex-forte-7839892_1500x.png?v=1766474322"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/bodedex-forte",
+    "description": "pH-neutral pre-cleaner concentrate for instruments and endoscopes, removing up to 94% of bioburden.",
+    "applications": [
+      "pH-neutral pre-cleaner for instruments and endoscopes",
+      "Removes proteins, biofilm, rust and contrast media",
+      "Low foam, easy rinsing, no residue",
+      "Fragrance- and colour-free",
+      "Also a routine cleaner for critical-area surfaces"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "Instrument Cleaning Solutions",
+      "Category": "Instrument Cleaning",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "pH-neutral instrument cleaner concentrate",
+      "Dilution": "0.5% for 5 min (mild soil); 1% for 10 min (heavy soil)",
+      "Solution": "renew daily",
+      "Pack size": "500 ml"
+    },
+    "industries": [
+      "Hospitals & Healthcare",
+      "Operation Theatres & CSSD",
+      "Clinics & Nursing Homes"
+    ]
+  },
+  {
+    "id": "raman-weil-bacillol-25",
+    "name": "Bacillol\u00ae 25",
+    "brand": "Raman & Weil",
+    "line": "Alcohol-Based Surface Disinfectants",
+    "category": "Alcohol-Based Surface Disinfectants",
+    "model": "250 ml",
+    "packaging": "250 ml",
+    "packOptions": [
+      "250 ml",
+      "5 L",
+      "Pack of 2 (250 ml each)"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/files/bacillol-25-5085970_1500x.webp?v=1766474461",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/files/bacillol-25-5085970_1500x.webp?v=1766474461",
+      "https://ramanweil.com/cdn/shop/files/bacillol-25-4992488_1500x.webp?v=1766474463",
+      "https://ramanweil.com/cdn/shop/files/bacillol-25-4374357_1500x.webp?v=1766474464",
+      "https://ramanweil.com/cdn/shop/files/bacillol-25-4284190_1500x.webp?v=1766474466",
+      "https://ramanweil.com/cdn/shop/files/bacillol-25-1133695_1500x.webp?v=1766474467"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/bacillol-25",
+    "description": "Ready-to-use, aldehyde-free alcohol spray for rapid disinfection of surfaces and electronic equipment.",
+    "applications": [
+      "Ready to use - spray and wipe",
+      "Contact time 25 seconds to 5 minutes",
+      "Safe on monitors, touchscreens and electronics",
+      "Aldehyde-free; leaves no residue",
+      "Effective against bacteria, fungi and viruses incl. HIV and Rota"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "Alcohol-Based Surface Disinfectants",
+      "Category": "Disinfectants & Antiseptics",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "Ready-to-use alcohol-based surface disinfectant",
+      "EN norms": "EN 1275, EN 13727, EN 13624, EN 14476",
+      "Pack sizes": "250 ml, 5 L, Pack of 2 x 250 ml"
+    },
+    "industries": [
+      "Hospitals & Healthcare",
+      "Diagnostic Laboratories",
+      "Pharmaceutical Manufacturing",
+      "Operation Theatres & CSSD",
+      "Clinics & Nursing Homes",
+      "Biotechnology & Research"
+    ]
+  },
+  {
+    "id": "raman-weil-rw-ipa-70",
+    "name": "RW IPA 70%",
+    "brand": "Raman & Weil",
+    "line": "Alcohol-Based Surface Disinfectants",
+    "category": "Alcohol-Based Surface Disinfectants",
+    "model": "250 ml",
+    "packaging": "250 ml",
+    "packOptions": [
+      "250 ml",
+      "1 L"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/files/rw-ipa-70-8557140_1500x.webp?v=1766474405",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/files/rw-ipa-70-8557140_1500x.webp?v=1766474405",
+      "https://ramanweil.com/cdn/shop/files/rw-ipa-70-2196253_1500x.webp?v=1766474398",
+      "https://ramanweil.com/cdn/shop/files/rw-ipa-70-3408100_1500x.webp?v=1766474400",
+      "https://ramanweil.com/cdn/shop/files/rw-ipa-70-1938037_1500x.webp?v=1766474402",
+      "https://ramanweil.com/cdn/shop/files/rw-ipa-70-4354870_1500x.webp?v=1766474404"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/rw-ipa-70",
+    "description": "70% isopropyl alcohol ready-to-use surface and equipment disinfectant that evaporates fully, leaving no residue.",
+    "applications": [
+      "70% isopropyl alcohol, ready to use",
+      "0.2-micron filtered",
+      "Non-aspirating trigger spray",
+      "Bactericidal, fungicidal, yeasticidal",
+      "Evaporates fully - no residue"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "Alcohol-Based Surface Disinfectants",
+      "Category": "Disinfectants & Antiseptics",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "Alcohol-based surface & equipment disinfectant",
+      "Active": "Isopropyl alcohol 70%",
+      "Pack sizes": "250 ml, 1 L"
+    },
+    "industries": [
+      "Hospitals & Healthcare",
+      "Diagnostic Laboratories",
+      "Pharmaceutical Manufacturing",
+      "Operation Theatres & CSSD",
+      "Clinics & Nursing Homes",
+      "Biotechnology & Research"
+    ]
+  },
+  {
+    "id": "raman-weil-mikrobac-forte-pharma",
+    "name": "Mikrobac\u00ae Forte (Pharma)",
+    "brand": "Raman & Weil",
+    "line": "Pharmaceutical Disinfectants",
+    "category": "Pharmaceutical Disinfectants",
+    "model": "Not listed (enquiry only)",
+    "packaging": "Not listed (enquiry only)",
+    "packOptions": [
+      "Not listed (enquiry only)"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/files/mikrobac-forte-pharma-1467999_1500x.webp?v=1766406299",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/files/mikrobac-forte-pharma-1467999_1500x.webp?v=1766406299"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/mikrobac-forte-pharma",
+    "description": "Aldehyde-free QAC surface and environmental disinfectant-cleanser concentrate for pharma cleanrooms; USP <1072> compliant.",
+    "applications": [
+      "USP <1072> compliant; passes EN norms",
+      "Aldehyde- and alcohol-free 5th-gen QAC",
+      "Effective vs Burkholderia cepacia",
+      "Powerful cleanser with corrosion inhibitors",
+      "For high-risk pharma areas"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "Pharmaceutical Disinfectants",
+      "Category": "Disinfectants & Antiseptics",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "QAC surface & environmental disinfectant-cleanser concentrate",
+      "Compliance": "USP <1072>",
+      "Pack sizes": "Not listed (enquiry only)"
+    },
+    "industries": [
+      "Diagnostic Laboratories",
+      "Pharmaceutical Manufacturing",
+      "Biotechnology & Research"
+    ]
+  },
+  {
+    "id": "raman-weil-baccishield-pharma",
+    "name": "Baccishield (Pharma)",
+    "brand": "Raman & Weil",
+    "line": "Pharmaceutical Disinfectants",
+    "category": "Pharmaceutical Disinfectants",
+    "model": "Enquiry only",
+    "packaging": "Enquiry only",
+    "packOptions": [
+      "Enquiry only"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/files/baccishield-pharma-8892185_1500x.webp?v=1766474395",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/files/baccishield-pharma-8892185_1500x.webp?v=1766474395"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/baccishield-pharma",
+    "description": "Hydrogen peroxide-based, high-level sporicidal surface and environmental disinfectant concentrate for pharma high-risk areas.",
+    "applications": [
+      "Hydrogen peroxide-based, aldehyde- and alcohol-free",
+      "High-level sporicidal",
+      "Passes USP <1072> and EN norms",
+      "Low dosage: 100 ppm",
+      "For pharma high-risk areas"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "Pharmaceutical Disinfectants",
+      "Category": "Disinfectants & Antiseptics",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "H2O2-based surface & environmental disinfectant concentrate",
+      "Dosage": "100 ppm (100 ml in 1000 L water)",
+      "Compliance": "USP <1072>, EN norms",
+      "Pack sizes": "Enquiry only"
+    },
+    "industries": [
+      "Diagnostic Laboratories",
+      "Pharmaceutical Manufacturing",
+      "Biotechnology & Research"
+    ]
+  },
+  {
+    "id": "raman-weil-bacto-256-pharma",
+    "name": "Bacto-256 (Pharma)",
+    "brand": "Raman & Weil",
+    "line": "Pharmaceutical Disinfectants",
+    "category": "Pharmaceutical Disinfectants",
+    "model": "Not listed (enquiry only)",
+    "packaging": "Not listed (enquiry only)",
+    "packOptions": [
+      "Not listed (enquiry only)"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/files/bacto-256-pharma-4551031_533x.webp?v=1766474397",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/files/bacto-256-pharma-4551031_533x.webp?v=1766474397"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/bacto-258",
+    "description": "Aldehyde- and alcohol-free QAC surface and environmental disinfectant concentrate for pharma facilities.",
+    "applications": [
+      "QAC-based, aldehyde- and alcohol-free",
+      "Sporicidal, yeasticidal, fungicidal",
+      "Bactericidal, tuberculocidal, virucidal",
+      "For pharma surface and environmental disinfection"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "Pharmaceutical Disinfectants",
+      "Category": "Disinfectants & Antiseptics",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "QAC surface & environmental disinfectant concentrate",
+      "Pack sizes": "Not listed (enquiry only)"
+    },
+    "industries": [
+      "Diagnostic Laboratories",
+      "Pharmaceutical Manufacturing",
+      "Biotechnology & Research"
+    ]
+  },
+  {
+    "id": "raman-weil-baccishield",
+    "name": "Baccishield\u00ae",
+    "brand": "Raman & Weil",
+    "line": "Sporicidal Disinfectants",
+    "category": "Sporicidal Disinfectants",
+    "model": "Not listed (enquiry only)",
+    "packaging": "Not listed (enquiry only)",
+    "packOptions": [
+      "Not listed (enquiry only)"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/files/baccishield-9138793_1500x.jpg?v=1766474352",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/files/baccishield-9138793_1500x.jpg?v=1766474352",
+      "https://ramanweil.com/cdn/shop/files/baccishield-1024096_1500x.jpg?v=1766474353"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/baccishield-surface-fogging",
+    "description": "Hydrogen peroxide-based, broad-spectrum sporicidal surface and environmental disinfectant - non-toxic and non-irritant.",
+    "applications": [
+      "Hydrogen peroxide-based, aldehyde- and alcohol-free",
+      "High-level sporicidal activity",
+      "Non-toxic, non-irritant",
+      "Good material compatibility",
+      "USP <1072> and EN norms"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "Sporicidal Disinfectants",
+      "Category": "Disinfectants & Antiseptics",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "H2O2-based sporicidal surface & environmental disinfectant",
+      "Compliance": "USP <1072>, EN norms",
+      "Pack sizes": "Not listed (enquiry only)"
+    },
+    "industries": [
+      "Hospitals & Healthcare",
+      "Diagnostic Laboratories",
+      "Pharmaceutical Manufacturing",
+      "Operation Theatres & CSSD",
+      "Clinics & Nursing Homes",
+      "Biotechnology & Research"
+    ]
+  },
+  {
+    "id": "raman-weil-bacillocid-special-pharma",
+    "name": "Bacillocid\u00ae Special (Pharma)",
+    "brand": "Raman & Weil",
+    "line": "Sporicidal Disinfectants",
+    "category": "Sporicidal Disinfectants",
+    "model": "Not listed (enquiry only)",
+    "packaging": "Not listed (enquiry only)",
+    "packOptions": [
+      "Not listed (enquiry only)"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/files/bacillocid-special-pharma-4060108_533x.webp?v=1766474414",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/files/bacillocid-special-pharma-4060108_533x.webp?v=1766474414"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/bacillocid-special-pharma",
+    "description": "USP <1072>-compliant sporicidal surface and environmental disinfectant concentrate for high-risk pharma areas.",
+    "applications": [
+      "High-level, sporicidal",
+      "Effective vs Geobacillus stearothermophilus",
+      "USP <1072> compliant; passes EN norms",
+      "For high-risk pharma areas"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "Sporicidal Disinfectants",
+      "Category": "Disinfectants & Antiseptics",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "Sporicidal surface & environmental disinfectant concentrate",
+      "Compliance": "USP <1072>, EN norms",
+      "Pack sizes": "Not listed (enquiry only)"
+    },
+    "industries": [
+      "Diagnostic Laboratories",
+      "Pharmaceutical Manufacturing",
+      "Biotechnology & Research"
+    ]
+  },
+  {
+    "id": "raman-weil-bacillocid-extra-pharma",
+    "name": "Bacillocid\u00ae Extra (Pharma)",
+    "brand": "Raman & Weil",
+    "line": "Sporicidal Disinfectants",
+    "category": "Sporicidal Disinfectants",
+    "model": "Not listed (enquiry only)",
+    "packaging": "Not listed (enquiry only)",
+    "packOptions": [
+      "Not listed (enquiry only)"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/files/bacillocid-extra-6967601_1500x.webp?v=1766474456",
+    "imageIsRepresentative": true,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/files/bacillocid-extra-6967601_1500x.webp?v=1766474456"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/bacillocid-extra-pharma",
+    "description": "USP <1072>-compliant sporicidal surface and environmental disinfectant concentrate for high-risk pharma areas.",
+    "applications": [
+      "High-level, sporicidal",
+      "Effective vs Geobacillus stearothermophilus",
+      "USP <1072> compliant; passes EN norms",
+      "For high-risk pharma areas"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "Sporicidal Disinfectants",
+      "Category": "Disinfectants & Antiseptics",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "Sporicidal surface & environmental disinfectant concentrate",
+      "Compliance": "USP <1072>, EN norms",
+      "Pack sizes": "Not listed (enquiry only)"
+    },
+    "industries": [
+      "Diagnostic Laboratories",
+      "Pharmaceutical Manufacturing",
+      "Biotechnology & Research"
+    ]
+  },
+  {
+    "id": "raman-weil-cutasept",
+    "name": "Cutasept\u00ae",
+    "brand": "Raman & Weil",
+    "line": "Skin Antiseptics",
+    "category": "Skin Antiseptics",
+    "model": "100 ml",
+    "packaging": "100 ml",
+    "packOptions": [
+      "100 ml",
+      "500 ml"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/products/cutasept-2975461_1500x.png?v=1766474333",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/products/cutasept-2975461_1500x.png?v=1766474333",
+      "https://ramanweil.com/cdn/shop/products/cutasept-5956733_1500x.jpg?v=1766474334"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/cutasept-g",
+    "description": "Coloured, broad-spectrum skin antiseptic for pre-operative prepping and post-closure skin care.",
+    "applications": [
+      "Rapid action with sustained residual effect",
+      "Coloured - no separate marking agent needed",
+      "Bactericidal incl. MRSA; virucidal incl. HBV, HIV",
+      "For pre-op prep and post-closure skin care"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "Skin Antiseptics",
+      "Category": "Disinfectants & Antiseptics",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "Skin antiseptic (coloured)",
+      "Actives": "2-propanol + benzalkonium chloride",
+      "EN norms": "EN 14476",
+      "Pack sizes": "100 ml, 500 ml"
+    },
+    "industries": [
+      "Hospitals & Healthcare",
+      "Diagnostic Laboratories",
+      "Operation Theatres & CSSD",
+      "Clinics & Nursing Homes"
+    ]
+  },
+  {
+    "id": "raman-weil-cutasept-f",
+    "name": "Cutasept\u00ae F",
+    "brand": "Raman & Weil",
+    "line": "Skin Antiseptics",
+    "category": "Skin Antiseptics",
+    "model": "50 ml",
+    "packaging": "50 ml",
+    "packOptions": [
+      "50 ml",
+      "250 ml"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/files/cutaseptF-spray_1500x.webp?v=1773401436",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/files/cutaseptF-spray_1500x.webp?v=1773401436",
+      "https://ramanweil.com/cdn/shop/files/cutaseptF_1500x.webp?v=1773401436"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/cutasept-f",
+    "description": "Colourless skin antiseptic spray that cleans, degreases and disinfects skin in 30 seconds.",
+    "applications": [
+      "Colourless spray, acts within 30 seconds",
+      "Cleans, degreases and disinfects skin",
+      "Residual effect from benzalkonium chloride",
+      "Suitable for infants and diabetic patients",
+      "Stable 12 months after opening"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "Skin Antiseptics",
+      "Category": "Disinfectants & Antiseptics",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "Skin antiseptic spray (colourless)",
+      "EN norms": "EN 14476",
+      "Pack sizes": "50 ml, 250 ml"
+    },
+    "industries": [
+      "Hospitals & Healthcare",
+      "Diagnostic Laboratories",
+      "Operation Theatres & CSSD",
+      "Clinics & Nursing Homes"
+    ]
+  },
+  {
+    "id": "raman-weil-bactoprep",
+    "name": "Bactoprep\u00ae",
+    "brand": "Raman & Weil",
+    "line": "Skin Antiseptics",
+    "category": "Skin Antiseptics",
+    "model": "100 ml",
+    "packaging": "100 ml",
+    "packOptions": [
+      "100 ml",
+      "500 ml"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/products/bactoprep-8714781_1500x.png?v=1766474337",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/products/bactoprep-8714781_1500x.png?v=1766474337"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/bactoprep",
+    "description": "Ready-to-use CHG-based surgical skin prepping solution that helps prevent catheter-related bloodstream infections.",
+    "applications": [
+      "Chlorhexidine-based, ready to use - no dilution",
+      "Helps prevent CRBSI and CVC colonisation",
+      "Active vs MRSA, EHEC, fungi and viruses",
+      "Residual effect; leaves no stains",
+      "One swab is usually enough; dries in about 30 seconds"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "Skin Antiseptics",
+      "Category": "Disinfectants & Antiseptics",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "CHG-based surgical skin prep solution",
+      "Use": "Undiluted, external use only; wet the site with a swab and let dry",
+      "Exposure time": "at least 15 seconds",
+      "EN norms": "EN 13727, EN 13624",
+      "Pack sizes": "100 ml, 500 ml"
+    },
+    "industries": [
+      "Hospitals & Healthcare",
+      "Diagnostic Laboratories",
+      "Operation Theatres & CSSD",
+      "Clinics & Nursing Homes"
+    ]
+  },
+  {
+    "id": "raman-weil-ramadine-5-7-5-10",
+    "name": "Ramadine\u00ae 5%, 7.5%, 10%",
+    "brand": "Raman & Weil",
+    "line": "Skin Antiseptics",
+    "category": "Skin Antiseptics",
+    "model": "Ramadine 5%: 100 ml, 500 ml, 2 L",
+    "packaging": "Ramadine 5%: 100 ml, 500 ml, 2 L",
+    "packOptions": [
+      "Ramadine 5%: 100 ml, 500 ml, 2 L",
+      "Ramadine 7.5%: 100 ml, 500 ml",
+      "Ramadine 10%: 100 ml, 500 ml"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/files/ramadine-5-75-10-4480274_1500x.webp?v=1766474471",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/files/ramadine-5-75-10-4480274_1500x.webp?v=1766474471"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/ramadine-5-7-5-10",
+    "description": "Povidone-iodine antiseptic range - 5% topical solution, 7.5% scrub and 10% surgical skin prep - for skin, wounds and mucous membranes.",
+    "applications": [
+      "Povidone-iodine: bactericidal, virucidal, fungicidal, sporicidal",
+      "Three formats: 5% solution, 7.5% scrub, 10% surgical prep",
+      "Safe on mucous membranes and wounds",
+      "Sustained action compared with alcohol",
+      "Temporary colour marks the treated area"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "Skin Antiseptics",
+      "Category": "Disinfectants & Antiseptics",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "Povidone-iodine antiseptic",
+      "Strengths": "5% topical solution, 7.5% scrub, 10% surgical skin prep",
+      "Skin/mucosa": "undiluted, at least 1 min",
+      "Pre-operative": "apply at least twice, at least 5 min contact; apply incision foil only after drying",
+      "Pack sizes": "100 ml and 500 ml (all strengths); 2 L (5% only)"
+    },
+    "industries": [
+      "Hospitals & Healthcare",
+      "Diagnostic Laboratories",
+      "Operation Theatres & CSSD",
+      "Clinics & Nursing Homes"
+    ]
+  },
+  {
+    "id": "raman-weil-korso-plus",
+    "name": "Korso Plus\u00ae",
+    "brand": "Raman & Weil",
+    "line": "Fogging & Environmental Disinfection",
+    "category": "Fogging & Environmental Disinfection",
+    "model": "100 ml",
+    "packaging": "100 ml",
+    "packOptions": [
+      "100 ml",
+      "1 L"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/files/korso-plus-3764647_1500x.png?v=1772607661",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/files/korso-plus-3764647_1500x.png?v=1772607661",
+      "https://ramanweil.com/cdn/shop/files/korso-plus-6484128_1500x.png?v=1766474345",
+      "https://ramanweil.com/cdn/shop/files/korso-plus-5119153_1500x.png?v=1766474347"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/korso-plus",
+    "description": "Aldehyde-free 5th-generation QAC disinfectant concentrate for surface mopping, fogging and instrument disinfection.",
+    "applications": [
+      "Aldehyde-free 5th-generation QAC",
+      "Kills 99.999% of microbes in under 5 minutes",
+      "For fogging in OT, ICU and NICU",
+      "Effective in dirty conditions",
+      "Also for surface mopping and instrument immersion"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "Fogging & Environmental Disinfection",
+      "Category": "Disinfectants & Antiseptics",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "QAC disinfectant concentrate (surface, fogging, instruments)",
+      "Surface": "0.5-2% in water, exposure 15-20 min",
+      "Instruments": "2% (20 ml per litre), 15 min (30 min if heavily soiled), then rinse about 10 min",
+      "EN norms": "EN 1040, EN 13624, EN 13727, EN 14561, EN 14347",
+      "Pack sizes": "100 ml, 1 L"
+    },
+    "industries": [
+      "Hospitals & Healthcare",
+      "Diagnostic Laboratories",
+      "Pharmaceutical Manufacturing",
+      "Operation Theatres & CSSD",
+      "Clinics & Nursing Homes",
+      "Biotechnology & Research"
+    ]
+  },
+  {
+    "id": "raman-weil-isoflurane",
+    "name": "Isoflurane",
+    "brand": "Raman & Weil",
+    "line": "Inhalation Anaesthesia Products",
+    "category": "Inhalation Anaesthesia Products",
+    "model": "Standard Pack (Enquiry only)",
+    "packaging": "Standard Pack (Enquiry only)",
+    "packOptions": [
+      "Standard Pack (Enquiry only)"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/products/isoflurane-4057468_1500x.png?v=1766474367",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/products/isoflurane-4057468_1500x.png?v=1766474367",
+      "https://ramanweil.com/cdn/shop/products/isoflurane-8797855_1500x.png?v=1766474366",
+      "https://ramanweil.com/cdn/shop/products/isoflurane-4851213_1500x.png?v=1766474369"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/isoflurane",
+    "description": "Stable, non-flammable second-generation general inhalation anaesthetic for smooth, rapid induction and recovery.",
+    "applications": [
+      "Second-generation general inhalation anaesthetic",
+      "Stable and non-flammable",
+      "Smooth, rapid induction and recovery",
+      "Rapid adjustment of anaesthetic depth"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "Inhalation Anaesthesia Products",
+      "Category": "Surgical Supplies",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "General inhalation anaesthetic",
+      "Pack sizes / price": "Enquiry only on R&W site"
+    },
+    "industries": [
+      "Hospitals & Healthcare",
+      "Operation Theatres & CSSD"
+    ]
+  },
+  {
+    "id": "raman-weil-sevoflurane",
+    "name": "Sevoflurane",
+    "brand": "Raman & Weil",
+    "line": "Inhalation Anaesthesia Products",
+    "category": "Inhalation Anaesthesia Products",
+    "model": "Standard Pack (Enquiry only)",
+    "packaging": "Standard Pack (Enquiry only)",
+    "packOptions": [
+      "Standard Pack (Enquiry only)"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/products/sevoflurane-8298752_1500x.png?v=1766474362",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/products/sevoflurane-8298752_1500x.png?v=1766474362"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/sevoflurane",
+    "description": "Stable, non-flammable third-generation inhalation anaesthetic with fast onset and rapid recovery.",
+    "applications": [
+      "Third-generation inhalation anaesthetic",
+      "Fast onset and smooth induction",
+      "Rapid recovery of cognitive function",
+      "Haemodynamic stability; non-irritating odour",
+      "Suitable for paediatric, cardiac and neurosurgery"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "Inhalation Anaesthesia Products",
+      "Category": "Surgical Supplies",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "Inhalation anaesthetic",
+      "Pack sizes / price": "Enquiry only on R&W site"
+    },
+    "industries": [
+      "Hospitals & Healthcare",
+      "Operation Theatres & CSSD"
+    ]
+  },
+  {
+    "id": "raman-weil-sojourn",
+    "name": "Sojourn",
+    "brand": "Raman & Weil",
+    "line": "Inhalation Anaesthesia Products",
+    "category": "Inhalation Anaesthesia Products",
+    "model": "Standard Pack (Enquiry only)",
+    "packaging": "Standard Pack (Enquiry only)",
+    "packOptions": [
+      "Standard Pack (Enquiry only)"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/products/sojourn-6742645_1500x.png?v=1766474364",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/products/sojourn-6742645_1500x.png?v=1766474364"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/sojourn",
+    "description": "Stable, non-flammable third-generation inhalation anaesthetic with fast onset.",
+    "applications": [
+      "Third-generation inhalation anaesthetic",
+      "Fast onset",
+      "Stable and non-flammable"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "Inhalation Anaesthesia Products",
+      "Category": "Surgical Supplies",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "Inhalation anaesthetic",
+      "Pack sizes / price": "Enquiry only on R&W site"
+    },
+    "industries": [
+      "Hospitals & Healthcare",
+      "Operation Theatres & CSSD"
+    ]
+  },
+  {
+    "id": "raman-weil-100ml-cot-stand",
+    "name": "100ml Cot Stand",
+    "brand": "Raman & Weil",
+    "line": "Accessories",
+    "category": "Accessories",
+    "model": "100 ml",
+    "packaging": "100 ml",
+    "packOptions": [
+      "100 ml"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/files/100ml-cot-stand-9253601_1500x.webp?v=1766474379",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/files/100ml-cot-stand-9253601_1500x.webp?v=1766474379"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/100ml-cot-stand",
+    "description": "Stainless-steel bedside stand for a 100 ml hand rub bottle, placed on each patient's bed.",
+    "applications": [
+      "Superior-quality stainless steel",
+      "Fits on individual patient beds",
+      "Holds 100 ml hand rub bottle",
+      "Improves near-patient hand hygiene compliance"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "Accessories",
+      "Category": "Medical Equipment & Accessories",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "Bedside cot stand",
+      "Material": "Stainless steel",
+      "Fits": "100 ml bottle"
+    },
+    "industries": [
+      "Hospitals & Healthcare",
+      "Operation Theatres & CSSD",
+      "Clinics & Nursing Homes"
+    ]
+  },
+  {
+    "id": "raman-weil-500ml-cot-stand",
+    "name": "500ml Cot Stand",
+    "brand": "Raman & Weil",
+    "line": "Accessories",
+    "category": "Accessories",
+    "model": "500 ml",
+    "packaging": "500 ml",
+    "packOptions": [
+      "500 ml"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/products/500ml-cot-stand-9459889_533x.jpg?v=1766474375",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/products/500ml-cot-stand-9459889_533x.jpg?v=1766474375"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/500ml-cot-stand",
+    "description": "Stainless-steel bedside stand for a 500 ml hand rub bottle, placed on each patient's bed.",
+    "applications": [
+      "Superior-quality stainless steel",
+      "Fits on individual patient beds",
+      "Holds 500 ml hand rub bottle",
+      "Improves near-patient hand hygiene compliance"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "Accessories",
+      "Category": "Medical Equipment & Accessories",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "Bedside cot stand",
+      "Material": "Stainless steel",
+      "Fits": "500 ml bottle"
+    },
+    "industries": [
+      "Hospitals & Healthcare",
+      "Operation Theatres & CSSD",
+      "Clinics & Nursing Homes"
+    ]
+  },
+  {
+    "id": "raman-weil-long-handle-stainless-steel-dispensing-stand",
+    "name": "Long Handle Stainless Steel Dispensing Stand",
+    "brand": "Raman & Weil",
+    "line": "Accessories",
+    "category": "Accessories",
+    "model": "Standard Pack (Enquiry only)",
+    "packaging": "Standard Pack (Enquiry only)",
+    "packOptions": [
+      "Standard Pack (Enquiry only)"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/files/long-handle-stainless-steel-dispensing-stand-1383114_533x.webp?v=1766474381",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/files/long-handle-stainless-steel-dispensing-stand-1383114_533x.webp?v=1766474381"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/long-handle-stainless-steel-dispensing-stand",
+    "description": "Long-handle stainless-steel stand for aseptic dispensing of hand rubs and scrubs at scrub stations.",
+    "applications": [
+      "Stainless steel construction",
+      "Long handle for hands-free, aseptic dispensing",
+      "For scrub stations"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "Accessories",
+      "Category": "Medical Equipment & Accessories",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "Dispensing stand",
+      "Material": "Stainless steel"
+    },
+    "industries": [
+      "Hospitals & Healthcare",
+      "Operation Theatres & CSSD",
+      "Clinics & Nursing Homes"
+    ]
+  },
+  {
+    "id": "raman-weil-plastic-dispensing-stand",
+    "name": "Plastic Dispensing Stand",
+    "brand": "Raman & Weil",
+    "line": "Accessories",
+    "category": "Accessories",
+    "model": "Standard Pack (Enquiry only)",
+    "packaging": "Standard Pack (Enquiry only)",
+    "packOptions": [
+      "Standard Pack (Enquiry only)"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/files/plastic-dispensing-stand-1664310_533x.webp?v=1766474377",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/files/plastic-dispensing-stand-1664310_533x.webp?v=1766474377"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/plastic-dispensing-stand",
+    "description": "Free-standing dispensing stand for hand rubs or hand washes at entrances, patient areas and restrooms.",
+    "applications": [
+      "Lightweight plastic stand",
+      "For entrances, patient areas and restrooms",
+      "Holds R&W hand rubs / hand washes"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "Accessories",
+      "Category": "Medical Equipment & Accessories",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "Dispensing stand",
+      "Material": "Plastic"
+    },
+    "industries": [
+      "Hospitals & Healthcare",
+      "Operation Theatres & CSSD",
+      "Clinics & Nursing Homes"
+    ]
+  },
+  {
+    "id": "raman-weil-stainless-steel-elbow-dispensing-stand",
+    "name": "Stainless Steel Elbow Dispensing Stand",
+    "brand": "Raman & Weil",
+    "line": "Accessories",
+    "category": "Accessories",
+    "model": "Standard Pack (Enquiry only)",
+    "packaging": "Standard Pack (Enquiry only)",
+    "packOptions": [
+      "Standard Pack (Enquiry only)"
+    ],
+    "colorOptions": [],
+    "image": "https://ramanweil.com/cdn/shop/products/stainless-steel-elbow-dispensing-stand-6806299_533x.jpg?v=1766474372",
+    "imageIsRepresentative": false,
+    "gallery": [
+      "https://ramanweil.com/cdn/shop/products/stainless-steel-elbow-dispensing-stand-6806299_533x.jpg?v=1766474372"
+    ],
+    "sourceUrl": "https://ramanweil.com/products/stainless-steel-elbow-dispensing-stand",
+    "description": "Elbow-operated stainless-steel dispensing stand for wash stations in OT, ICU and high-risk areas.",
+    "applications": [
+      "Elbow-operated - no hand contact",
+      "Stainless steel construction",
+      "For OT, ICU and high-risk wash stations"
+    ],
+    "specifications": {
+      "Brand": "Raman & Weil",
+      "Product line": "Accessories",
+      "Category": "Medical Equipment & Accessories",
+      "Manufacturer": "Raman & Weil Pvt. Ltd.",
+      "Product type": "Elbow dispensing stand",
+      "Material": "Stainless steel"
     },
     "industries": [
       "Hospitals & Healthcare",
