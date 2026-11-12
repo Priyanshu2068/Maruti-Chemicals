@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import {
   FlaskConical,
   Search,
@@ -15,6 +15,7 @@ import {
   Clock,
   Award,
   ChevronRight,
+  ArrowLeft,
   Phone,
   Mail,
   MapPin,
@@ -29,7 +30,8 @@ import {
   Headphones,
   ClipboardCheck,
   Building2,
-  BadgeCheck
+  BadgeCheck,
+  Palette
 } from 'lucide-react';
 
 import {
@@ -183,8 +185,11 @@ export default function App() {
 
   // Search & Filter state
   const [searchQuery, setSearchQuery] = useState('');
+  const [searchFocused, setSearchFocused] = useState(false);
+  const searchContainerRef = useRef(null);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedVariant, setSelectedVariant] = useState('');
+  const [selectedColor, setSelectedColor] = useState('');
   const [detailQuantity, setDetailQuantity] = useState('1');
 
   // RFQ Cart state
@@ -209,6 +214,14 @@ export default function App() {
     instructions: ''
   });
 
+  const [currentIndustry, setCurrentIndustry] = useState(() => {
+    const initialPage = getPageFromPath();
+    if (initialPage.type === 'category') {
+      return CATEGORIES.find((category) => slugify(category.name) === initialPage.value)?.name || null;
+    }
+    return null;
+  });
+
   const navigateTo = (path) => {
     const isHashMode = Boolean(window.location.hash);
     if (isHashMode) {
@@ -225,22 +238,45 @@ export default function App() {
     }
     const nextPage = getPageFromPath(path);
     setPage(nextPage);
-    setSelectedCategory(nextPage.type === 'category'
-      ? CATEGORIES.find((category) => slugify(category.name) === nextPage.value)?.name || 'All'
-      : 'All');
+    if (nextPage.type === 'category') {
+      const catName = CATEGORIES.find((category) => slugify(category.name) === nextPage.value)?.name || null;
+      setCurrentIndustry(catName);
+      setSelectedCategory(catName || 'All');
+    } else if (nextPage.type === 'home') {
+      setCurrentIndustry(null);
+      setSelectedCategory('All');
+    } else if (nextPage.type === 'group') {
+      if (!currentIndustry) {
+        const groupCat = PRODUCT_CATEGORIES.find((pc) => slugify(pc.name) === nextPage.value)?.name;
+        const parentInd = CATEGORIES.find((c) => c.productCategories.includes(groupCat))?.name || null;
+        if (parentInd) setCurrentIndustry(parentInd);
+      }
+    }
     setIndustriesMenuOpen(false);
     setMobileMenuOpen(false);
     setSearchQuery('');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleLinkClick = (e, path) => {
+    if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
+      e.preventDefault();
+      navigateTo(path);
+    }
+  };
+
   useEffect(() => {
     const handleNavigation = () => {
       const nextPage = getPageFromPath();
       setPage(nextPage);
-      setSelectedCategory(nextPage.type === 'category'
-        ? CATEGORIES.find((category) => slugify(category.name) === nextPage.value)?.name || 'All'
-        : 'All');
+      if (nextPage.type === 'category') {
+        const catName = CATEGORIES.find((category) => slugify(category.name) === nextPage.value)?.name || null;
+        setCurrentIndustry(catName);
+        setSelectedCategory(catName || 'All');
+      } else if (nextPage.type === 'home') {
+        setCurrentIndustry(null);
+        setSelectedCategory('All');
+      }
     };
     window.addEventListener('popstate', handleNavigation);
     window.addEventListener('hashchange', handleNavigation);
@@ -248,6 +284,16 @@ export default function App() {
       window.removeEventListener('popstate', handleNavigation);
       window.removeEventListener('hashchange', handleNavigation);
     };
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(e.target)) {
+        setSearchFocused(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   const activeCategory = page.type === 'category'
@@ -260,8 +306,13 @@ export default function App() {
     ? PRODUCT_LISTINGS.find((product) => product.id === page.value)
     : null;
 
+  const effectiveIndustry = activeCategory
+    ? activeCategory.name
+    : currentIndustry || (activeProductCategory ? CATEGORIES.find(c => c.productCategories.includes(activeProductCategory.name))?.name : null) || (activeProduct ? (activeProduct.industries?.[0] || CATEGORIES.find(c => c.productCategories.includes(activeProduct.category))?.name) : null);
+
   useEffect(() => {
-    setSelectedVariant(activeProduct?.packOptions[0] || '');
+    setSelectedVariant(activeProduct?.packOptions?.[0] || '');
+    setSelectedColor(activeProduct?.colorOptions?.[0] || '');
     setDetailQuantity('1');
     setSelectedImageIndex(0);
   }, [activeProduct?.id]);
@@ -276,20 +327,23 @@ export default function App() {
   }, [darkMode]);
 
   // Cart Helper functions
-  const isInCart = (productId, packaging) => cart.some(item =>
-    item.product.id === productId && (packaging === undefined || item.packaging === packaging)
+  const isInCart = (productId, packaging, color) => cart.some(item =>
+    item.product.id === productId &&
+    (packaging === undefined || item.packaging === packaging) &&
+    (color === undefined || !item.color || item.color === color)
   );
 
-  const toggleCartItem = (product, variant = product.packOptions[0], quantity = '1') => {
-    const cartItemId = `${product.id}::${variant}`;
-    if (isInCart(product.id, variant)) {
+  const toggleCartItem = (product, variant = product.packOptions[0], color = (product.colorOptions?.[0] || ''), quantity = '1') => {
+    const cartItemId = `${product.id}::${variant}::${color}`;
+    if (isInCart(product.id, variant, color)) {
       setCart(cart.filter(item => item.cartItemId !== cartItemId));
     } else {
       setCart([...cart, {
         cartItemId,
         product,
         quantity,
-        packaging: variant
+        packaging: variant,
+        color: color
       }]);
     }
   };
@@ -306,7 +360,8 @@ export default function App() {
       const existingVariant = currentCart.find(item =>
         item.cartItemId !== cartItemId &&
         item.product.id === currentItem.product.id &&
-        item.packaging === newPackaging
+        item.packaging === newPackaging &&
+        (item.color || '') === (currentItem.color || '')
       );
 
       if (existingVariant) {
@@ -319,7 +374,35 @@ export default function App() {
       }
 
       return currentCart.map(item => item.cartItemId === cartItemId
-        ? { ...item, cartItemId: `${item.product.id}::${newPackaging}`, packaging: newPackaging }
+        ? { ...item, cartItemId: `${item.product.id}::${newPackaging}::${item.color || ''}`, packaging: newPackaging }
+        : item
+      );
+    });
+  };
+
+  const updateCartItemColor = (cartItemId, newColor) => {
+    setCart(currentCart => {
+      const currentItem = currentCart.find(item => item.cartItemId === cartItemId);
+      if (!currentItem) return currentCart;
+
+      const existingVariant = currentCart.find(item =>
+        item.cartItemId !== cartItemId &&
+        item.product.id === currentItem.product.id &&
+        item.packaging === currentItem.packaging &&
+        item.color === newColor
+      );
+
+      if (existingVariant) {
+        return currentCart
+          .filter(item => item.cartItemId !== cartItemId)
+          .map(item => item.cartItemId === existingVariant.cartItemId
+            ? { ...item, quantity: String(Number(item.quantity) + Number(currentItem.quantity)) }
+            : item
+          );
+      }
+
+      return currentCart.map(item => item.cartItemId === cartItemId
+        ? { ...item, cartItemId: `${item.product.id}::${item.packaging}::${newColor}`, color: newColor }
         : item
       );
     });
@@ -337,8 +420,12 @@ export default function App() {
   const filteredProducts = useMemo(() => {
     const query = searchQuery.toLowerCase().trim();
     return PRODUCT_LISTINGS.filter(product => {
-      if (!query && page.type === 'category' && !activeCategory?.productCategories.includes(product.category)) {
-        return false;
+      if (!query && page.type === 'category') {
+        if (product.industries && activeCategory) {
+          if (!product.industries.includes(activeCategory.name)) return false;
+        } else if (!activeCategory?.productCategories.includes(product.category)) {
+          return false;
+        }
       }
       if (!query && page.type === 'group' && product.category !== activeProductCategory?.name) return false;
       if (!query && page.type === 'brand' && product.brand.toLowerCase() !== page.value.toLowerCase()) return false;
@@ -349,16 +436,14 @@ export default function App() {
           product.brand,
           product.line,
           product.category,
-          ...INDUSTRY_CATEGORIES
-            .filter(industry => industry.productCategories.includes(product.category))
-            .map(industry => industry.name),
           product.model,
-          ...product.packOptions,
-          ...product.applications,
-          ...Object.values(product.specifications)
+          product.description,
+          ...(product.industries || []),
+          ...(product.colorOptions || []),
+          ...(product.packOptions || []),
+          ...(product.applications || [])
         ].join(' ').toLowerCase();
-        const normalizedQuery = query.endsWith('s') ? query.slice(0, -1) : query;
-        return searchableText.includes(query) || searchableText.includes(normalizedQuery);
+        return searchableText.includes(query);
       }
       return true;
     });
@@ -374,6 +459,74 @@ export default function App() {
   const activeProductImages = activeProduct
     ? (activeProduct.gallery?.length ? activeProduct.gallery : activeProduct.image ? [activeProduct.image] : [])
     : [];
+
+  const handleGoBack = () => {
+    if (page.type === 'product') {
+      if (activeProduct?.category) {
+        navigateTo(`/group/${slugify(activeProduct.category)}`);
+      } else if (effectiveIndustry) {
+        navigateTo(`/category/${slugify(effectiveIndustry)}`);
+      } else {
+        navigateTo('/');
+      }
+    } else if (page.type === 'group') {
+      if (effectiveIndustry) {
+        navigateTo(`/category/${slugify(effectiveIndustry)}`);
+      } else {
+        navigateTo('/');
+      }
+    } else if (page.type === 'category' || page.type === 'brand') {
+      navigateTo('/');
+    } else if (searchIsActive) {
+      setSearchQuery('');
+    } else {
+      navigateTo('/');
+    }
+  };
+
+  const searchSuggestions = useMemo(() => {
+    const q = searchQuery.toLowerCase().trim();
+    if (!q) return { products: [], categories: [], totalMatches: 0 };
+
+    const matchedProducts = PRODUCT_LISTINGS.filter(product => {
+      const searchableText = [
+        product.id,
+        product.name,
+        product.brand,
+        product.line,
+        product.category,
+        product.model,
+        product.description,
+        ...(product.industries || []),
+        ...(product.colorOptions || []),
+        ...(product.packOptions || []),
+        ...(product.applications || [])
+      ].join(' ').toLowerCase();
+      return searchableText.includes(q);
+    });
+
+    const matchedCategories = PRODUCT_CATEGORIES.filter(cat =>
+      cat.name.toLowerCase().includes(q)
+    );
+
+    return {
+      products: matchedProducts.slice(0, 6),
+      totalMatches: matchedProducts.length,
+      categories: matchedCategories.slice(0, 3)
+    };
+  }, [searchQuery]);
+
+  const handleSearchSubmit = (e) => {
+    if (e) e.preventDefault();
+    setSearchFocused(false);
+    if (page.type !== 'home' && page.type !== 'category' && page.type !== 'group') {
+      navigateTo('/');
+    }
+    setTimeout(() => {
+      const el = document.getElementById('products') || document.getElementById('sectors');
+      el?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+  };
 
   const openSingleProductRfq = (product) => {
     setRfqTargetProduct(product);
@@ -401,8 +554,11 @@ export default function App() {
   };
 
   const getCategoryCartCount = (catName) => {
-    const category = CATEGORIES.find((item) => item.name === catName);
-    return cart.filter(item => category?.productCategories.includes(item.product.category)).length;
+    return cart.filter(item => {
+      if (item.product.industries) return item.product.industries.includes(catName);
+      const category = CATEGORIES.find((c) => c.name === catName);
+      return category?.productCategories.includes(item.product.category);
+    }).length;
   };
 
   return (
@@ -449,34 +605,43 @@ export default function App() {
             >
               Products
             </a>
-            <div className="relative">
+            <div
+              className="relative py-1"
+              onMouseEnter={() => setIndustriesMenuOpen(true)}
+              onMouseLeave={() => setIndustriesMenuOpen(false)}
+            >
               <button
                 type="button"
                 aria-haspopup="true"
                 aria-expanded={industriesMenuOpen}
                 onClick={() => setIndustriesMenuOpen(open => !open)}
-                className="whitespace-nowrap text-slate-700 dark:text-slate-300 hover:text-[#0284c7] dark:hover:text-[#4fc3f7]"
+                className="whitespace-nowrap text-slate-700 dark:text-slate-300 hover:text-[#0284c7] dark:hover:text-[#4fc3f7] flex items-center gap-1 transition-colors py-1 cursor-pointer"
               >
-                Industries <ChevronRight className={`inline h-3.5 w-3.5 transition-transform ${industriesMenuOpen ? 'rotate-[270deg]' : 'rotate-90'}`} />
+                Industries <ChevronRight className={`inline h-3.5 w-3.5 transition-transform duration-200 ${industriesMenuOpen ? 'rotate-[270deg]' : 'rotate-90'}`} />
               </button>
               {industriesMenuOpen && (
                 <div
-                  className={`absolute left-0 top-full z-[70] mt-3 grid w-[min(88vw,22rem)] grid-cols-1 gap-1 rounded-xl border p-2 shadow-2xl ${
-                    darkMode ? 'border-slate-700 bg-slate-900' : 'border-slate-200 bg-white'
-                  }`}
+                  className="absolute left-0 top-full z-[70] pt-1.5 w-[min(88vw,22rem)]"
+                  onMouseEnter={() => setIndustriesMenuOpen(true)}
+                  onMouseLeave={() => setIndustriesMenuOpen(false)}
                 >
-                  {CATEGORIES.map((category) => (
-                    <a
-                      key={category.name}
-                      href={getRouteUrl(`/category/${slugify(category.name)}`)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() => setIndustriesMenuOpen(false)}
-                      className="w-full block rounded-lg px-3 py-2.5 text-left text-xs leading-snug hover:bg-sky-50 dark:hover:bg-slate-800"
-                    >
-                      {category.name}
-                    </a>
-                  ))}
+                  <div className={`grid grid-cols-1 gap-1 rounded-xl border p-2 shadow-2xl transition-all duration-200 ${
+                    darkMode ? 'border-slate-700 bg-slate-900' : 'border-slate-200 bg-white'
+                  }`}>
+                    {CATEGORIES.map((category) => (
+                      <a
+                        key={category.name}
+                        href={getRouteUrl(`/category/${slugify(category.name)}`)}
+                        onClick={(e) => {
+                          setIndustriesMenuOpen(false);
+                          handleLinkClick(e, `/category/${slugify(category.name)}`);
+                        }}
+                        className="w-full block rounded-lg px-3 py-2.5 text-left text-xs leading-snug hover:bg-sky-50 dark:hover:bg-slate-800 transition-colors"
+                      >
+                        {category.name}
+                      </a>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
@@ -565,9 +730,10 @@ export default function App() {
                     <a
                       key={category.name}
                       href={getRouteUrl(`/category/${slugify(category.name)}`)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() => setMobileMenuOpen(false)}
+                      onClick={(e) => {
+                        setMobileMenuOpen(false);
+                        handleLinkClick(e, `/category/${slugify(category.name)}`);
+                      }}
                       className="block rounded-lg px-3 py-2 text-left text-xs hover:bg-sky-50 dark:hover:bg-slate-800"
                     >
                       {category.name}
@@ -588,27 +754,154 @@ export default function App() {
           </nav>
         )}
 
-        {/* Search bar beneath the navigation */}
+        {/* Search bar beneath the navigation with Live Suggestions Dropdown */}
         <div className={`px-4 sm:px-6 lg:px-8 pb-3 pt-2 border-t ${darkMode ? 'border-slate-800 bg-slate-900' : 'border-slate-100 bg-white'}`}>
-          <div className="max-w-7xl mx-auto relative">
-            <Search className="absolute left-3.5 top-2.5 w-4 h-4 text-slate-400" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search medical products, brands, models, or sizes..."
-              className={`w-full pl-10 pr-9 py-2 rounded-xl text-xs sm:text-sm border focus:outline-none focus:ring-2 focus:ring-[#0284c7] transition ${
-                darkMode ? 'bg-slate-800 border-slate-700 text-slate-100 placeholder-slate-400' : 'bg-slate-100/80 border-slate-200 text-slate-900 placeholder-slate-500'
-              }`}
-            />
-            {searchQuery && (
-              <button
-                onClick={() => setSearchQuery('')}
-                className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
-                aria-label="Clear product search"
-              >
-                <X className="w-4 h-4" />
-              </button>
+          <div ref={searchContainerRef} className="max-w-7xl mx-auto relative">
+            <form onSubmit={handleSearchSubmit} className="relative">
+              <Search className="absolute left-3.5 top-2.5 w-4 h-4 text-slate-400" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setSearchFocused(true);
+                }}
+                onFocus={() => setSearchFocused(true)}
+                placeholder="Search medical products, brands, models, or sizes..."
+                className={`w-full pl-10 pr-9 py-2 rounded-xl text-xs sm:text-sm border focus:outline-none focus:ring-2 focus:ring-[#0284c7] transition ${
+                  darkMode ? 'bg-slate-800 border-slate-700 text-slate-100 placeholder-slate-400' : 'bg-slate-100/80 border-slate-200 text-slate-900 placeholder-slate-500'
+                }`}
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearchQuery('');
+                    setSearchFocused(false);
+                  }}
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
+                  aria-label="Clear product search"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              )}
+            </form>
+
+            {/* Live Suggestions Dropdown Popover */}
+            {searchFocused && searchQuery.trim().length > 0 && (
+              <div className={`absolute left-0 right-0 top-full mt-2 z-50 rounded-2xl border shadow-2xl overflow-hidden transition-all duration-200 ${
+                darkMode ? 'bg-slate-900 border-slate-800 text-slate-100' : 'bg-white border-slate-200 text-slate-900'
+              }`}>
+                {/* Header */}
+                <div className={`px-4 py-2.5 text-xs font-semibold flex items-center justify-between border-b ${
+                  darkMode ? 'bg-slate-800/60 border-slate-800 text-slate-400' : 'bg-slate-50 border-slate-100 text-slate-500'
+                }`}>
+                  <span>
+                    {searchSuggestions.totalMatches > 0
+                      ? `Found ${searchSuggestions.totalMatches} product${searchSuggestions.totalMatches === 1 ? '' : 's'}`
+                      : 'No products matched'}
+                  </span>
+                  {searchSuggestions.totalMatches > 0 && (
+                    <button
+                      type="button"
+                      onClick={handleSearchSubmit}
+                      className="text-[#0284c7] dark:text-[#4fc3f7] hover:underline font-bold text-xs inline-flex items-center gap-1 cursor-pointer"
+                    >
+                      View in catalog <ArrowRight className="w-3 h-3" />
+                    </button>
+                  )}
+                </div>
+
+                {/* Categories matched */}
+                {searchSuggestions.categories.length > 0 && (
+                  <div className="p-3 border-b border-slate-100 dark:border-slate-800">
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">Matching Categories</div>
+                    <div className="flex flex-wrap gap-2">
+                      {searchSuggestions.categories.map(cat => (
+                        <button
+                          key={cat.name}
+                          type="button"
+                          onClick={() => {
+                            setSearchFocused(false);
+                            navigateTo(`/group/${slugify(cat.name)}`);
+                          }}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-sky-50 dark:bg-sky-950 text-[#0284c7] dark:text-[#4fc3f7] hover:bg-[#0284c7] hover:text-white transition cursor-pointer"
+                        >
+                          <Layers className="w-3 h-3" /> {cat.name}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Products list */}
+                {searchSuggestions.products.length > 0 ? (
+                  <div className="max-h-80 overflow-y-auto divide-y divide-slate-100 dark:divide-slate-800">
+                    {searchSuggestions.products.map(prod => (
+                      <div
+                        key={prod.id}
+                        onClick={() => {
+                          setSearchFocused(false);
+                          navigateTo(`/product/${prod.id}`);
+                        }}
+                        className="p-3 flex items-center gap-3.5 cursor-pointer transition hover:bg-sky-50/70 dark:hover:bg-slate-800/80 group"
+                      >
+                        <div className="w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800 flex-shrink-0 flex items-center justify-center overflow-hidden border border-slate-200 dark:border-slate-700">
+                          {prod.image ? (
+                            <img
+                              src={getHighResolutionProductImage(prod.image)}
+                              alt={prod.name}
+                              className="w-full h-full object-contain p-1 transition-transform group-hover:scale-105"
+                              loading="lazy"
+                            />
+                          ) : (
+                            <Package className="w-5 h-5 text-slate-400" />
+                          )}
+                        </div>
+
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <span className="text-[10px] font-bold uppercase text-[#0284c7] dark:text-[#4fc3f7]">{prod.brand}</span>
+                            <span className="text-[10px] text-slate-400">·</span>
+                            <span className="text-[10px] text-slate-500 dark:text-slate-400 truncate">{prod.category}</span>
+                          </div>
+                          <div className="text-xs font-bold text-slate-900 dark:text-white truncate mt-0.5 group-hover:text-[#0284c7] dark:group-hover:text-[#4fc3f7]">
+                            {prod.name}
+                          </div>
+                          <div className="text-[11px] text-slate-500 dark:text-slate-400 truncate">
+                            Model: {prod.model}
+                          </div>
+                        </div>
+
+                        <ArrowRight className="w-4 h-4 text-slate-400 transition-transform group-hover:translate-x-1 group-hover:text-[#0284c7] dark:group-hover:text-[#4fc3f7] flex-shrink-0" />
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="p-6 text-center">
+                    <p className="text-xs text-slate-600 dark:text-slate-300 font-semibold">
+                      No medical products found for "<span className="text-[#0284c7] dark:text-[#4fc3f7]">{searchQuery}</span>".
+                    </p>
+                    <p className="text-[11px] text-slate-400 mt-1.5">
+                      Try searching: "Avagard", "Ethylene", "Attest", "Tape", "Littmann", "Indicator"
+                    </p>
+                  </div>
+                )}
+
+                {/* Footer button */}
+                {searchSuggestions.totalMatches > 0 && (
+                  <div className={`p-2.5 text-center border-t ${darkMode ? 'bg-slate-800/40 border-slate-800' : 'bg-slate-50 border-slate-100'}`}>
+                    <button
+                      type="button"
+                      onClick={handleSearchSubmit}
+                      className="w-full py-2 px-4 rounded-xl text-xs font-bold bg-[#0284c7] text-white hover:bg-[#0369a1] transition shadow-sm inline-flex items-center justify-center gap-1.5 cursor-pointer"
+                    >
+                      <span>Show all {searchSuggestions.totalMatches} results in catalog</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                )}
+              </div>
             )}
           </div>
         </div>
@@ -730,12 +1023,56 @@ export default function App() {
          ======================================================== */}
       {activeProduct && !searchIsActive ? (
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
-        <button
-          onClick={() => navigateTo(`/group/${slugify(activeProduct.category)}`)}
-          className="mb-6 inline-flex items-center gap-2 text-sm font-semibold text-[#0284c7] dark:text-[#4fc3f7] hover:underline"
-        >
-          <ArrowRight className="w-4 h-4 rotate-180" /> Back to {activeProduct.category} products
-        </button>
+        {/* Navigation Bar with Back Button & Breadcrumbs */}
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-6 pb-4 border-b border-slate-200 dark:border-slate-800">
+          <button
+            onClick={handleGoBack}
+            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 border border-slate-200 dark:border-slate-700 hover:bg-[#0284c7] hover:text-white hover:border-[#0284c7] dark:hover:bg-[#0284c7] dark:hover:text-white transition-all duration-200 shadow-sm group active:scale-95 cursor-pointer"
+          >
+            <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+            <span>Back to {activeProduct.category}</span>
+          </button>
+
+          <nav aria-label="Breadcrumb">
+            <ol className="flex items-center flex-wrap gap-1.5 text-xs text-slate-500 dark:text-slate-400">
+              <li>
+                <a
+                  href={getRouteUrl('/')}
+                  onClick={(e) => handleLinkClick(e, '/')}
+                  className="hover:text-[#0284c7] dark:hover:text-[#4fc3f7] font-medium transition-colors"
+                >
+                  All Industries
+                </a>
+              </li>
+              {effectiveIndustry && (
+                <li className="flex items-center gap-1.5">
+                  <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                  <a
+                    href={getRouteUrl(`/category/${slugify(effectiveIndustry)}`)}
+                    onClick={(e) => handleLinkClick(e, `/category/${slugify(effectiveIndustry)}`)}
+                    className="hover:text-[#0284c7] dark:hover:text-[#4fc3f7] font-medium transition-colors"
+                  >
+                    {effectiveIndustry}
+                  </a>
+                </li>
+              )}
+              <li className="flex items-center gap-1.5">
+                <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                <a
+                  href={getRouteUrl(`/group/${slugify(activeProduct.category)}`)}
+                  onClick={(e) => handleLinkClick(e, `/group/${slugify(activeProduct.category)}`)}
+                  className="hover:text-[#0284c7] dark:hover:text-[#4fc3f7] font-medium transition-colors"
+                >
+                  {activeProduct.category}
+                </a>
+              </li>
+              <li className="flex items-center gap-1.5">
+                <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                <span className="font-bold text-slate-900 dark:text-white line-clamp-1 max-w-[200px] sm:max-w-xs">{activeProduct.name}</span>
+              </li>
+            </ol>
+          </nav>
+        </div>
 
         <div className={`grid grid-cols-1 lg:grid-cols-2 gap-8 rounded-3xl border p-5 sm:p-8 ${
           darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-sky-100'
@@ -835,7 +1172,7 @@ export default function App() {
                   darkMode ? 'bg-slate-800 border-slate-700 text-white' : 'bg-white border-slate-300 text-slate-900'
                 }`}
               >
-                {activeProduct.packOptions.map((option) => (
+                {activeProduct.packOptions?.map((option) => (
                   <option key={option} value={option}>{option}</option>
                 ))}
               </select>
@@ -843,6 +1180,32 @@ export default function App() {
                 Product options are based on 3M India listings where available. Confirm current stock, product code, and pack size before ordering.
               </p>
             </div>
+
+            {activeProduct.colorOptions?.length > 0 && (
+              <div className="mt-5">
+                <label htmlFor="product-color" className="mb-2 flex items-center justify-between text-sm font-bold text-slate-900 dark:text-white">
+                  <span className="flex items-center gap-1.5">
+                    <Palette className="w-4 h-4 text-[#0284c7] dark:text-[#4fc3f7]" />
+                    Select colour / finish option
+                  </span>
+                  <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-sky-100 dark:bg-sky-950 text-[#0284c7] dark:text-[#4fc3f7]">
+                    {activeProduct.colorOptions.length} available
+                  </span>
+                </label>
+                <select
+                  id="product-color"
+                  value={selectedColor}
+                  onChange={(event) => setSelectedColor(event.target.value)}
+                  className={`w-full rounded-xl border px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#0284c7] ${
+                    darkMode ? 'bg-slate-800 border-slate-700 text-white' : 'bg-white border-slate-300 text-slate-900'
+                  }`}
+                >
+                  {activeProduct.colorOptions.map((col) => (
+                    <option key={col} value={col}>{col}</option>
+                  ))}
+                </select>
+              </div>
+            )}
 
             <div className="mt-5 max-w-40">
               <label htmlFor="product-quantity" className="mb-2 block text-sm font-bold text-slate-900 dark:text-white">
@@ -862,14 +1225,14 @@ export default function App() {
 
             <div className="mt-6 flex flex-wrap gap-3">
               <button
-                onClick={() => toggleCartItem(activeProduct, selectedVariant, detailQuantity)}
+                onClick={() => toggleCartItem(activeProduct, selectedVariant, selectedColor, detailQuantity)}
                 className="inline-flex items-center gap-2 rounded-xl bg-[#0284c7] px-5 py-3 text-sm font-bold text-white hover:bg-[#0369a1]"
               >
-                {isInCart(activeProduct.id, selectedVariant) ? <Trash2 className="h-4 w-4" /> : <ShoppingCart className="h-4 w-4" />}
-                {isInCart(activeProduct.id, selectedVariant) ? 'Remove this size from RFQ Cart' : 'Add selected size to cart'}
+                {isInCart(activeProduct.id, selectedVariant, selectedColor) ? <Trash2 className="h-4 w-4" /> : <ShoppingCart className="h-4 w-4" />}
+                {isInCart(activeProduct.id, selectedVariant, selectedColor) ? 'Remove this configuration from RFQ Cart' : 'Add to RFQ Cart'}
               </button>
               <button
-                onClick={() => openSingleProductRfq({ ...activeProduct, packaging: selectedVariant, quantity: detailQuantity })}
+                onClick={() => openSingleProductRfq({ ...activeProduct, packaging: selectedVariant, color: selectedColor, quantity: detailQuantity })}
                 className="inline-flex items-center gap-2 rounded-xl border border-sky-200 bg-sky-50 px-5 py-3 text-sm font-bold text-[#0284c7] hover:bg-sky-100 dark:border-sky-800 dark:bg-sky-950/60 dark:text-[#4fc3f7]"
               >
                 <Send className="h-4 w-4" /> Enquire
@@ -939,6 +1302,70 @@ export default function App() {
             </div>
           </div>
 
+          {/* Back button & Breadcrumbs placed RIGHT ABOVE THE FILTERS */}
+          {(page.type !== 'home' || searchIsActive) && (
+            <div className="flex flex-wrap items-center justify-between gap-3 pt-1 pb-2 border-b border-slate-200 dark:border-slate-800">
+              <button
+                onClick={handleGoBack}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-[#0284c7] hover:bg-[#0369a1] text-white shadow-md transition-all duration-200 group active:scale-95 cursor-pointer"
+              >
+                <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+                <span>
+                  {page.type === 'group'
+                    ? `Back to ${effectiveIndustry || 'Industries'}`
+                    : page.type === 'category'
+                    ? 'Back to All Industries'
+                    : page.type === 'brand'
+                    ? 'Back to All Products'
+                    : 'Back to All Industries'}
+                </span>
+              </button>
+
+              {/* Breadcrumb Trail */}
+              <nav aria-label="Breadcrumb">
+                <ol className="flex items-center flex-wrap gap-1.5 text-xs text-slate-500 dark:text-slate-400">
+                  <li>
+                    <a
+                      href={getRouteUrl('/')}
+                      onClick={(e) => handleLinkClick(e, '/')}
+                      className="hover:text-[#0284c7] dark:hover:text-[#4fc3f7] font-medium transition-colors"
+                    >
+                      All Industries
+                    </a>
+                  </li>
+                  {effectiveIndustry && (
+                    <li className="flex items-center gap-1.5">
+                      <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                      {page.type === 'category' ? (
+                        <span className="font-bold text-slate-900 dark:text-white">{effectiveIndustry}</span>
+                      ) : (
+                        <a
+                          href={getRouteUrl(`/category/${slugify(effectiveIndustry)}`)}
+                          onClick={(e) => handleLinkClick(e, `/category/${slugify(effectiveIndustry)}`)}
+                          className="hover:text-[#0284c7] dark:hover:text-[#4fc3f7] font-medium transition-colors"
+                        >
+                          {effectiveIndustry}
+                        </a>
+                      )}
+                    </li>
+                  )}
+                  {activeProductCategory && (
+                    <li className="flex items-center gap-1.5">
+                      <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                      <span className="font-bold text-slate-900 dark:text-white">{activeProductCategory.name}</span>
+                    </li>
+                  )}
+                  {page.type === 'brand' && (
+                    <li className="flex items-center gap-1.5">
+                      <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                      <span className="font-bold text-slate-900 dark:text-white">{page.value}</span>
+                    </li>
+                  )}
+                </ol>
+              </nav>
+            </div>
+          )}
+
           {/* Category Tabs Scrollable on Mobile with Hover Effects */}
           <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none pt-2">
             <button
@@ -963,8 +1390,7 @@ export default function App() {
                 <a
                   key={cat.name}
                   href={getRouteUrl(`/category/${slugify(cat.name)}`)}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  onClick={(e) => handleLinkClick(e, `/category/${slugify(cat.name)}`)}
                   className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-xs whitespace-nowrap transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm active:translate-y-0 ${
                     isSelected
                       ? 'bg-[#0284c7] text-white shadow-md'
@@ -1055,8 +1481,7 @@ export default function App() {
                 <a
                   key={category.name}
                   href={getRouteUrl(`/category/${slugify(category.name)}`)}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  onClick={(e) => handleLinkClick(e, `/category/${slugify(category.name)}`)}
                   className={`group rounded-2xl border p-6 text-left transition-all hover:-translate-y-1 hover:border-sky-300 hover:shadow-xl dark:hover:border-sky-700 block ${
                     darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-sky-100'
                   }`}
@@ -1093,8 +1518,7 @@ export default function App() {
                 <a
                   key={productCategory.name}
                   href={getRouteUrl(`/group/${slugify(productCategory.name)}`)}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  onClick={(e) => handleLinkClick(e, `/group/${slugify(productCategory.name)}`)}
                   className={`group overflow-hidden rounded-2xl border text-left transition-all hover:-translate-y-1 hover:border-sky-300 hover:shadow-xl dark:hover:border-sky-700 block ${
                     darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-sky-100'
                   }`}
@@ -1169,8 +1593,7 @@ export default function App() {
                   {/* Top Image Container with Zoom Effect */}
                   <a
                     href={getRouteUrl(`/product/${product.id}`)}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    onClick={(e) => handleLinkClick(e, `/product/${product.id}`)}
                     className="block relative h-56 w-full overflow-hidden bg-slate-100 dark:bg-slate-800 cursor-pointer"
                   >
                     {product.image ? (
@@ -1218,8 +1641,7 @@ export default function App() {
                   <div className="p-5 flex-1 flex flex-col">
                     <a
                       href={getRouteUrl(`/product/${product.id}`)}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      onClick={(e) => handleLinkClick(e, `/product/${product.id}`)}
                       className="block text-left font-bold text-base text-slate-950 dark:text-white line-clamp-1 group-hover:text-[#0284c7] dark:group-hover:text-[#4fc3f7] transition-colors"
                     >
                       {product.name}
@@ -1257,11 +1679,17 @@ export default function App() {
                       ))}
                     </div>
 
-                    <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+                    <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex flex-col gap-1 text-xs text-slate-500 dark:text-slate-400">
                       <span className="flex items-center gap-1">
-                        <Package className="w-3.5 h-3.5 text-slate-400" />
-                        Type / size: <strong className="text-slate-700 dark:text-slate-300 font-medium">{product.packaging}</strong>
+                        <Package className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                        <span className="truncate">Type / size: <strong className="text-slate-700 dark:text-slate-300 font-medium">{product.packaging}</strong></span>
                       </span>
+                      {product.colorOptions?.length > 0 && (
+                        <span className="flex items-center gap-1.5 text-sky-600 dark:text-[#4fc3f7] font-semibold text-[11px] mt-0.5">
+                          <Palette className="w-3.5 h-3.5 shrink-0" />
+                          <span>{product.colorOptions.length} Colours / Finishes available</span>
+                        </span>
+                      )}
                     </div>
                   </div>
 
@@ -1270,8 +1698,7 @@ export default function App() {
                     <div className="grid grid-cols-2 gap-2">
                       <a
                         href={getRouteUrl(`/product/${product.id}`)}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        onClick={(e) => handleLinkClick(e, `/product/${product.id}`)}
                         className={`py-2 px-3 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all duration-200 hover:scale-[1.02] active:scale-95 ${
                           darkMode
                             ? 'bg-slate-800 hover:bg-slate-700 text-slate-200'
@@ -1282,8 +1709,7 @@ export default function App() {
                       </a>
                       <a
                         href={getRouteUrl(`/product/${product.id}`)}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        onClick={(e) => handleLinkClick(e, `/product/${product.id}`)}
                         className={`py-2 px-3 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all duration-200 hover:scale-[1.02] active:scale-95 ${
                           darkMode
                             ? 'bg-sky-950/60 hover:bg-sky-900/60 text-[#4fc3f7] border border-sky-800'
@@ -1296,8 +1722,7 @@ export default function App() {
 
                     <a
                       href={getRouteUrl(`/product/${product.id}`)}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      onClick={(e) => handleLinkClick(e, `/product/${product.id}`)}
                       className={`w-full py-2.5 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all duration-200 hover:shadow-md hover:brightness-105 active:scale-95 ${
                         inCart
                           ? 'bg-rose-50 hover:bg-rose-100 text-rose-700 dark:bg-rose-950/40 dark:hover:bg-rose-900/60 dark:text-rose-400 border border-rose-200 dark:border-rose-900'
@@ -1805,6 +2230,12 @@ export default function App() {
                             <span>•</span>
                             <span className="text-[#0284c7] dark:text-[#4fc3f7] font-semibold">{item.product.line}</span>
                           </div>
+                          {item.color && (
+                            <div className="mt-1 flex items-center gap-1 text-[11px] font-semibold text-sky-600 dark:text-[#4fc3f7]">
+                              <Palette className="w-3 h-3 shrink-0" />
+                              <span className="truncate max-w-[240px]">{item.color}</span>
+                            </div>
+                          )}
                         </div>
                         <button
                           onClick={() => removeCartItem(item.cartItemId)}
@@ -1821,10 +2252,9 @@ export default function App() {
                             Target Quantity
                           </label>
                           <input
-                            type="text"
-                            value={item.quantity}
-                            min="1"
                             type="number"
+                            min="1"
+                            value={item.quantity}
                             onChange={(e) => updateCartItemQuantity(item.cartItemId, e.target.value)}
                             placeholder="Quantity"
                             className={`w-full px-2.5 py-1.5 rounded-lg border text-xs focus:ring-1 focus:ring-[#0284c7] outline-none ${
@@ -1835,7 +2265,7 @@ export default function App() {
 
                         <div>
                           <label className="block text-[10px] font-medium text-slate-500 mb-1">
-                            Packaging Choice
+                            Packaging / Size
                           </label>
                           <select
                             value={item.packaging}
@@ -1844,13 +2274,34 @@ export default function App() {
                               darkMode ? 'bg-slate-900 border-slate-700 text-white' : 'bg-white border-slate-300 text-slate-900'
                             }`}
                           >
-                            {item.product.packOptions.map((opt, oIdx) => (
+                            {item.product.packOptions?.map((opt, oIdx) => (
                               <option key={oIdx} value={opt}>
                                 {opt}
                               </option>
                             ))}
                           </select>
                         </div>
+
+                        {item.product.colorOptions?.length > 0 && (
+                          <div className="col-span-2">
+                            <label className="block text-[10px] font-medium text-slate-500 mb-1">
+                              Colour / Finish Option
+                            </label>
+                            <select
+                              value={item.color || item.product.colorOptions[0]}
+                              onChange={(e) => updateCartItemColor(item.cartItemId, e.target.value)}
+                              className={`w-full px-2.5 py-1.5 rounded-lg border text-xs focus:ring-1 focus:ring-[#0284c7] outline-none ${
+                                darkMode ? 'bg-slate-900 border-slate-700 text-white' : 'bg-white border-slate-300 text-slate-900'
+                              }`}
+                            >
+                              {item.product.colorOptions.map((col, cIdx) => (
+                                <option key={cIdx} value={col}>
+                                  {col}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        )}
                       </div>
                     </div>
                   ))
@@ -2069,10 +2520,15 @@ export default function App() {
                     {rfqTargetProduct ? (
                       <div className="p-3 flex items-center justify-between bg-slate-50 dark:bg-slate-800/40">
                         <div>
-                          <span className="font-bold text-slate-900 dark:text-white">{rfqTargetProduct.name}</span>
-                          <span className="ml-2 font-mono text-slate-500">{rfqTargetProduct.brand} · {rfqTargetProduct.line}</span>
+                          <div className="font-bold text-slate-900 dark:text-white">{rfqTargetProduct.name}</div>
+                          <div className="text-[11px] font-mono text-slate-500">{rfqTargetProduct.brand} · {rfqTargetProduct.line}</div>
+                          {rfqTargetProduct.color && (
+                            <div className="text-[11px] text-sky-600 dark:text-[#4fc3f7] font-semibold flex items-center gap-1 mt-0.5">
+                              <Palette className="w-3 h-3" /> Colour: {rfqTargetProduct.color}
+                            </div>
+                          )}
                         </div>
-                        <span className="font-medium text-slate-600 dark:text-slate-300">{rfqTargetProduct.packaging}</span>
+                        <span className="font-medium text-slate-600 dark:text-slate-300 text-right">{rfqTargetProduct.packaging}</span>
                       </div>
                     ) : (
                       cart.map(item => (
@@ -2080,8 +2536,13 @@ export default function App() {
                           <div>
                             <span className="font-bold text-slate-900 dark:text-white">{item.product.name}</span>
                             <span className="ml-2 font-mono text-slate-500">({item.quantity})</span>
+                            {item.color && (
+                              <div className="text-[11px] text-sky-600 dark:text-[#4fc3f7] font-semibold flex items-center gap-1 mt-0.5">
+                                <Palette className="w-3 h-3" /> {item.color}
+                              </div>
+                            )}
                           </div>
-                          <span className="font-medium text-slate-600 dark:text-slate-300">{item.packaging}</span>
+                          <span className="font-medium text-slate-600 dark:text-slate-300 text-right">{item.packaging}</span>
                         </div>
                       ))
                     )}
@@ -2260,8 +2721,7 @@ export default function App() {
                   <li key={cat.name}>
                     <a
                       href={getRouteUrl(`/category/${slugify(cat.name)}`)}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      onClick={(e) => handleLinkClick(e, `/category/${slugify(cat.name)}`)}
                       className="hover:text-[#4fc3f7] transition"
                     >
                       {cat.name}
