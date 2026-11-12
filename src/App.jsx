@@ -1429,7 +1429,7 @@ export default function App() {
                 <Layers className="w-7 h-7 text-[#0284c7] dark:text-[#4fc3f7]" />
                 {searchIsActive
                   ? `Search Results for "${searchQuery.trim()}"`
-                  : activeProductCategory?.name || (activeCategory ? `Products for ${activeCategory.name}` : page.type === 'brand' ? `${page.value} Products` : 'All Medical & Healthcare Products')}
+                  : activeProductCategory?.name || (activeCategory ? `Products for ${activeCategory.name}` : page.type === 'brand' ? `${page.value} Products` : 'Industries Served')}
               </h2>
               <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">
                 {searchIsActive
@@ -1440,18 +1440,18 @@ export default function App() {
                   ? `Browse medical product cards for ${activeCategory.name}. Open a product line to view its sub-products.`
                   : page.type === 'brand'
                     ? `Choose a product category to browse products from ${page.value}.`
-                    : 'Browse all 21 medical product categories across all industries, or select an industry tab below to filter.'}
+                    : 'Choose an industry to browse the medical product lines available for that sector.'}
               </p>
             </div>
 
             <div className="text-xs font-semibold text-slate-500">
               Showing <span className="font-bold text-[#0284c7] dark:text-[#4fc3f7]">
                 {searchIsActive ? filteredProducts.length
-                  : page.type === 'home' ? visibleProductCategories.length
+                  : page.type === 'home' ? visibleIndustryCategories.length
                   : activeCategory || page.type === 'brand' ? visibleProductCategories.length
                     : filteredProducts.length}
               </span> {searchIsActive ? 'products'
-                : page.type === 'home' ? 'product categories'
+                : page.type === 'home' ? 'industries'
                 : activeCategory || page.type === 'brand' ? 'product lines'
                   : 'sub-products'}
             </div>
@@ -1701,7 +1701,46 @@ export default function App() {
               Reset Filters
             </button>
           </div>
-        ) : !searchIsActive && page.type !== 'group' ? (
+        ) : page.type === 'home' && !searchIsActive ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {visibleIndustryCategories.map((category) => {
+              const Icon = category.icon;
+              const groupCount = PRODUCT_CATEGORIES.filter(productCategory =>
+                category.productCategories.includes(productCategory.name) &&
+                filteredProducts.some(product => product.category === productCategory.name)
+              ).length;
+
+              return (
+                <a
+                  key={category.name}
+                  href={getRouteUrl(`/category/${slugify(category.name)}`)}
+                  onClick={(e) => handleLinkClick(e, `/category/${slugify(category.name)}`, { scrollToSectors: true })}
+                  className={`group rounded-2xl border p-6 text-left transition-all hover:-translate-y-1 hover:border-sky-300 hover:shadow-xl dark:hover:border-sky-700 block cursor-pointer ${
+                    darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-sky-100'
+                  }`}
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-sky-100 text-[#0284c7] dark:bg-sky-950 dark:text-[#4fc3f7]">
+                      <Icon className="h-6 w-6" />
+                    </span>
+                    <span className="rounded-full bg-slate-100 px-3 py-1 text-[11px] font-semibold text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+                      {groupCount} product lines
+                    </span>
+                  </div>
+                  <h3 className="mt-5 text-lg font-bold text-slate-950 group-hover:text-[#0284c7] dark:text-white dark:group-hover:text-[#4fc3f7]">
+                    {category.name}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                    Browse medical and healthcare products available to {category.name.toLowerCase()} through Maruti Chemicals.
+                  </p>
+                  <span className="mt-5 inline-flex items-center gap-2 text-xs font-bold text-[#0284c7] dark:text-[#4fc3f7]">
+                    Browse products <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </span>
+                </a>
+              );
+            })}
+          </div>
+        ) : (activeCategory || page.type === 'brand') && !searchIsActive ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {visibleProductCategories.map((productCategory) => {
               const Icon = productCategory.icon;
