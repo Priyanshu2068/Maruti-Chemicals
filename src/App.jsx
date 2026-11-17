@@ -130,8 +130,8 @@ const PROCESS_STEPS = [
   },
   {
     step: '03',
-    title: 'Check Manufacturer Information',
-    desc: 'Review available product information and follow the manufacturer reference where listed.',
+    title: 'Review Specifications',
+    desc: 'Check technical specifications, model numbers, and application guidelines.',
     icon: ShieldCheck
   },
   {
@@ -157,33 +157,6 @@ const PROCESS_STEPS = [
     title: 'Get Product Support',
     desc: 'Contact Maruti Chemicals for assistance with your product enquiry.',
     icon: Headphones
-  }
-];
-
-// Principals & Partner Brands
-const PRINCIPAL_BRANDS = ['3M', 'Raman & Weil'];
-
-// Product information highlights
-const CREDENTIALS = [
-  {
-    title: '3M India Product Links',
-    desc: 'Manufacturer pages are linked from product listings where available',
-    icon: Building2
-  },
-  {
-    title: 'Product Variants',
-    desc: 'Choose listed product types and sizes on the product detail page',
-    icon: FileText
-  },
-  {
-    title: 'Availability Check',
-    desc: 'Confirm stock, product codes, and pack sizes with the manufacturer',
-    icon: Award
-  },
-  {
-    title: 'Product Enquiries',
-    desc: 'Send a request with the product and size you need',
-    icon: ShieldCheck
   }
 ];
 
@@ -665,138 +638,133 @@ export default function App() {
             </div>
           </div>
 
-          {/* Navigation Links */}
-          <nav className="hidden xl:flex items-center gap-3 whitespace-nowrap text-xs font-semibold">
-            <a
-              href="/#products"
-              className="relative text-slate-700 dark:text-slate-300 hover:text-[#0284c7] dark:hover:text-[#4fc3f7] transition-colors py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#0284c7] dark:after:bg-[#4fc3f7] hover:after:w-full after:transition-all after:duration-300"
-            >
-              Products
-            </a>
-            <div
-              className="relative py-1"
-              onMouseEnter={() => setIndustriesMenuOpen(true)}
-              onMouseLeave={() => setIndustriesMenuOpen(false)}
-            >
-              <button
-                type="button"
-                aria-haspopup="true"
-                aria-expanded={industriesMenuOpen}
-                onClick={() => setIndustriesMenuOpen(open => !open)}
-                className="whitespace-nowrap text-slate-700 dark:text-slate-300 hover:text-[#0284c7] dark:hover:text-[#4fc3f7] flex items-center gap-1 transition-colors py-1 cursor-pointer"
+          {/* Right Group: Navigation Links & Action Controls */}
+          <div className="flex items-center gap-5 sm:gap-7">
+            {/* Navigation Links */}
+            <nav className="hidden lg:flex items-center gap-6 xl:gap-8 whitespace-nowrap text-xs sm:text-sm font-semibold">
+              <a
+                href="/#products"
+                className="relative text-slate-700 dark:text-slate-300 hover:text-[#0284c7] dark:hover:text-[#4fc3f7] transition-colors py-2 flex items-center after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#0284c7] dark:after:bg-[#4fc3f7] hover:after:w-full after:transition-all after:duration-300"
               >
-                Industries <ChevronRight className={`inline h-3.5 w-3.5 transition-transform duration-200 ${industriesMenuOpen ? 'rotate-[270deg]' : 'rotate-90'}`} />
-              </button>
-              {industriesMenuOpen && (
-                <div
-                  className="absolute left-0 top-full z-[70] pt-1.5 w-[min(88vw,22rem)]"
-                  onMouseEnter={() => setIndustriesMenuOpen(true)}
-                  onMouseLeave={() => setIndustriesMenuOpen(false)}
+                Products
+              </a>
+              <div
+                className="relative flex items-center"
+                onMouseEnter={() => setIndustriesMenuOpen(true)}
+                onMouseLeave={() => setIndustriesMenuOpen(false)}
+              >
+                <button
+                  type="button"
+                  aria-haspopup="true"
+                  aria-expanded={industriesMenuOpen}
+                  onClick={() => setIndustriesMenuOpen(open => !open)}
+                  className="whitespace-nowrap text-slate-700 dark:text-slate-300 hover:text-[#0284c7] dark:hover:text-[#4fc3f7] flex items-center gap-1.5 transition-colors py-2 cursor-pointer relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#0284c7] dark:after:bg-[#4fc3f7] hover:after:w-full after:transition-all after:duration-300"
                 >
-                  <div className={`grid grid-cols-1 gap-1 rounded-xl border p-2 shadow-2xl transition-all duration-200 ${
-                    darkMode ? 'border-slate-700 bg-slate-900' : 'border-slate-200 bg-white'
-                  }`}>
-                    {CATEGORIES.map((category) => (
-                      <a
-                        key={category.name}
-                        href={getRouteUrl(`/category/${slugify(category.name)}`)}
-                        onClick={(e) => {
-                          setIndustriesMenuOpen(false);
-                          handleLinkClick(e, `/category/${slugify(category.name)}`);
-                        }}
-                        className="w-full block rounded-lg px-3 py-2.5 text-left text-xs leading-snug hover:bg-sky-50 dark:hover:bg-slate-800 transition-colors"
-                      >
-                        {category.name}
-                      </a>
-                    ))}
+                  <span>Industries</span>
+                  <ChevronRight className={`inline h-3.5 w-3.5 transition-transform duration-200 ${industriesMenuOpen ? 'rotate-[270deg]' : 'rotate-90'}`} />
+                </button>
+                {industriesMenuOpen && (
+                  <div
+                    className="absolute left-0 top-full z-[70] pt-1.5 w-[min(88vw,22rem)]"
+                    onMouseEnter={() => setIndustriesMenuOpen(true)}
+                    onMouseLeave={() => setIndustriesMenuOpen(false)}
+                  >
+                    <div className={`grid grid-cols-1 gap-1 rounded-xl border p-2 shadow-2xl transition-all duration-200 ${
+                      darkMode ? 'border-slate-700 bg-slate-900' : 'border-slate-200 bg-white'
+                    }`}>
+                      {CATEGORIES.map((category) => (
+                        <a
+                          key={category.name}
+                          href={getRouteUrl(`/category/${slugify(category.name)}`)}
+                          onClick={(e) => {
+                            setIndustriesMenuOpen(false);
+                            handleLinkClick(e, `/category/${slugify(category.name)}`);
+                          }}
+                          className="w-full block rounded-lg px-3 py-2.5 text-left text-xs leading-snug hover:bg-sky-50 dark:hover:bg-slate-800 transition-colors"
+                        >
+                          {category.name}
+                        </a>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
-            {/* Brands Dropdown Menu with Hover */}
-            <div
-              className="relative py-1"
-              onMouseEnter={() => setBrandsMenuOpen(true)}
-              onMouseLeave={() => setBrandsMenuOpen(false)}
-            >
-              <button
-                type="button"
-                aria-haspopup="true"
-                aria-expanded={brandsMenuOpen}
-                onClick={() => setBrandsMenuOpen(open => !open)}
-                className="whitespace-nowrap text-slate-700 dark:text-slate-300 hover:text-[#0284c7] dark:hover:text-[#4fc3f7] flex items-center gap-1 transition-colors py-1 cursor-pointer"
+                )}
+              </div>
+              {/* Brands Dropdown Menu with Hover */}
+              <div
+                className="relative flex items-center"
+                onMouseEnter={() => setBrandsMenuOpen(true)}
+                onMouseLeave={() => setBrandsMenuOpen(false)}
               >
-                Brands <ChevronRight className={`inline h-3.5 w-3.5 transition-transform duration-200 ${brandsMenuOpen ? 'rotate-[270deg]' : 'rotate-90'}`} />
-              </button>
-              {brandsMenuOpen && (
-                <div
-                  className="absolute left-0 top-full z-[70] pt-1.5 w-56"
-                  onMouseEnter={() => setBrandsMenuOpen(true)}
-                  onMouseLeave={() => setBrandsMenuOpen(false)}
+                <button
+                  type="button"
+                  aria-haspopup="true"
+                  aria-expanded={brandsMenuOpen}
+                  onClick={() => setBrandsMenuOpen(open => !open)}
+                  className="whitespace-nowrap text-slate-700 dark:text-slate-300 hover:text-[#0284c7] dark:hover:text-[#4fc3f7] flex items-center gap-1.5 transition-colors py-2 cursor-pointer relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#0284c7] dark:after:bg-[#4fc3f7] hover:after:w-full after:transition-all after:duration-300"
                 >
-                  <div className={`grid grid-cols-1 gap-1 rounded-xl border p-2 shadow-2xl transition-all duration-200 ${
-                    darkMode ? 'border-slate-700 bg-slate-900' : 'border-slate-200 bg-white'
-                  }`}>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setBrandsMenuOpen(false);
-                        setSelectedBrand('All');
-                        navigateTo('/');
-                      }}
-                      className="w-full flex items-center justify-between rounded-lg px-3 py-2 text-left text-xs leading-snug hover:bg-sky-50 dark:hover:bg-slate-800 transition-colors font-semibold text-slate-700 dark:text-slate-300 cursor-pointer"
-                    >
-                      <span>All Brands</span>
-                      <span className="text-[10px] bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-slate-500">88 products</span>
-                    </button>
-                    {['3M', 'Raman & Weil'].map((b) => (
+                  <span>Brands</span>
+                  <ChevronRight className={`inline h-3.5 w-3.5 transition-transform duration-200 ${brandsMenuOpen ? 'rotate-[270deg]' : 'rotate-90'}`} />
+                </button>
+                {brandsMenuOpen && (
+                  <div
+                    className="absolute left-0 top-full z-[70] pt-1.5 w-56"
+                    onMouseEnter={() => setBrandsMenuOpen(true)}
+                    onMouseLeave={() => setBrandsMenuOpen(false)}
+                  >
+                    <div className={`grid grid-cols-1 gap-1 rounded-xl border p-2 shadow-2xl transition-all duration-200 ${
+                      darkMode ? 'border-slate-700 bg-slate-900' : 'border-slate-200 bg-white'
+                    }`}>
                       <button
-                        key={b}
                         type="button"
                         onClick={() => {
                           setBrandsMenuOpen(false);
-                          setSelectedBrand(b);
-                          navigateTo(`/brand/${encodeURIComponent(b)}`);
+                          setSelectedBrand('All');
+                          navigateTo('/');
                         }}
-                        className="w-full flex items-center justify-between rounded-lg px-3 py-2 text-left text-xs leading-snug hover:bg-sky-50 dark:hover:bg-slate-800 transition-colors font-bold text-slate-900 dark:text-white cursor-pointer"
+                        className="w-full flex items-center justify-between rounded-lg px-3 py-2 text-left text-xs leading-snug hover:bg-sky-50 dark:hover:bg-slate-800 transition-colors font-semibold text-slate-700 dark:text-slate-300 cursor-pointer"
                       >
-                        <span className="text-[#0284c7] dark:text-[#4fc3f7]">{b}</span>
-                        <span className="text-[10px] bg-sky-50 dark:bg-sky-950 text-sky-700 dark:text-sky-300 px-1.5 py-0.5 rounded font-medium">
-                          {b === '3M' ? '51 products' : '37 products'}
-                        </span>
+                        <span>All Brands</span>
+                        <span className="text-[10px] bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-slate-500">88 products</span>
                       </button>
-                    ))}
+                      {['3M', 'Raman & Weil'].map((b) => (
+                        <button
+                          key={b}
+                          type="button"
+                          onClick={() => {
+                            setBrandsMenuOpen(false);
+                            setSelectedBrand(b);
+                            navigateTo(`/brand/${encodeURIComponent(b)}`);
+                          }}
+                          className="w-full flex items-center justify-between rounded-lg px-3 py-2 text-left text-xs leading-snug hover:bg-sky-50 dark:hover:bg-slate-800 transition-colors font-bold text-slate-900 dark:text-white cursor-pointer"
+                        >
+                          <span className="text-[#0284c7] dark:text-[#4fc3f7]">{b}</span>
+                          <span className="text-[10px] bg-sky-50 dark:bg-sky-950 text-sky-700 dark:text-sky-300 px-1.5 py-0.5 rounded font-medium">
+                            {b === '3M' ? '51 products' : '37 products'}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
-            <a
-              href="/#process"
-              className="relative text-slate-700 dark:text-slate-300 hover:text-[#0284c7] dark:hover:text-[#4fc3f7] transition-colors py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#0284c7] dark:after:bg-[#4fc3f7] hover:after:w-full after:transition-all after:duration-300"
-            >
-              Our Process
-            </a>
-            <a
-              href="/#principals"
-              className="relative text-slate-700 dark:text-slate-300 hover:text-[#0284c7] dark:hover:text-[#4fc3f7] transition-colors py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#0284c7] dark:after:bg-[#4fc3f7] hover:after:w-full after:transition-all after:duration-300"
-            >
-              Principals & Credentials
-            </a>
-            <a
-              href="/#specs-info"
-              className="relative text-slate-700 dark:text-slate-300 hover:text-[#0284c7] dark:hover:text-[#4fc3f7] transition-colors py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#0284c7] dark:after:bg-[#4fc3f7] hover:after:w-full after:transition-all after:duration-300"
-            >
-              Quality & COA
-            </a>
-          </nav>
+                )}
+              </div>
+              <a
+                href="/#process"
+                className="relative text-slate-700 dark:text-slate-300 hover:text-[#0284c7] dark:hover:text-[#4fc3f7] transition-colors py-2 flex items-center after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#0284c7] dark:after:bg-[#4fc3f7] hover:after:w-full after:transition-all after:duration-300"
+              >
+                Our Process
+              </a>
+            </nav>
 
-          {/* Action Controls: Dark Mode Toggle, RFQ Cart & ONE Contact Us Button */}
-          <div className="flex items-center gap-2.5 sm:gap-3">
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-              aria-expanded={mobileMenuOpen}
-              className={`xl:hidden p-2.5 rounded-xl border transition ${
+            {/* Subtle Divider */}
+            <div className="hidden lg:block h-6 w-px bg-slate-200 dark:bg-slate-800" />
+
+            {/* Action Controls: Dark Mode Toggle, RFQ Cart & ONE Contact Us Button */}
+            <div className="flex items-center gap-2.5 sm:gap-3">
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+                aria-expanded={mobileMenuOpen}
+                className={`lg:hidden p-2.5 rounded-xl border transition ${
                 darkMode
                   ? 'bg-slate-800 border-slate-700 text-slate-200'
                   : 'bg-white border-slate-200 text-slate-700'
@@ -839,9 +807,10 @@ export default function App() {
             </a>
           </div>
         </div>
+      </div>
 
         {mobileMenuOpen && (
-          <nav className={`xl:hidden border-t px-4 py-3 ${darkMode ? 'border-slate-800 bg-slate-900' : 'border-slate-100 bg-white'}`}>
+          <nav className={`lg:hidden border-t px-4 py-3 ${darkMode ? 'border-slate-800 bg-slate-900' : 'border-slate-100 bg-white'}`}>
             <div className="mx-auto flex max-w-7xl flex-col gap-1 text-sm font-semibold">
               <a href="/#products" onClick={() => setMobileMenuOpen(false)} className="rounded-lg px-3 py-2 hover:bg-sky-50 dark:hover:bg-slate-800">
                 Products
@@ -898,12 +867,6 @@ export default function App() {
               </details>
               <a href="/#process" onClick={() => setMobileMenuOpen(false)} className="rounded-lg px-3 py-2 hover:bg-sky-50 dark:hover:bg-slate-800">
                 Our Process
-              </a>
-              <a href="/#principals" onClick={() => setMobileMenuOpen(false)} className="rounded-lg px-3 py-2 hover:bg-sky-50 dark:hover:bg-slate-800">
-                Principals & Credentials
-              </a>
-              <a href="/#specs-info" onClick={() => setMobileMenuOpen(false)} className="rounded-lg px-3 py-2 hover:bg-sky-50 dark:hover:bg-slate-800">
-                Quality & COA
               </a>
             </div>
           </nav>
@@ -1111,13 +1074,13 @@ export default function App() {
             </div>
           </div>
 
-          {/* 4 Quick Stats Grid with Interactive Hover Lift */}
+          {/* 4 Quick Stats Grid (Clean Static Informational Badges) */}
           <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-            <div className={`p-5 rounded-2xl border transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:border-sky-300 dark:hover:border-sky-700 cursor-pointer group ${
+            <div className={`p-5 rounded-2xl border ${
               darkMode ? 'bg-slate-900/80 border-slate-800' : 'bg-white border-sky-100 shadow-sm'
             }`}>
               <div className="flex items-center gap-3">
-                <div className="p-3 rounded-xl bg-sky-100 dark:bg-sky-950 text-[#0284c7] dark:text-[#4fc3f7] group-hover:scale-110 group-hover:bg-[#0284c7] group-hover:text-white transition-all duration-300">
+                <div className="p-3 rounded-xl bg-sky-100 dark:bg-sky-950 text-[#0284c7] dark:text-[#4fc3f7]">
                   <Globe2 className="w-5 h-5" />
                 </div>
                 <div>
@@ -1127,11 +1090,11 @@ export default function App() {
               </div>
             </div>
 
-            <div className={`p-5 rounded-2xl border transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:border-sky-300 dark:hover:border-sky-700 cursor-pointer group ${
+            <div className={`p-5 rounded-2xl border ${
               darkMode ? 'bg-slate-900/80 border-slate-800' : 'bg-white border-sky-100 shadow-sm'
             }`}>
               <div className="flex items-center gap-3">
-                <div className="p-3 rounded-xl bg-sky-100 dark:bg-sky-950 text-[#0284c7] dark:text-[#4fc3f7] group-hover:scale-110 group-hover:bg-[#0284c7] group-hover:text-white transition-all duration-300">
+                <div className="p-3 rounded-xl bg-sky-100 dark:bg-sky-950 text-[#0284c7] dark:text-[#4fc3f7]">
                   <Package className="w-5 h-5" />
                 </div>
                 <div>
@@ -1141,11 +1104,11 @@ export default function App() {
               </div>
             </div>
 
-            <div className={`p-5 rounded-2xl border transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:border-sky-300 dark:hover:border-sky-700 cursor-pointer group ${
+            <div className={`p-5 rounded-2xl border ${
               darkMode ? 'bg-slate-900/80 border-slate-800' : 'bg-white border-sky-100 shadow-sm'
             }`}>
               <div className="flex items-center gap-3">
-                <div className="p-3 rounded-xl bg-sky-100 dark:bg-sky-950 text-[#0284c7] dark:text-[#4fc3f7] group-hover:scale-110 group-hover:bg-[#0284c7] group-hover:text-white transition-all duration-300">
+                <div className="p-3 rounded-xl bg-sky-100 dark:bg-sky-950 text-[#0284c7] dark:text-[#4fc3f7]">
                   <Clock className="w-5 h-5" />
                 </div>
                 <div>
@@ -1155,11 +1118,11 @@ export default function App() {
               </div>
             </div>
 
-            <div className={`p-5 rounded-2xl border transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:border-sky-300 dark:hover:border-sky-700 cursor-pointer group ${
+            <div className={`p-5 rounded-2xl border ${
               darkMode ? 'bg-slate-900/80 border-slate-800' : 'bg-white border-sky-100 shadow-sm'
             }`}>
               <div className="flex items-center gap-3">
-                <div className="p-3 rounded-xl bg-sky-100 dark:bg-sky-950 text-[#0284c7] dark:text-[#4fc3f7] group-hover:scale-110 group-hover:bg-[#0284c7] group-hover:text-white transition-all duration-300">
+                <div className="p-3 rounded-xl bg-sky-100 dark:bg-sky-950 text-[#0284c7] dark:text-[#4fc3f7]">
                   <Award className="w-5 h-5" />
                 </div>
                 <div>
@@ -1393,10 +1356,6 @@ export default function App() {
                 <Send className="h-4 w-4" /> Enquire
               </button>
             </div>
-
-            <a href={activeProduct.sourceUrl} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-1 text-xs font-semibold text-[#0284c7] hover:underline dark:text-[#4fc3f7]">
-              View manufacturer details on {activeProduct.brand} <ArrowRight className="h-3.5 w-3.5" />
-            </a>
           </div>
         </div>
 
@@ -2044,144 +2003,6 @@ export default function App() {
                   </div>
                 );
               })}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================================
-          5. OUR PRINCIPALS & REGULATORY CREDENTIALS (#principals)
-         ======================================================== */}
-      <section id="principals" className={`py-16 sm:py-20 border-t transition-colors duration-200 ${
-        darkMode ? 'bg-slate-950 border-slate-800' : 'bg-white border-sky-100'
-      }`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          {/* Part A: 3M catalog */}
-          <div className="text-center max-w-3xl mx-auto mb-10">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3 bg-sky-100 dark:bg-sky-950 text-[#0284c7] dark:text-[#4fc3f7] border border-sky-200 dark:border-sky-800">
-              OUR PRINCIPALS & BRANDS
-            </div>
-            <h2 className="text-2xl sm:text-4xl font-black text-slate-950 dark:text-white tracking-tight">
-              Maruti Chemicals <span className="text-[#0284c7] dark:text-[#4fc3f7]">principals & brands</span>
-            </h2>
-            <p className="mt-3 text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl mx-auto">
-              Maruti Chemicals supplies products across pharmaceutical, industrial, and healthcare sectors. The clinical and healthcare listings in this catalog are from trusted partner manufacturers including 3M and Raman & Weil.
-            </p>
-          </div>
-
-          {/* Manufacturer brand links */}
-          <div className="grid grid-cols-2 max-w-xl mx-auto mb-16 gap-4">
-            {PRINCIPAL_BRANDS.map((brand) => (
-              <button
-                key={brand}
-                onClick={() => navigateTo(`/brand/${encodeURIComponent(brand)}`)}
-                className={`p-4 rounded-xl border flex items-center justify-center gap-2.5 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-sky-400 dark:hover:border-sky-600 cursor-pointer group ${
-                  darkMode
-                    ? 'bg-slate-900 border-slate-800 text-slate-200 hover:text-white'
-                    : 'bg-slate-50/80 border-slate-200 text-slate-800 hover:text-[#0284c7] hover:bg-white shadow-xs'
-                }`}
-              >
-                <ShieldCheck className="w-4 h-4 text-[#0284c7] dark:text-[#4fc3f7] group-hover:scale-110 transition-transform" />
-                <span className="font-bold text-xs sm:text-sm tracking-wide">{brand}</span>
-              </button>
-            ))}
-          </div>
-
-          {/* Part B: catalog guidance */}
-          <div className="pt-10 border-t border-slate-200/80 dark:border-slate-800/80">
-            <div className="text-center max-w-3xl mx-auto mb-10">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-2 text-slate-500">
-                PRODUCT CATALOG
-              </div>
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-950 dark:text-white tracking-tight">
-                Product references & enquiry guidance
-              </h3>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-5xl mx-auto">
-              {CREDENTIALS.map((cred) => {
-                const Icon = cred.icon;
-                return (
-                  <div
-                    key={cred.title}
-                    className={`p-6 rounded-2xl border text-center transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:border-sky-300 dark:hover:border-sky-700 cursor-pointer group ${
-                      darkMode ? 'bg-slate-900 border-slate-800' : 'bg-[#faf9f6] border-slate-200 shadow-xs'
-                    }`}
-                  >
-                    <div className="w-12 h-12 rounded-2xl mx-auto mb-4 flex items-center justify-center bg-sky-100 dark:bg-sky-950 text-[#0284c7] dark:text-[#4fc3f7] group-hover:scale-110 group-hover:bg-[#0284c7] group-hover:text-white transition-all duration-300 shadow-sm">
-                      <Icon className="w-6 h-6" />
-                    </div>
-                    <h4 className="font-black text-sm sm:text-base text-slate-950 dark:text-white mb-1.5">
-                      {cred.title}
-                    </h4>
-                    <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                      {cred.desc}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
-
-          </div>
-
-        </div>
-      </section>
-
-      {/* ========================================================
-          6. PRODUCT INFORMATION (#specs-info)
-         ======================================================== */}
-      <section id="specs-info" className={`py-14 border-t ${
-        darkMode ? 'bg-slate-900/40 border-slate-800' : 'bg-white border-sky-100'
-      }`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mb-10">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#0284c7] dark:text-[#4fc3f7]">
-              PRODUCT INFORMATION
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-950 dark:text-white mt-1">
-              Product Details & Availability
-            </h2>
-            <p className="mt-2 text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-              Maruti Chemicals provides product information and enquiry support. Follow the manufacturer references shown on individual product pages to verify specifications, codes, and current availability.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className={`p-6 rounded-2xl border transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:border-sky-300 dark:hover:border-sky-700 cursor-pointer group ${
-              darkMode ? 'bg-slate-900 border-slate-800' : 'bg-[#faf9f6] border-slate-200'
-            }`}>
-              <div className="w-12 h-12 rounded-xl bg-sky-100 dark:bg-sky-950 text-[#0284c7] dark:text-[#4fc3f7] flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-[#0284c7] group-hover:text-white transition-all duration-300 shadow-sm">
-                <FileText className="w-6 h-6" />
-              </div>
-              <h3 className="font-bold text-sm text-slate-900 dark:text-white mb-1.5">Manufacturer References</h3>
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Use the 3M India product reference linked from each catalog entry to check current product information.
-              </p>
-            </div>
-
-            <div className={`p-6 rounded-2xl border transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:border-sky-300 dark:hover:border-sky-700 cursor-pointer group ${
-              darkMode ? 'bg-slate-900 border-slate-800' : 'bg-[#faf9f6] border-slate-200'
-            }`}>
-              <div className="w-12 h-12 rounded-xl bg-sky-100 dark:bg-sky-950 text-[#0284c7] dark:text-[#4fc3f7] flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-[#0284c7] group-hover:text-white transition-all duration-300 shadow-sm">
-                <Package className="w-6 h-6" />
-              </div>
-              <h3 className="font-bold text-sm text-slate-900 dark:text-white mb-1.5">Product Variants</h3>
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Select a listed type or size on a product page. Confirm any additional pack options with 3M.
-              </p>
-            </div>
-
-            <div className={`p-6 rounded-2xl border transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:border-sky-300 dark:hover:border-sky-700 cursor-pointer group ${
-              darkMode ? 'bg-slate-900 border-slate-800' : 'bg-[#faf9f6] border-slate-200'
-            }`}>
-              <div className="w-12 h-12 rounded-xl bg-sky-100 dark:bg-sky-950 text-[#0284c7] dark:text-[#4fc3f7] flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-[#0284c7] group-hover:text-white transition-all duration-300 shadow-sm">
-                <Clock className="w-6 h-6" />
-              </div>
-              <h3 className="font-bold text-sm text-slate-900 dark:text-white mb-1.5">Availability Confirmation</h3>
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Confirm product code, system compatibility, regional availability, and fulfilment details before ordering.
-              </p>
             </div>
           </div>
         </div>
