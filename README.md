@@ -1,6 +1,6 @@
 # Maruti Chemicals
 
-Maruti Chemicals is a B2B manufacturer, distributor, and export enterprise serving industrial, specialty, pharmaceutical, and healthcare sectors. This site retains the Maruti Chemicals identity and company information while listing the requested medical products under the 3M brand.
+Maruti Chemicals is a premier B2B distributor and export enterprise serving industrial, specialty, pharmaceutical, and healthcare sectors. This site features an extensive catalog of medical products under authorized partner brands including 3M and Raman & Weil.
 
 ## Catalog workflow
 1. Select an industry: Hospitals & Healthcare, Diagnostic Laboratories, Pharmaceutical Manufacturing, Operation Theatres & CSSD, Clinics & Nursing Homes, or Biotechnology & Research.
