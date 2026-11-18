@@ -601,6 +601,34 @@ export default function App() {
     setIsRfqModalOpen(true);
   };
 
+  const sendInquiryForProducts = (items) => {
+    const instructions = items.map(({ product, packaging, color, quantity }) => {
+      const details = [
+        `Product: ${product.name}`,
+        `Brand: ${product.brand}`,
+        `Product ID: ${product.id}`,
+        `Model: ${product.model}`,
+        `Size: ${packaging || product.packaging}`,
+        ...(color ? [`Colour / finish: ${color}`] : []),
+        `Quantity: ${quantity || '1'}`
+      ];
+      return details.join('\n');
+    }).join('\n\n');
+
+    setRfqForm((currentForm) => ({ ...currentForm, instructions }));
+    setRfqTargetProduct(null);
+    setIsCartDrawerOpen(false);
+    navigateTo('/', { preventScroll: true });
+    window.setTimeout(() => {
+      const contactSection = document.getElementById('contact');
+      if (!contactSection) return;
+
+      const sectionTop = window.scrollY + contactSection.getBoundingClientRect().top - 96;
+      window.scrollTo({ top: sectionTop, behavior: 'smooth' });
+      document.getElementById('rfq-instructions')?.focus({ preventScroll: true });
+    }, page.type === 'home' ? 0 : 100);
+  };
+
   const openBatchCartRfq = () => {
     setRfqTargetProduct(null);
     setIsCartDrawerOpen(false);
@@ -1384,10 +1412,15 @@ export default function App() {
                 className="inline-flex items-center gap-2 rounded-xl bg-[#0284c7] px-5 py-3 text-sm font-bold text-white hover:bg-[#0369a1]"
               >
                 {isInCart(activeProduct.id, selectedVariant, selectedColor) ? <Trash2 className="h-4 w-4" /> : <ShoppingCart className="h-4 w-4" />}
-                {isInCart(activeProduct.id, selectedVariant, selectedColor) ? 'Remove this configuration from RFQ Cart' : 'Add to RFQ Cart'}
+                {isInCart(activeProduct.id, selectedVariant, selectedColor) ? 'Remove this configuration from Cart' : 'Add to Cart'}
               </button>
               <button
-                onClick={() => openSingleProductRfq({ ...activeProduct, packaging: selectedVariant, color: selectedColor, quantity: detailQuantity })}
+                onClick={() => sendInquiryForProducts([{
+                  product: activeProduct,
+                  packaging: selectedVariant,
+                  color: selectedColor,
+                  quantity: detailQuantity
+                }])}
                 className="inline-flex items-center gap-2 rounded-xl border border-sky-200 bg-sky-50 px-5 py-3 text-sm font-bold text-[#0284c7] hover:bg-sky-100 dark:border-sky-800 dark:bg-sky-950/60 dark:text-[#4fc3f7]"
               >
                 <Send className="h-4 w-4" /> Enquire
@@ -1938,11 +1971,16 @@ export default function App() {
                             : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
                         }`}
                       >
-                        <FileText className="w-3.5 h-3.5 text-[#0284c7] dark:text-[#4fc3f7]" /> Types & Sizes
+                        <FileText className="w-3.5 h-3.5 text-[#0284c7] dark:text-[#4fc3f7]" /> View Info
                       </a>
-                      <a
-                        href={getRouteUrl(`/product/${product.id}`)}
-                        onClick={(e) => handleLinkClick(e, `/product/${product.id}`)}
+                      <button
+                        type="button"
+                        onClick={() => sendInquiryForProducts([{
+                          product,
+                          packaging: product.packOptions?.[0] || product.packaging,
+                          color: product.colorOptions?.[0] || '',
+                          quantity: '1'
+                        }])}
                         className={`py-2 px-3 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all duration-200 hover:scale-[1.02] active:scale-95 ${
                           darkMode
                             ? 'bg-sky-950/60 hover:bg-sky-900/60 text-[#4fc3f7] border border-sky-800'
@@ -1950,28 +1988,35 @@ export default function App() {
                         }`}
                       >
                         <Send className="w-3.5 h-3.5" /> Enquire
-                      </a>
+                      </button>
                     </div>
 
-                    <a
-                      href={getRouteUrl(`/product/${product.id}`)}
-                      onClick={(e) => handleLinkClick(e, `/product/${product.id}`)}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const variant = product.packOptions?.[0] || product.packaging;
+                        const color = product.colorOptions?.[0] || '';
+                        if (!isInCart(product.id, variant, color)) {
+                          toggleCartItem(product, variant, color, '1');
+                        }
+                      }}
+                      disabled={isInCart(product.id, product.packOptions?.[0] || product.packaging, product.colorOptions?.[0] || '')}
                       className={`w-full py-2.5 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all duration-200 hover:shadow-md hover:brightness-105 active:scale-95 ${
-                        inCart
-                          ? 'bg-rose-50 hover:bg-rose-100 text-rose-700 dark:bg-rose-950/40 dark:hover:bg-rose-900/60 dark:text-rose-400 border border-rose-200 dark:border-rose-900'
+                        isInCart(product.id, product.packOptions?.[0] || product.packaging, product.colorOptions?.[0] || '')
+                          ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900 cursor-default'
                           : 'bg-[#0284c7] hover:bg-[#0369a1] text-white shadow-sm'
                       }`}
                     >
-                      {inCart ? (
+                      {isInCart(product.id, product.packOptions?.[0] || product.packaging, product.colorOptions?.[0] || '') ? (
                         <>
-                          <Check className="w-3.5 h-3.5" /> Choose a size
+                          <Check className="w-3.5 h-3.5" /> Added to Cart
                         </>
                       ) : (
                         <>
-                          <Plus className="w-4 h-4" /> Select a size
+                          <ShoppingCart className="w-4 h-4" /> Add to Cart
                         </>
                       )}
-                    </a>
+                    </button>
                   </div>
                 </div>
               );
@@ -2352,6 +2397,7 @@ export default function App() {
                       Medical Products & Requested Quantity
                     </label>
                     <textarea
+                      id="rfq-instructions"
                       rows={3}
                       required
                       value={rfqForm.instructions}
@@ -2545,6 +2591,14 @@ export default function App() {
               {cart.length > 0 && (
                 <div className="p-6 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-3">
                   <button
+                    onClick={() => sendInquiryForProducts(cart)}
+                    className="w-full py-3 px-4 rounded-xl font-bold text-xs border border-sky-200 bg-sky-50 text-[#0284c7] hover:bg-sky-100 dark:border-sky-800 dark:bg-sky-950/60 dark:text-[#4fc3f7] dark:hover:bg-sky-900/60 active:scale-95 flex items-center justify-center gap-2"
+                  >
+                    <Send className="w-4 h-4" />
+                    <span>Send Enquiry</span>
+                  </button>
+
+                  <button
                     onClick={openBatchCartRfq}
                     className="w-full py-3 px-4 rounded-xl font-bold text-xs bg-gradient-to-r from-[#0284c7] to-[#4fc3f7] text-slate-950 shadow-md hover:brightness-105 active:scale-95 flex items-center justify-center gap-2"
                   >
@@ -2666,7 +2720,7 @@ export default function App() {
                   </>
                 ) : (
                   <>
-                    <Plus className="w-3.5 h-3.5" /> Add to RFQ Cart
+                    <Plus className="w-3.5 h-3.5" /> Add to Cart
                   </>
                 )}
               </button>
