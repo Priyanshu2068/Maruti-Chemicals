@@ -776,6 +776,12 @@ export default function App() {
                 )}
               </div>
               <a
+                href="/#about"
+                className="relative text-slate-700 dark:text-slate-300 hover:text-[#0284c7] dark:hover:text-[#4fc3f7] transition-colors py-2 flex items-center after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#0284c7] dark:after:bg-[#4fc3f7] hover:after:w-full after:transition-all after:duration-300"
+              >
+                About Us
+              </a>
+              <a
                 href="/#process"
                 className="relative text-slate-700 dark:text-slate-300 hover:text-[#0284c7] dark:hover:text-[#4fc3f7] transition-colors py-2 flex items-center after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-[#0284c7] dark:after:bg-[#4fc3f7] hover:after:w-full after:transition-all after:duration-300"
               >
@@ -893,6 +899,9 @@ export default function App() {
                   ))}
                 </div>
               </details>
+              <a href="/#about" onClick={() => setMobileMenuOpen(false)} className="rounded-lg px-3 py-2 hover:bg-sky-50 dark:hover:bg-slate-800">
+                About Us
+              </a>
               <a href="/#process" onClick={() => setMobileMenuOpen(false)} className="rounded-lg px-3 py-2 hover:bg-sky-50 dark:hover:bg-slate-800">
                 Our Process
               </a>
@@ -2054,7 +2063,192 @@ export default function App() {
       </section>
 
       {/* ========================================================
-          5. DIRECT PROCUREMENT & CONTACT SECTION (#contact)
+          5. ABOUT US SECTION (#about)
+         ======================================================== */}
+      <section id="about" className={`py-16 sm:py-24 border-t transition-colors duration-200 ${
+        darkMode ? 'bg-slate-900/40 border-slate-800' : 'bg-slate-50/70 border-slate-200'
+      }`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          {/* Header Tag & Title */}
+          <div className="max-w-3xl mb-12 sm:mb-16">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3 bg-sky-100 dark:bg-sky-950 text-[#0284c7] dark:text-[#4fc3f7] border border-sky-200 dark:border-sky-800">
+              <Building2 className="w-3.5 h-3.5 text-[#0284c7] dark:text-[#4fc3f7]" />
+              ABOUT MARUTI CHEMICALS
+            </div>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-950 dark:text-white leading-tight">
+              A Decade of Dedicated Service in{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0284c7] to-[#4fc3f7]">
+                Healthcare & Chemical Distribution
+              </span>
+            </h2>
+            <p className="mt-4 text-sm sm:text-base text-slate-600 dark:text-slate-400 leading-relaxed font-normal">
+              Established with an uncompromising commitment to clinical reliability and supply-chain integrity, Maruti Chemicals is a premier supplier, distributor, and export enterprise providing authorized healthcare products and specialty chemicals to institutions across India.
+            </p>
+          </div>
+
+          {/* Two-Column Company Profile & Corporate Snapshot */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start mb-16">
+            
+            {/* Left Column: Narrative Story & Highlights */}
+            <div className="lg:col-span-7 space-y-6">
+              <div className={`p-6 sm:p-8 rounded-3xl border ${
+                darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200 shadow-sm'
+              }`}>
+                <h3 className="text-xl sm:text-2xl font-bold text-slate-950 dark:text-white mb-4 flex items-center gap-2.5">
+                  <Award className="w-6 h-6 text-[#0284c7] dark:text-[#4fc3f7]" />
+                  Who We Are & Our Mission
+                </h3>
+                <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                  Headquartered in Ghaziabad (Uttar Pradesh), Maruti Chemicals serves as a trusted B2B distribution partner for multi-speciality tertiary hospitals, surgical centers, CSSD facilities, diagnostic laboratories, and pharmaceutical manufacturing plants.
+                </p>
+                <p className="mt-3.5 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                  Under the stewardship of Director <strong className="text-slate-900 dark:text-white">Pankaj Gupta</strong>, bringing over 10+ years of distribution excellence, our organization has established commercial relationships with premier manufacturers including <strong className="text-slate-900 dark:text-white">3M Healthcare</strong> and <strong className="text-slate-900 dark:text-white">Raman & Weil</strong>. We bridge the gap between global medical innovations and Indian healthcare providers through dependable fulfillment and competitive pricing.
+                </p>
+
+                {/* Key Bullet Highlights */}
+                <div className="mt-6 pt-6 border-t border-slate-100 dark:border-slate-800 grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                  {[
+                    'Direct access to authorized brand pipelines (3M & Raman & Weil)',
+                    'Strategic warehouse hub in Ghaziabad for rapid transit',
+                    'Direct RFQ turnaround and quote generation within 24–48 hours',
+                    'Comprehensive 88+ products across 21 specialized categories',
+                    'Authentic batch-traceable lots with original seals & verification',
+                    'Flexible procurement from sample packs to hospital rate contracts'
+                  ].map((feat, idx) => (
+                    <div key={idx} className="flex items-start gap-2.5 text-xs font-medium text-slate-700 dark:text-slate-300">
+                      <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                      <span>{feat}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Corporate Snapshot Card */}
+            <div className="lg:col-span-5 space-y-4">
+              <div className={`p-6 sm:p-7 rounded-3xl border relative overflow-hidden ${
+                darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-sky-100 shadow-md'
+              }`}>
+                <div className="absolute top-0 right-0 w-36 h-36 bg-gradient-to-bl from-sky-400/10 to-transparent rounded-bl-full pointer-events-none" />
+                
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-gradient-to-tr from-[#0284c7] to-[#4fc3f7] text-white shadow-md">
+                    <FlaskConical className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h4 className="font-extrabold text-base text-slate-950 dark:text-white">
+                      Maruti Chemicals
+                    </h4>
+                    <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                      Corporate Snapshot
+                    </p>
+                  </div>
+                </div>
+
+                <div className="space-y-4 text-xs divide-y divide-slate-100 dark:divide-slate-800">
+                  <div className="pt-3 first:pt-0 flex items-start gap-3">
+                    <Building2 className="w-4 h-4 text-[#0284c7] dark:text-[#4fc3f7] shrink-0 mt-0.5" />
+                    <div>
+                      <div className="font-bold text-slate-900 dark:text-white">Enterprise Profile</div>
+                      <div className="text-slate-600 dark:text-slate-400">Institutional Healthcare & Chemical Distributor</div>
+                    </div>
+                  </div>
+
+                  <div className="pt-3 flex items-start gap-3">
+                    <Award className="w-4 h-4 text-[#0284c7] dark:text-[#4fc3f7] shrink-0 mt-0.5" />
+                    <div>
+                      <div className="font-bold text-slate-900 dark:text-white">Leadership & Experience</div>
+                      <div className="text-slate-600 dark:text-slate-400">Director: Pankaj Gupta · 10+ Years Excellence</div>
+                    </div>
+                  </div>
+
+                  <div className="pt-3 flex items-start gap-3">
+                    <MapPin className="w-4 h-4 text-[#0284c7] dark:text-[#4fc3f7] shrink-0 mt-0.5" />
+                    <div>
+                      <div className="font-bold text-slate-900 dark:text-white">Operations & Logistics Hub</div>
+                      <div className="text-slate-600 dark:text-slate-400 leading-relaxed">
+                        II-C/199, Nehru Nagar, Ghaziabad (U.P.) — 201001, India
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="pt-3 flex items-start gap-3">
+                    <Truck className="w-4 h-4 text-[#0284c7] dark:text-[#4fc3f7] shrink-0 mt-0.5" />
+                    <div>
+                      <div className="font-bold text-slate-900 dark:text-white">Dispatch & Fulfillment</div>
+                      <div className="text-slate-600 dark:text-slate-400">Ex-Warehouse Ghaziabad with Pan-India Transit Support</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-6 pt-5 border-t border-slate-100 dark:border-slate-800">
+                  <a
+                    href="#contact"
+                    className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-bold text-xs bg-[#0284c7] hover:bg-[#0369a1] text-white shadow-sm hover:shadow-md transition-all duration-200"
+                  >
+                    <span>Connect with Procurement Desk</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          {/* 4 Pillars of Operational Strength */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {[
+              {
+                icon: ShieldCheck,
+                title: 'Authentic Supply Pipeline',
+                desc: 'All healthcare listings are sourced from authorized manufacturer channels with verified batch integrity and shelf-life assurance.'
+              },
+              {
+                icon: Truck,
+                title: 'Rapid Order Dispatch',
+                desc: 'Central warehouse in NCR enables expedited dispatch within 24–48 hours for emergency hospital and surgical requirements.'
+              },
+              {
+                icon: Layers,
+                title: 'Sector Specialization',
+                desc: 'Deep category coverage matching clinical protocols across Operation Theatres, CSSD, ICUs, Labs, and Pharma Cleanrooms.'
+              },
+              {
+                icon: Clock,
+                title: 'Transparent B2B Pricing',
+                desc: 'Competitive institutional quotations with structured pack configurations and dedicated customer procurement support.'
+              }
+            ].map((pillar, pIdx) => {
+              const PIcon = pillar.icon;
+              return (
+                <div
+                  key={pIdx}
+                  className={`p-6 rounded-2xl border transition-all duration-300 ${
+                    darkMode
+                      ? 'bg-slate-900/90 border-slate-800'
+                      : 'bg-white border-slate-200 shadow-xs'
+                  }`}
+                >
+                  <div className="w-11 h-11 rounded-xl bg-sky-100 dark:bg-sky-950 text-[#0284c7] dark:text-[#4fc3f7] flex items-center justify-center mb-4 shadow-xs">
+                    <PIcon className="w-5 h-5" />
+                  </div>
+                  <h4 className="text-base font-bold text-slate-950 dark:text-white mb-2">
+                    {pillar.title}
+                  </h4>
+                  <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                    {pillar.desc}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+
+        </div>
+      </section>
+
+      {/* ========================================================
+          6. DIRECT PROCUREMENT & CONTACT SECTION (#contact)
          ======================================================== */}
       <section id="contact" className="py-16 sm:py-20 border-t border-slate-200 dark:border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -2817,6 +3011,12 @@ export default function App() {
               <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
                 Maruti Chemicals is a premier manufacturer, distributor, and export enterprise delivering high-purity industrial, specialty, and pharmacopoeial chemicals across global trading destinations. Browse the listed medical products by industry and enquire about 3M and Raman & Weil product options.
               </p>
+              <div className="pt-1">
+                <a href="/#about" className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#4fc3f7] hover:underline">
+                  <span>Learn more about Maruti Chemicals</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </a>
+              </div>
               <div className="text-xs text-slate-400">
                 Director: <strong className="text-white">Pankaj Gupta</strong> · 10+ Years of Distribution Excellence
               </div>
