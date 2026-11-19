@@ -116,42 +116,54 @@ const getRouteUrl = (path) => {
   return prefix + (path.startsWith('/') ? path : `/${path}`);
 };
 
-// 5-Point Institutional Profile & Capabilities (About Us)
-const ABOUT_STEPS = [
+// About Us: Scientific Vision & Pillars
+const ABOUT_PILLARS = [
   {
-    step: '01',
-    title: 'Enterprise Profile & Mission',
-    desc: 'Headquartered in Ghaziabad (Uttar Pradesh), Maruti Chemicals is a premier supplier, distributor, and export enterprise providing authorized healthcare products and specialty chemicals to tertiary hospitals, surgical centers, diagnostic laboratories, and pharmaceutical manufacturing plants across India.',
-    icon: Building2,
-    badge: 'Foundation & Reach'
+    num: '01',
+    title: 'Uncompromising Purity',
+    desc: 'Every solvent batch and polymer blend undergoes rigorous gas chromatography, Karl Fischer titration, and ICP-MS analysis before release.',
+    colorClass: 'bg-sky-100 dark:bg-sky-950/80 text-[#0284c7] dark:text-[#4fc3f7] border-sky-200 dark:border-sky-800'
   },
   {
-    step: '02',
-    title: 'Leadership & Industry Trust',
-    desc: 'Under the stewardship of Director Pankaj Gupta, bringing over 10+ years of distribution excellence, our organization has established commercial relationships with premier manufacturers including 3M Healthcare and Raman & Weil, bridging clinical innovation with reliable institutional fulfillment.',
-    icon: Award,
-    badge: 'Director: Pankaj Gupta'
+    num: '02',
+    title: 'Ecological Stewardship',
+    desc: 'Certified Zero Liquid Discharge (ZLD) operating protocol ensures that 100% of our process water is treated, evaporated, and returned to closed-loop boilers.',
+    colorClass: 'bg-emerald-100 dark:bg-emerald-950/80 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800'
   },
   {
-    step: '03',
-    title: 'Authentic Supply Pipeline & Brand Assurance',
-    desc: 'Direct access to authorized brand pipelines for 3M Healthcare and Raman & Weil products. Every consignment features verified batch integrity, authentic manufacturer seals, valid shelf-life, and complete compliance documentation for patient safety and sterility.',
-    icon: ShieldCheck,
-    badge: '3M & Raman & Weil'
+    num: '03',
+    title: 'Global Supply Reliability',
+    desc: 'Equipped with 120,000 MT storage silos, ISO tank containers, and cold-chain sample logistics, guaranteeing uninterrupted raw material supply worldwide.',
+    colorClass: 'bg-blue-100 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-800'
+  }
+];
+
+// About Us: Historical Milestones
+const ABOUT_MILESTONES = [
+  {
+    year: '1998',
+    title: 'Founding of Maruti Chemicals',
+    desc: 'Inception of industrial solvent repackaging and basic coagulation distribution in Gujarat, India.'
   },
   {
-    step: '04',
-    title: 'Strategic NCR Hub & Rapid Dispatch',
-    desc: 'Operating from our central logistics facility at Nehru Nagar, Ghaziabad (U.P. 201001), our dispatch infrastructure supports expedited 24–48 hour fulfillment for emergency hospital and surgical requirements with nationwide freight tracking.',
-    icon: Truck,
-    badge: 'Pan-India Delivery'
+    year: '2005',
+    title: 'Commissioning of Hazira Polymer Synthesis',
+    desc: 'First dedicated 10,000 MT epoxy and acrylic copolymer manufacturing facility opened.'
   },
   {
-    step: '05',
-    title: 'Sector Specialization & Institutional Pricing',
-    desc: 'Full clinical category coverage spanning Operation Theatres, CSSD, ICUs, Labs, Clinics, and Cleanrooms — offering structured institutional B2B quotations, rate contracts, flexible pack configurations, and dedicated procurement desk support for 88+ medical products.',
-    icon: Layers,
-    badge: '88+ Medical Products'
+    year: '2014',
+    title: 'Fractional Distillation Expansion',
+    desc: 'Introduced 80-plate stainless distillation columns achieving 99.98% purity electronic solvents.'
+  },
+  {
+    year: '2021',
+    title: 'Zero Liquid Discharge & Green Chemistry',
+    desc: 'Full plant upgrade achieving 100% wastewater recycling and zero toxic effluent release.'
+  },
+  {
+    year: '2026',
+    title: 'Global Precision Synthesis & Export Hub',
+    desc: 'Serving 48+ international countries with dedicated export hubs in Europe, Americas, and APAC.'
   }
 ];
 
@@ -2146,97 +2158,112 @@ export default function App() {
       {page.type === 'home' && (
       <>
       {/* ========================================================
-          4. ABOUT US: INSTITUTIONAL PROFILE & PILLARS (#about)
+          4. ABOUT US SECTION (#about)
          ======================================================== */}
-      <section id="about" className={`py-16 sm:py-24 border-t transition-colors duration-200 ${
+      <section id="about" className={`py-20 sm:py-28 border-t transition-colors duration-200 ${
         darkMode ? 'bg-slate-900/60 border-slate-800' : 'bg-gradient-to-b from-[#faf9f6] via-white to-sky-50/40 border-sky-100'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3 bg-sky-100 dark:bg-sky-950 text-[#0284c7] dark:text-[#4fc3f7] border border-sky-200 dark:border-sky-800">
-              <span className="w-2 h-2 rounded-full bg-[#0284c7] animate-pulse"></span>
-              ABOUT MARUTI CHEMICALS
+          {/* Header Block */}
+          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium bg-sky-100 dark:bg-sky-950/80 text-[#0284c7] dark:text-[#4fc3f7] border border-sky-200 dark:border-sky-800">
+              <FlaskConical className="w-3.5 h-3.5" />
+              <span>Our Legacy & Scientific Vision</span>
             </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 dark:text-white tracking-tight">
-              A Decade of Excellence in{' '}
-              <span className="text-[#0284c7] dark:text-[#4fc3f7]">
-                Healthcare Distribution
+              Pioneering Chemical Innovation <br className="hidden sm:inline" />
+              <span className="bg-gradient-to-r from-[#0284c7] via-[#0ea5e9] to-[#38bdf8] bg-clip-text text-transparent">
+                Since 1998
               </span>
             </h2>
-            <p className="mt-4 text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
-              Established with an uncompromising commitment to clinical reliability, authentic manufacturer channels, and rapid institutional fulfillment across India.
+            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed">
+              For over 25 years, Maruti Chemicals has transformed raw industrial chemistry into high-precision, environmentally verified molecular solutions.
             </p>
           </div>
 
-          {/* Staggered Vertical Timeline Workflow matching Our Process */}
-          <div className="max-w-3xl mx-auto relative">
-            {/* Center/Left connecting vertical line */}
-            <div className="absolute left-6 sm:left-8 top-6 bottom-6 w-0.5 bg-gradient-to-b from-[#0284c7] via-[#4fc3f7] to-slate-200 dark:to-slate-800 -z-0"></div>
+          {/* 3 Core Value Pillars */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
+            {ABOUT_PILLARS.map((pillar) => (
+              <div
+                key={pillar.num}
+                className={`p-7 sm:p-8 rounded-2xl border transition-all duration-300 hover:-translate-y-1 hover:shadow-xl space-y-4 ${
+                  darkMode
+                    ? 'bg-slate-900 border-slate-800 hover:border-sky-700'
+                    : 'bg-white border-slate-200 shadow-sm hover:border-sky-300'
+                }`}
+              >
+                <div className={`w-11 h-11 rounded-xl flex items-center justify-center font-bold text-base border shadow-xs ${pillar.colorClass}`}>
+                  {pillar.num}
+                </div>
+                <h3 className="text-lg font-bold text-slate-950 dark:text-white">
+                  {pillar.title}
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                  {pillar.desc}
+                </p>
+              </div>
+            ))}
+          </div>
 
-            <div className="space-y-5 relative z-10">
-              {ABOUT_STEPS.map((item, idx) => {
-                const Icon = item.icon;
-                return (
-                  <div
-                    key={item.step}
-                    className="flex items-start gap-4 sm:gap-6 group"
-                  >
-                    {/* Step Number Circle / Badge */}
-                    <div className="flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 rounded-2xl flex flex-col items-center justify-center font-mono font-black text-sm sm:text-base shadow-md transition-all duration-300 group-hover:scale-105 group-hover:shadow-sky-500/30 bg-slate-950 text-white dark:bg-slate-800 dark:text-[#4fc3f7] border-2 border-slate-800 dark:border-sky-500/40 group-hover:bg-[#0284c7] group-hover:border-[#0284c7]">
-                      <span>{item.step}</span>
-                      <Icon className="w-3.5 h-3.5 mt-0.5 opacity-80 group-hover:opacity-100" />
-                    </div>
-
-                    {/* Step Description Card with Hover Elevation */}
-                    <div className={`flex-1 p-5 sm:p-6 rounded-2xl border transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-sky-300 dark:hover:border-sky-700 cursor-pointer ${
-                      darkMode
-                        ? 'bg-slate-900 border-slate-800'
-                        : 'bg-white border-slate-200 shadow-xs hover:shadow-md'
-                    }`}>
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1.5">
-                        <h3 className="text-base sm:text-lg font-bold text-slate-950 dark:text-white group-hover:text-[#0284c7] dark:group-hover:text-[#4fc3f7] transition-colors">
-                          {item.title}
-                        </h3>
-                        <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-0.5 rounded-full w-fit">
-                          {item.badge}
-                        </span>
-                      </div>
-                      <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                        {item.desc}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
+          {/* Key Historical Milestones */}
+          <div className="mb-20">
+            <div className="text-center max-w-xl mx-auto mb-12 space-y-2">
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-950 dark:text-white font-mono tracking-tight">
+                Key Historical Milestones
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+                Quarter-century path of continuous technological ascension.
+              </p>
             </div>
 
-            {/* Hub & Contact Quick Action Callout Card */}
-            <div className={`mt-8 p-5 sm:p-6 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors ${
-              darkMode ? 'bg-slate-900/90 border-slate-800' : 'bg-sky-50/70 border-sky-200/80 shadow-xs'
-            }`}>
-              <div className="flex items-start sm:items-center gap-3.5">
-                <div className="w-10 h-10 rounded-xl bg-[#0284c7] text-white flex items-center justify-center shrink-0 shadow-sm">
-                  <MapPin className="w-5 h-5" />
-                </div>
-                <div>
-                  <div className="font-bold text-xs sm:text-sm text-slate-950 dark:text-white">
-                    Operations Hub: Nehru Nagar, Ghaziabad (U.P.) — 201001
+            <div className="relative border-l-2 border-[#0284c7]/30 dark:border-sky-500/30 max-w-3xl mx-auto pl-6 sm:pl-8 space-y-8">
+              {ABOUT_MILESTONES.map((item, idx) => (
+                <div key={idx} className="relative group">
+                  <div className="absolute -left-[31px] sm:-left-[39px] top-1.5 w-4 h-4 rounded-full bg-white dark:bg-slate-950 border-2 border-[#0284c7] dark:border-[#38bdf8] group-hover:bg-[#0284c7] dark:group-hover:bg-[#38bdf8] group-hover:scale-110 transition-all shadow-sm" />
+                  <div className={`p-5 sm:p-6 rounded-2xl border transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg space-y-1.5 ${
+                    darkMode
+                      ? 'bg-slate-900 border-slate-800 hover:border-sky-700'
+                      : 'bg-white border-slate-200 shadow-xs hover:border-sky-300'
+                  }`}>
+                    <span className="text-xs font-mono font-bold text-[#0284c7] dark:text-[#38bdf8] tracking-wider">
+                      {item.year}
+                    </span>
+                    <h4 className="text-base font-bold text-slate-950 dark:text-white">
+                      {item.title}
+                    </h4>
+                    <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                      {item.desc}
+                    </p>
                   </div>
-                  <div className="text-[11px] text-slate-600 dark:text-slate-400">
-                    Central NCR Logistics · Pan-India Dispatch Support · Hospital Rate Contracts
-                  </div>
                 </div>
-              </div>
-              <a
-                href="#contact"
-                className="inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl font-bold text-xs bg-[#0284c7] hover:bg-[#0369a1] text-white shadow-sm hover:shadow-md transition-all shrink-0"
-              >
-                <span>Connect Procurement Desk</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </a>
+              ))}
             </div>
           </div>
+
+          {/* Audited Under Global QA Frameworks Banner */}
+          <div className={`p-8 sm:p-12 rounded-3xl border flex flex-col md:flex-row items-center justify-between gap-6 transition-colors ${
+            darkMode
+              ? 'bg-slate-900 border-slate-800'
+              : 'bg-gradient-to-r from-sky-50 via-white to-sky-50/60 border-sky-200/80 shadow-xs'
+          }`}>
+            <div className="space-y-2 text-center md:text-left">
+              <h3 className="text-xl sm:text-2xl font-bold text-slate-950 dark:text-white">
+                Audited Under Global QA Frameworks
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-xl leading-relaxed">
+                ISO 9001:2015 Quality Management • ISO 14001 Environmental Safety • GMP Good Manufacturing Practices • REACH EU Registration.
+              </p>
+            </div>
+            <a
+              href="#contact"
+              className="px-6 py-3 rounded-xl bg-[#0284c7] hover:bg-[#0369a1] text-white font-semibold text-xs shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-center gap-2 whitespace-nowrap shrink-0"
+            >
+              <span>Request Audit Pack / COA</span>
+              <ArrowRight className="w-4 h-4" />
+            </a>
+          </div>
+
         </div>
       </section>
 
