@@ -208,7 +208,8 @@ export default function App() {
     phone: '',
     destination: '',
     taxId: '',
-    incoterm: 'FOB India Port (Nhava Sheva / Mundra)',
+    incoterm: 'Door Delivery (FOR Destination)',
+    customIncoterm: '',
     instructions: ''
   });
 
@@ -651,7 +652,9 @@ export default function App() {
           'Email': rfqForm.email,
           'Phone / WhatsApp': rfqForm.phone,
           'Delivery Destination': rfqForm.destination || 'Not Specified',
-          'Commercial Term / Incoterm': rfqForm.incoterm || 'Door Delivery',
+          'Commercial Term / Incoterm': rfqForm.incoterm === 'Custom / Other Terms'
+            ? (rfqForm.customIncoterm ? `Custom: ${rfqForm.customIncoterm}` : 'Custom / Other Terms')
+            : (rfqForm.incoterm || 'Door Delivery (FOR Destination)'),
           'Products Requested': requestedProducts,
           'Special Instructions / Notes': rfqForm.instructions || 'None'
         })
@@ -2373,6 +2376,10 @@ export default function App() {
                           'Company Name': rfqForm.companyName,
                           'Email': rfqForm.email,
                           'Phone / WhatsApp': rfqForm.phone,
+                          'Delivery Destination': rfqForm.destination || 'Not Specified',
+                          'Commercial Term / Incoterm': rfqForm.incoterm === 'Custom / Other Terms'
+                            ? (rfqForm.customIncoterm ? `Custom: ${rfqForm.customIncoterm}` : 'Custom / Other Terms')
+                            : (rfqForm.incoterm || 'Door Delivery (FOR Destination)'),
                           'Requested Products & Requirements': rfqForm.instructions || 'General Commercial Inquiry'
                         })
                       });
@@ -2449,6 +2456,53 @@ export default function App() {
                           darkMode ? 'bg-slate-800 border-slate-700 text-white' : 'bg-[#faf9f6] border-slate-300 text-slate-900'
                         }`}
                       />
+                    </div>
+
+                    <div>
+                      <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1">
+                        Delivery City / Destination
+                      </label>
+                      <input
+                        type="text"
+                        value={rfqForm.destination}
+                        onChange={(e) => setRfqForm({ ...rfqForm, destination: e.target.value })}
+                        placeholder="e.g. Baddi / Delhi-NCR / Mumbai"
+                        className={`w-full px-3.5 py-2.5 rounded-xl border outline-none focus:ring-2 focus:ring-[#0284c7] ${
+                          darkMode ? 'bg-slate-800 border-slate-700 text-white' : 'bg-[#faf9f6] border-slate-300 text-slate-900'
+                        }`}
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1">
+                        Commercial Terms
+                      </label>
+                      <select
+                        value={rfqForm.incoterm}
+                        onChange={(e) => setRfqForm({ ...rfqForm, incoterm: e.target.value })}
+                        className={`w-full px-3.5 py-2.5 rounded-xl border outline-none focus:ring-2 focus:ring-[#0284c7] ${
+                          darkMode ? 'bg-slate-800 border-slate-700 text-white' : 'bg-[#faf9f6] border-slate-300 text-slate-900'
+                        }`}
+                      >
+                        <option value="Door Delivery (FOR Destination)">Door Delivery (FOR Destination)</option>
+                        <option value="Ex-Warehouse Ghaziabad">Ex-Warehouse Ghaziabad</option>
+                        <option value="Hospital Rate Contract / Annual Tender">Hospital Rate Contract / Annual Tender</option>
+                        <option value="FOB India Port (Nhava Sheva / Mundra)">FOB India Port (Export)</option>
+                        <option value="CIF Destination Port">CIF Destination Port (Export)</option>
+                        <option value="Custom / Other Terms">Custom / Other Terms (Specify below)</option>
+                      </select>
+                      {rfqForm.incoterm === 'Custom / Other Terms' && (
+                        <input
+                          type="text"
+                          required
+                          placeholder="Specify custom terms (e.g. 30 Days Credit, DDP, etc.)"
+                          value={rfqForm.customIncoterm}
+                          onChange={(e) => setRfqForm({ ...rfqForm, customIncoterm: e.target.value })}
+                          className={`mt-2 w-full px-3.5 py-2 rounded-xl border outline-none focus:ring-2 focus:ring-[#0284c7] ${
+                            darkMode ? 'bg-slate-800 border-slate-700 text-white placeholder-slate-500' : 'bg-[#faf9f6] border-slate-300 text-slate-900 placeholder-slate-400'
+                          }`}
+                        />
+                      )}
                     </div>
                   </div>
 
@@ -3004,10 +3058,24 @@ export default function App() {
                         }`}
                       >
                         <option value="Door Delivery (FOR Destination)">Door Delivery (FOR Destination)</option>
-                        <option value="FOB India Port (Nhava Sheva / Mundra)">FOB India Port</option>
-                        <option value="CIF Destination Port">CIF Destination Port</option>
                         <option value="Ex-Warehouse Ghaziabad">Ex-Warehouse Ghaziabad</option>
+                        <option value="Hospital Rate Contract / Annual Tender">Hospital Rate Contract / Annual Tender</option>
+                        <option value="FOB India Port (Nhava Sheva / Mundra)">FOB India Port (Export)</option>
+                        <option value="CIF Destination Port">CIF Destination Port (Export)</option>
+                        <option value="Custom / Other Terms">Custom / Other Terms (Specify below)</option>
                       </select>
+                      {rfqForm.incoterm === 'Custom / Other Terms' && (
+                        <input
+                          type="text"
+                          required
+                          placeholder="Specify custom terms (e.g. 30 Days Credit, DDP, etc.)"
+                          value={rfqForm.customIncoterm}
+                          onChange={(e) => setRfqForm({ ...rfqForm, customIncoterm: e.target.value })}
+                          className={`mt-2 w-full px-3 py-1.5 rounded-xl border text-xs focus:ring-1 focus:ring-[#0284c7] outline-none ${
+                            darkMode ? 'bg-slate-800 border-slate-700 text-white placeholder-slate-500' : 'bg-[#faf9f6] border-slate-300 text-slate-900 placeholder-slate-400'
+                          }`}
+                        />
+                      )}
                     </div>
                   </div>
 
