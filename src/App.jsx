@@ -1054,44 +1054,164 @@ export default function App() {
       }`}>
         <div className="absolute inset-0 opacity-15 dark:opacity-5 pointer-events-none bg-[radial-gradient(#0284c7_1px,transparent_1px)] [background-size:18px_18px]"></div>
 
+        {/* Ambient 3D Brand Watermarks in Background */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
+          {/* Subtle 3D Watermark 1: 3M */}
+          <div className="absolute -top-10 right-10 lg:right-24 text-[140px] sm:text-[200px] lg:text-[240px] font-black tracking-tighter text-slate-900/5 dark:text-white/[0.03] leading-none transform -rotate-12 select-none pointer-events-none">
+            3M
+          </div>
+          {/* Subtle 3D Watermark 2: R&W */}
+          <div className="absolute top-1/2 -right-8 text-[100px] sm:text-[140px] font-black tracking-tighter text-emerald-900/5 dark:text-emerald-400/[0.02] leading-none transform rotate-6 select-none pointer-events-none">
+            R&W
+          </div>
+          {/* Ambient Lighting Halos */}
+          <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-gradient-to-tr from-sky-400/20 to-transparent dark:from-sky-500/10 rounded-full blur-3xl animate-pulse-glow" />
+        </div>
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 relative">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold tracking-wide uppercase mb-5 bg-sky-100 dark:bg-sky-950 text-[#0284c7] dark:text-[#4fc3f7] border border-sky-200 dark:border-sky-800 shadow-sm">
-              <ShieldCheck className="w-4 h-4 text-[#0284c7]" /> Maruti Chemicals · Healthcare Supply
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            
+            {/* Left Column: Hero Text & CTAs */}
+            <div className="lg:col-span-7">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold tracking-wide uppercase mb-5 bg-sky-100 dark:bg-sky-950 text-[#0284c7] dark:text-[#4fc3f7] border border-sky-200 dark:border-sky-800 shadow-sm">
+                <ShieldCheck className="w-4 h-4 text-[#0284c7]" /> Maruti Chemicals · Healthcare Supply
+              </div>
+
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-slate-950 dark:text-white">
+                  Maruti Chemicals: Medical Products for{' '}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0284c7] to-[#4fc3f7]">
+                    Clinical Care
+                </span>
+              </h1>
+
+              <p className="mt-5 text-base sm:text-lg text-slate-700 dark:text-slate-300 leading-relaxed font-normal">
+                  Maruti Chemicals is a supplier and distributor serving pharmaceutical, industrial, and healthcare requirements. Browse medical and clinical products listed by industry from trusted partner brands including 3M and Raman & Weil, review product specifications, and send us an enquiry.
+              </p>
+
+              {/* Quick Hero CTAs with Hover Lift */}
+              <div className="mt-8 flex flex-wrap items-center gap-4">
+                <a
+                  href="#products"
+                  className="px-7 py-3.5 rounded-xl font-bold text-sm bg-[#0284c7] hover:bg-[#0369a1] text-white shadow-md hover:shadow-xl hover:shadow-sky-500/30 hover:-translate-y-1 active:translate-y-0 transition-all duration-300 flex items-center gap-2 group"
+                >
+                  <span>Explore Products</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300" />
+                </a>
+
+                <a
+                  href="#contact"
+                  className={`px-7 py-3.5 rounded-xl font-bold text-sm border hover:-translate-y-1 active:translate-y-0 transition-all duration-300 ${
+                    darkMode
+                      ? 'bg-slate-900 border-slate-700 text-white hover:bg-slate-800 hover:border-sky-500 hover:shadow-lg'
+                      : 'bg-white border-slate-300 text-slate-900 hover:bg-slate-50 hover:border-sky-400 hover:text-[#0284c7] hover:shadow-lg shadow-sm'
+                  }`}
+                >
+                  Contact Procurement Desk
+                </a>
+              </div>
             </div>
 
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-slate-950 dark:text-white">
-                Maruti Chemicals: Medical Products for{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0284c7] to-[#4fc3f7]">
-                  Clinical Care
-              </span>
-            </h1>
+            {/* Right Column: 3D Brand Logos Showcase (Maruti, 3M, Raman & Weil) */}
+            <div className="lg:col-span-5 relative mt-6 lg:mt-0">
+              {/* Soft Ambient Halos */}
+              <div className="absolute -top-12 -left-8 w-60 h-60 bg-sky-500/20 dark:bg-sky-500/15 rounded-full blur-3xl pointer-events-none animate-pulse-glow" />
+              <div className="absolute top-20 right-0 w-60 h-60 bg-rose-500/15 dark:bg-rose-500/10 rounded-full blur-3xl pointer-events-none animate-pulse-glow" style={{ animationDelay: '2s' }} />
+              <div className="absolute -bottom-8 left-12 w-60 h-60 bg-emerald-500/15 dark:bg-emerald-500/10 rounded-full blur-3xl pointer-events-none animate-pulse-glow" style={{ animationDelay: '4s' }} />
 
-            <p className="mt-5 text-base sm:text-lg text-slate-700 dark:text-slate-300 leading-relaxed font-normal">
-                Maruti Chemicals is a supplier and distributor serving pharmaceutical, industrial, and healthcare requirements. Browse medical and clinical products listed by industry from trusted partner brands including 3M and Raman & Weil, review product specifications, and send us an enquiry.
-            </p>
+              {/* 3D Scene Perspective Container */}
+              <div className="relative z-10 space-y-4 sm:space-y-4" style={{ perspective: '1200px' }}>
+                
+                {/* 1. Maruti Chemicals 3D Card */}
+                <div
+                  onClick={() => {
+                    const el = document.getElementById('about');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="animate-float-3d-1 group cursor-pointer p-4 sm:p-5 rounded-2xl border backdrop-blur-xl transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl hover:shadow-sky-500/20 bg-white/85 dark:bg-slate-900/85 border-sky-200 dark:border-sky-900/60 shadow-lg"
+                  style={{ transformStyle: 'preserve-3d' }}
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-3.5">
+                      <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-gradient-to-tr from-[#0284c7] to-[#4fc3f7] text-white shadow-md shadow-sky-500/30 group-hover:scale-105 transition-transform">
+                        <FlaskConical className="w-6 h-6" />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-1.5">
+                          <span className="font-extrabold text-base tracking-tight text-[#0284c7] dark:text-[#4fc3f7]">MARUTI</span>
+                          <span className="font-bold text-base tracking-wide text-slate-900 dark:text-white">CHEMICALS</span>
+                        </div>
+                        <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
+                          B2B Healthcare & Specialty Distribution
+                        </p>
+                      </div>
+                    </div>
+                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-sky-100 dark:bg-sky-950 text-[#0284c7] dark:text-[#4fc3f7] border border-sky-200 dark:border-sky-800">
+                      Anchor
+                    </span>
+                  </div>
+                </div>
 
-            {/* Quick Hero CTAs with Hover Lift */}
-            <div className="mt-8 flex flex-wrap items-center gap-4">
-              <a
-                href="#products"
-                className="px-7 py-3.5 rounded-xl font-bold text-sm bg-[#0284c7] hover:bg-[#0369a1] text-white shadow-md hover:shadow-xl hover:shadow-sky-500/30 hover:-translate-y-1 active:translate-y-0 transition-all duration-300 flex items-center gap-2 group"
-              >
-                <span>Explore Products</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300" />
-              </a>
+                {/* 2. 3M Health Care 3D Card */}
+                <div
+                  onClick={() => {
+                    setSelectedBrand('3M');
+                    navigateTo('/brand/3M');
+                  }}
+                  className="animate-float-3d-2 group cursor-pointer p-4 sm:p-5 rounded-2xl border backdrop-blur-xl transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl hover:shadow-red-500/20 bg-white/85 dark:bg-slate-900/85 border-rose-200 dark:border-rose-950/60 shadow-lg ml-0 sm:ml-6"
+                  style={{ transformStyle: 'preserve-3d' }}
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-3.5">
+                      <div className="px-3.5 py-1.5 rounded-xl bg-[#EE0000] text-white font-black text-2xl tracking-tighter shadow-md shadow-red-500/30 group-hover:scale-105 transition-transform font-sans">
+                        3M
+                      </div>
+                      <div>
+                        <div className="text-base font-extrabold text-slate-950 dark:text-white flex items-center gap-1.5">
+                          <span>3M Health Care</span>
+                        </div>
+                        <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
+                          Science. Applied to Life.™ · 51 Products
+                        </p>
+                      </div>
+                    </div>
+                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-rose-50 dark:bg-rose-950 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-900">
+                      Partner
+                    </span>
+                  </div>
+                </div>
 
-              <a
-                href="#contact"
-                className={`px-7 py-3.5 rounded-xl font-bold text-sm border hover:-translate-y-1 active:translate-y-0 transition-all duration-300 ${
-                  darkMode
-                    ? 'bg-slate-900 border-slate-700 text-white hover:bg-slate-800 hover:border-sky-500 hover:shadow-lg'
-                    : 'bg-white border-slate-300 text-slate-900 hover:bg-slate-50 hover:border-sky-400 hover:text-[#0284c7] hover:shadow-lg shadow-sm'
-                }`}
-              >
-                Contact Procurement Desk
-              </a>
+                {/* 3. Raman & Weil 3D Card */}
+                <div
+                  onClick={() => {
+                    setSelectedBrand('Raman & Weil');
+                    navigateTo('/brand/Raman%20%26%20Weil');
+                  }}
+                  className="animate-float-3d-3 group cursor-pointer p-4 sm:p-5 rounded-2xl border backdrop-blur-xl transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl hover:shadow-emerald-500/20 bg-white/85 dark:bg-slate-900/85 border-emerald-200 dark:border-emerald-950/60 shadow-lg ml-0 sm:ml-3"
+                  style={{ transformStyle: 'preserve-3d' }}
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-3.5">
+                      <div className="w-12 h-12 rounded-xl flex items-center justify-center font-black text-sm tracking-tighter bg-gradient-to-tr from-emerald-600 to-teal-500 text-white shadow-md shadow-emerald-500/30 group-hover:scale-105 transition-transform">
+                        R&amp;W
+                      </div>
+                      <div>
+                        <div className="text-base font-extrabold text-slate-950 dark:text-white">
+                          Raman &amp; Weil
+                        </div>
+                        <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
+                          Infection Prevention &amp; Hygiene · 37 Products
+                        </p>
+                      </div>
+                    </div>
+                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-900">
+                      Partner
+                    </span>
+                  </div>
+                </div>
+
+              </div>
             </div>
+
           </div>
 
           {/* 4 Quick Stats Grid (Clean Static Informational Badges) */}
