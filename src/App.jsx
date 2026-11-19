@@ -30,8 +30,11 @@ import {
   ClipboardCheck,
   Building2,
   BadgeCheck,
-  Palette
+  Palette,
+  Loader2
 } from 'lucide-react';
+
+const NOTIFICATION_EMAIL = import.meta.env.VITE_RFQ_NOTIFICATION_EMAIL || 'prish.3d@gmail.com';
 
 import {
   INDUSTRY_CATEGORIES,
@@ -183,6 +186,7 @@ export default function App() {
   const [isRfqModalOpen, setIsRfqModalOpen] = useState(false);
   const [rfqTargetProduct, setRfqTargetProduct] = useState(null);
   const [rfqSuccessRef, setRfqSuccessRef] = useState(null);
+  const [isSubmittingRfq, setIsSubmittingRfq] = useState(false);
 
   // RFQ Checkout form fields
   const [rfqForm, setRfqForm] = useState({
@@ -600,10 +604,52 @@ export default function App() {
     setIsRfqModalOpen(true);
   };
 
-  const handleRfqSubmit = (e) => {
+  const handleRfqSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmittingRfq(true);
     const generatedRef = `MC-RFQ-${new Date().getFullYear()}-${Math.floor(100000 + Math.random() * 900000)}`;
-    setRfqSuccessRef(generatedRef);
+
+    let requestedProducts = '';
+    if (rfqTargetProduct) {
+      requestedProducts = `${rfqTargetProduct.name} (Brand: ${rfqTargetProduct.brand || 'Maruti Chemicals'}, Line: ${rfqTargetProduct.line || 'Medical'}, Size: ${rfqTargetProduct.packaging || 'Standard'}${rfqTargetProduct.color ? ', Color: ' + rfqTargetProduct.color : ''})`;
+    } else if (cart && cart.length > 0) {
+      requestedProducts = cart.map((item, idx) => 
+        `${idx + 1}. ${item.product.name} [Brand: ${item.product.brand || 'Maruti Chemicals'}] - Qty: ${item.quantity || 1}, Size: ${item.packaging || item.product.packaging || 'Standard'}${item.color ? ', Color: ' + item.color : ''}`
+      ).join('\n');
+    } else if (rfqForm.instructions) {
+      requestedProducts = rfqForm.instructions;
+    } else {
+      requestedProducts = 'General Commercial Product Inquiry';
+    }
+
+    try {
+      await fetch(`https://formsubmit.co/ajax/${NOTIFICATION_EMAIL}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          _subject: `New Maruti Chemicals RFQ [${generatedRef}] - ${rfqForm.companyName || rfqForm.fullName}`,
+          _template: 'table',
+          _captcha: 'false',
+          'Reference ID': generatedRef,
+          'Contact Person': rfqForm.fullName,
+          'Company Name': rfqForm.companyName,
+          'Email': rfqForm.email,
+          'Phone / WhatsApp': rfqForm.phone,
+          'Delivery Destination': rfqForm.destination || 'Not Specified',
+          'Commercial Term / Incoterm': rfqForm.incoterm || 'Door Delivery',
+          'Products Requested': requestedProducts,
+          'Special Instructions / Notes': rfqForm.instructions || 'None'
+        })
+      });
+    } catch (err) {
+      console.warn('RFQ notification dispatch failed:', err);
+    } finally {
+      setIsSubmittingRfq(false);
+      setRfqSuccessRef(generatedRef);
+    }
   };
 
   const closeRfqSuccess = () => {
@@ -2280,11 +2326,36 @@ export default function App() {
                 </p>
 
                 <form
-                  onSubmit={(e) => {
+                  onSubmit={async (e) => {
                     e.preventDefault();
+                    setIsSubmittingRfq(true);
                     const genRef = `MC-RFQ-${new Date().getFullYear()}-${Math.floor(100000 + Math.random() * 900000)}`;
-                    setRfqSuccessRef(genRef);
-                    setIsRfqModalOpen(true);
+                    try {
+                      await fetch(`https://formsubmit.co/ajax/${NOTIFICATION_EMAIL}`, {
+                        method: 'POST',
+                        headers: {
+                          'Content-Type': 'application/json',
+                          'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({
+                          _subject: `Direct Commercial Inquiry [${genRef}] - ${rfqForm.companyName || rfqForm.fullName}`,
+                          _template: 'table',
+                          _captcha: 'false',
+                          'Reference ID': genRef,
+                          'Contact Person': rfqForm.fullName,
+                          'Company Name': rfqForm.companyName,
+                          'Email': rfqForm.email,
+                          'Phone / WhatsApp': rfqForm.phone,
+                          'Requested Products & Requirements': rfqForm.instructions || 'General Commercial Inquiry'
+                        })
+                      });
+                    } catch (err) {
+                      console.warn('Inquiry notification dispatch failed:', err);
+                    } finally {
+                      setIsSubmittingRfq(false);
+                      setRfqSuccessRef(genRef);
+                      setIsRfqModalOpen(true);
+                    }
                   }}
                   className="space-y-4 text-xs"
                 >
@@ -2373,10 +2444,20 @@ export default function App() {
 
                   <button
                     type="submit"
-                    className="w-full py-3.5 px-6 rounded-xl font-bold text-sm bg-[#0284c7] hover:bg-[#0369a1] hover:shadow-xl hover:shadow-sky-500/25 hover:-translate-y-0.5 active:translate-y-0 text-white shadow-md transition-all duration-200 flex items-center justify-center gap-2"
+                    disabled={isSubmittingRfq}
+                    className="w-full py-3.5 px-6 rounded-xl font-bold text-sm bg-[#0284c7] hover:bg-[#0369a1] hover:shadow-xl hover:shadow-sky-500/25 hover:-translate-y-0.5 active:translate-y-0 text-white shadow-md transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-75 disabled:cursor-not-allowed"
                   >
-                    <Send className="w-4 h-4" />
-                    <span>Submit Commercial RFQ</span>
+                    {isSubmittingRfq ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Dispatching Commercial RFQ...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4" />
+                        <span>Submit Commercial RFQ</span>
+                      </>
+                    )}
                   </button>
                 </form>
               </div>
@@ -2927,10 +3008,20 @@ export default function App() {
 
                   <button
                     type="submit"
-                    className="py-2.5 px-5 rounded-xl font-bold text-xs bg-[#0284c7] hover:bg-[#0369a1] text-white shadow-sm flex items-center gap-2"
+                    disabled={isSubmittingRfq}
+                    className="py-2.5 px-5 rounded-xl font-bold text-xs bg-[#0284c7] hover:bg-[#0369a1] text-white shadow-sm flex items-center gap-2 disabled:opacity-75 disabled:cursor-not-allowed"
                   >
-                    <Send className="w-3.5 h-3.5" />
-                    <span>Submit RFQ</span>
+                    {isSubmittingRfq ? (
+                      <>
+                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                        <span>Dispatching RFQ...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-3.5 h-3.5" />
+                        <span>Submit RFQ</span>
+                      </>
+                    )}
                   </button>
                 </div>
               </form>
