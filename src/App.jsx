@@ -1175,7 +1175,7 @@ export default function App() {
             </div>
 
             {/* Right Column: 3D Cartoon Automated Pharmaceutical Packaging Animation */}
-            <div className="lg:col-span-6 relative mt-6 lg:mt-0">
+            <div className="lg:col-span-6 relative mt-6 lg:mt-0 lg:translate-x-6 xl:translate-x-12 lg:scale-105 origin-center lg:origin-right">
               <MedicalPackagingAnimation darkMode={darkMode} />
             </div>
 

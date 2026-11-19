@@ -309,34 +309,54 @@ export default function MedicalPackagingAnimation({ darkMode }) {
     // --- Helper Drawing Functions ---
 
     function drawBackground(c, w, h, isDark) {
-      const grad = c.createRadialGradient(w * 0.5, h * 0.45, 60, w * 0.5, h * 0.5, w * 0.75);
+      // Soft radial ambient light behind the robot that gently fades out to 100% transparent at edges
+      const grad = c.createRadialGradient(w * 0.52, h * 0.46, 50, w * 0.52, h * 0.48, w * 0.55);
       if (isDark) {
-        grad.addColorStop(0, '#0f172a');
-        grad.addColorStop(0.7, '#090d16');
-        grad.addColorStop(1, '#020617');
+        grad.addColorStop(0, 'rgba(30, 41, 59, 0.45)');
+        grad.addColorStop(0.6, 'rgba(15, 23, 42, 0.2)');
+        grad.addColorStop(1, 'rgba(15, 23, 42, 0)');
       } else {
-        grad.addColorStop(0, '#ffffff');
-        grad.addColorStop(0.65, '#f0f9ff');
-        grad.addColorStop(1, '#e0f2fe');
+        grad.addColorStop(0, 'rgba(255, 255, 255, 0.7)');
+        grad.addColorStop(0.55, 'rgba(240, 249, 255, 0.35)');
+        grad.addColorStop(1, 'rgba(240, 249, 255, 0)');
       }
       c.fillStyle = grad;
       c.fillRect(0, 0, w, h);
 
-      // Floor grid lines
-      c.strokeStyle = isDark ? 'rgba(56, 189, 248, 0.05)' : 'rgba(2, 132, 199, 0.07)';
-      c.lineWidth = 1;
-      for (let y = 320; y < h; y += 32) {
+      // Soft ground ambient shadow under conveyor & robot base that dissolves into transparent
+      const groundGrad = c.createRadialGradient(w * 0.52, h * 0.82, 50, w * 0.52, h * 0.82, w * 0.48);
+      if (isDark) {
+        groundGrad.addColorStop(0, 'rgba(2, 6, 23, 0.35)');
+        groundGrad.addColorStop(1, 'rgba(2, 6, 23, 0)');
+      } else {
+        groundGrad.addColorStop(0, 'rgba(2, 132, 199, 0.07)');
+        groundGrad.addColorStop(1, 'rgba(2, 132, 199, 0)');
+      }
+      c.fillStyle = groundGrad;
+      c.fillRect(0, 320, w, h - 320);
+
+      // Floor grid lines that softly fade out towards the edges
+      c.save();
+      for (let y = 330; y < h; y += 32) {
+        const lineAlpha = (y - 320) / (h - 320);
+        c.strokeStyle = isDark
+          ? `rgba(56, 189, 248, ${0.05 * lineAlpha})`
+          : `rgba(2, 132, 199, ${0.07 * lineAlpha})`;
+        c.lineWidth = 1;
         c.beginPath();
-        c.moveTo(0, y);
-        c.lineTo(w, y);
+        c.moveTo(80, y);
+        c.lineTo(w - 60, y);
         c.stroke();
       }
-      for (let x = 60; x < w; x += 75) {
+      for (let x = 90; x < w - 40; x += 80) {
+        c.strokeStyle = isDark ? 'rgba(56, 189, 248, 0.04)' : 'rgba(2, 132, 199, 0.06)';
+        c.lineWidth = 1;
         c.beginPath();
         c.moveTo(x - 30, h);
-        c.lineTo(x + 25, 310);
+        c.lineTo(x + 20, 320);
         c.stroke();
       }
+      c.restore();
     }
 
     function drawSupplyTray(c, x, y, isDark) {
@@ -918,11 +938,7 @@ export default function MedicalPackagingAnimation({ darkMode }) {
 
   return (
     <div
-      className={`relative w-full rounded-3xl overflow-hidden border shadow-2xl transition-all duration-300 aspect-[16/10] sm:aspect-video select-none ${
-        darkMode
-          ? 'bg-slate-950/85 border-slate-800 shadow-sky-950/40'
-          : 'bg-white/95 border-sky-100 shadow-sky-100/70'
-      }`}
+      className="relative w-full aspect-[16/10] sm:aspect-video select-none pointer-events-auto bg-transparent"
     >
       <canvas ref={canvasRef} className="w-full h-full block" style={{ touchAction: 'none' }} />
     </div>
